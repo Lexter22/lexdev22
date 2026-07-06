@@ -56,11 +56,13 @@ export default function Header() {
     >
       <div className="container-site flex items-center justify-between h-14 md:h-[56px]">
         <a href="#top" className="flex items-center gap-2.5 group" aria-label="LexDev22 home">
-          <span className="flex items-center justify-center w-8 h-8 border border-[var(--color-border-strong)] text-[var(--green)] font-[family-name:var(--font-mono)] text-xs font-bold">
-            JL
-          </span>
-          <span className="hidden sm:block text-sm font-[family-name:var(--font-mono)] text-[var(--color-accent)]">
-            ~/LexDev22
+          <span className="flex items-center justify-center w-8 h-8 overflow-hidden border border-[var(--color-border-strong)]">
+            <img
+              src="/profile.png"
+              alt="LexDev22"
+              className="w-full h-full object-cover"
+              style={{ filter: "grayscale(100%)" }}
+            />
           </span>
         </a>
 

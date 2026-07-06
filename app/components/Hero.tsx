@@ -137,7 +137,7 @@ export default function Hero() {
               <img
                 src="/profile.png"
                 alt="LexDev22"
-                className="w-full h-full object-cover animate-[glitch_12s_ease-in-out_infinite]"
+                className="w-full h-full object-cover animate-glitch"
                 style={{
                   clipPath: `polygon(
                     0% 0%, 100% 0%,
