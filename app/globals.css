@@ -2,6 +2,7 @@
 
 @theme inline {
   --color-accent: #00ff41;
+  --color-accent-red: #CC1A1A;
   --color-surface: #101010;
   --color-surface-alt: #181818;
   --color-silver: #1a1a1a;
@@ -76,6 +77,10 @@
   }
 }
 
+[data-dark-passenger="true"] {
+  --color-accent: #CC1A1A;
+}
+
 @utility text-pixel-header {
   font-family: var(--font-pixel);
   font-size: clamp(1.1rem, 3.2vw, 2rem);
@@ -106,7 +111,7 @@
 
 .prompt-tag::before {
   content: "$";
-  color: var(--green);
+  color: var(--color-accent);
   font-weight: 700;
 }
 
@@ -131,6 +136,41 @@
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+@keyframes glitch {
+  0%, 93%, 100% {
+    transform: translate(0);
+    clip-path: inset(0);
+  }
+  93.5% {
+    transform: translate(-3px, 1px);
+    clip-path: inset(30% 0 50% 0);
+  }
+  94% {
+    transform: translate(3px, -1px);
+    clip-path: inset(10% 0 70% 0);
+  }
+  94.5% {
+    transform: translate(-1px, 2px);
+    clip-path: inset(60% 0 15% 0);
+  }
+  95% {
+    transform: translate(1px, -2px);
+    clip-path: inset(40% 0 30% 0);
+  }
+  95.5% {
+    transform: translate(-2px, 0);
+    clip-path: inset(5% 0 80% 0);
+  }
+  96% {
+    transform: translate(2px, 1px);
+    clip-path: inset(70% 0 5% 0);
+  }
+  96.5% {
+    transform: translate(0);
+    clip-path: inset(0);
+  }
 }
 
 @keyframes glow-pulse {

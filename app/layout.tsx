@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Press_Start_2P } from "next/font/google";
+import { Suspense } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import BootSplash from "./components/BootSplash";
+import { DarkPassengerProvider } from "./components/DarkPassengerProvider";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -37,9 +40,14 @@ export default function RootLayout({
       className={`${geistMono.variable} ${pixelFont.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <Suspense fallback={null}>
+          <BootSplash />
+        </Suspense>
+        <DarkPassengerProvider>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </DarkPassengerProvider>
       </body>
     </html>
   );

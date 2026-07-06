@@ -2,9 +2,11 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ArrowDown } from "lucide-react";
+import { useDarkPassenger } from "./DarkPassengerProvider";
 
 export default function Hero() {
   const reduce = useReducedMotion();
+  const { active: darkPassenger } = useDarkPassenger();
 
   const container = {
     hidden: {},
@@ -52,13 +54,13 @@ export default function Hero() {
               className="leading-none"
             >
               <span
-                className="text-[clamp(1.8rem,6vw,3.5rem)] font-[family-name:var(--font-pixel)] text-[var(--green)] leading-[1.1]"
+                className="text-[clamp(1.8rem,6vw,3.5rem)] font-[family-name:var(--font-pixel)] text-[var(--color-accent)] leading-[1.1]"
                 style={{ imageRendering: "pixelated" }}
               >
                 LexDev22
               </span>
               {!reduce && (
-                <span className="inline-block w-[0.6ch] h-[0.85em] bg-[var(--green)] ml-1.5 animate-[blink_1s_step-end_infinite] align-middle" />
+                <span className="inline-block w-[0.6ch] h-[0.85em] bg-[var(--color-accent)] ml-1.5 animate-[blink_1s_step-end_infinite] align-middle" />
               )}
             </motion.h1>
 
@@ -66,16 +68,29 @@ export default function Hero() {
               variants={fadeUp}
               className="mt-2 text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]"
             >
-              # John Lexter Reyes
+              <span className="text-[var(--color-accent-red)]">#</span> John Lexter Reyes
             </motion.p>
 
             <motion.div variants={fadeUp} className="mt-6 space-y-1">
-              <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-                Cloud infrastructure that scales.
-              </p>
-              <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-                Communities that grow.
-              </p>
+              {darkPassenger ? (
+                <>
+                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
+                    Every system has a dark side.
+                  </p>
+                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
+                    Clean execution. No evidence.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
+                    Infrastructure that never skips a rep.
+                  </p>
+                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
+                    I follow a code — clean, tested, shipped.
+                  </p>
+                </>
+              )}
               <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
                 AWS Student Builder Group Lead.
               </p>
@@ -84,14 +99,14 @@ export default function Hero() {
             <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--green)] text-[#000] text-[13px] font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-[#000] text-[13px] font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-all"
               >
                 Reach Out
                 <ArrowRight size={14} />
               </a>
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--green)]/50 active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--color-accent)]/50 active:scale-[0.97] transition-all"
               >
                 View Projects
                 <ArrowDown size={14} />
@@ -103,7 +118,7 @@ export default function Hero() {
                 (skill) => (
                   <span
                     key={skill}
-                    className="px-3 py-1.5 text-[11px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--green)]/40 hover:text-[var(--green)] transition-colors cursor-default"
+                    className="px-3 py-1.5 text-[11px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-colors cursor-default"
                   >
                     {skill}
                   </span>
@@ -122,14 +137,40 @@ export default function Hero() {
               <img
                 src="/profile.png"
                 alt="LexDev22"
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover animate-[glitch_12s_ease-in-out_infinite]"
+                style={{
+                  clipPath: `polygon(
+                    0% 0%, 100% 0%,
+                    100% 98%,
+                    95% 98%, 95% 100%,
+                    90% 100%, 90% 98%,
+                    85% 98%, 85% 100%,
+                    80% 100%, 80% 98%,
+                    75% 98%, 75% 100%,
+                    70% 100%, 70% 98%,
+                    65% 98%, 65% 100%,
+                    60% 100%, 60% 98%,
+                    55% 98%, 55% 100%,
+                    50% 100%, 50% 98%,
+                    45% 98%, 45% 100%,
+                    40% 100%, 40% 98%,
+                    35% 98%, 35% 100%,
+                    30% 100%, 30% 98%,
+                    25% 98%, 25% 100%,
+                    20% 100%, 20% 98%,
+                    15% 98%, 15% 100%,
+                    10% 100%, 10% 98%,
+                    5% 98%, 5% 100%,
+                    0% 100%
+                  )`,
+                }}
               />
             </div>
           </motion.div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[var(--green)]/30" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-[var(--color-accent)]/30" />
     </section>
   );
 }

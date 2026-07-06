@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="border-t border-[var(--color-border)] py-4 md:py-6">
       <div className="container-site flex flex-col md:flex-row items-center justify-between gap-4">
         <p className="text-sm font-[family-name:var(--font-mono)] text-[var(--color-muted)]">
-          <span className="text-[var(--green)]">$</span> whoami &mdash; John Lexter Reyes
+          <span className="text-[var(--color-accent)]">$</span> whoami &mdash; John Lexter Reyes
         </p>
         <div className="flex items-center gap-5">
           <a
@@ -26,7 +26,7 @@ export default function Footer() {
           </a>
         </div>
         <p className="text-xs font-[family-name:var(--font-mono)] text-[var(--color-muted)]">
-          <span className="text-[var(--green)]">$</span> date &mdash; {new Date().getFullYear()}
+          <span className="text-[var(--color-accent)]">$</span> date &mdash; {new Date().getFullYear()}
         </p>
       </div>
     </footer>

@@ -1,15 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Moon } from "lucide-react";
+import { useDarkPassenger } from "./DarkPassengerProvider";
 
 const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#education", label: "Education" },
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
-  { href: "#beyond-coding", label: "Beyond" },
-  { href: "#certifications", label: "Certs" },
+  { href: "#beyond-coding", label: "Beyond Coding" },
+  { href: "#certifications", label: "Certifications" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -17,6 +18,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
+  const { active: darkPassenger, toggle: toggleDarkPassenger } = useDarkPassenger();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -57,7 +59,7 @@ export default function Header() {
           <span className="flex items-center justify-center w-8 h-8 border border-[var(--color-border-strong)] text-[var(--green)] font-[family-name:var(--font-mono)] text-xs font-bold">
             JL
           </span>
-          <span className="hidden sm:block text-sm font-[family-name:var(--font-mono)] text-[var(--green)]">
+          <span className="hidden sm:block text-sm font-[family-name:var(--font-mono)] text-[var(--color-accent)]">
             ~/LexDev22
           </span>
         </a>
@@ -73,21 +75,42 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className={`relative px-3 py-2 text-sm transition-colors duration-200 md:text-[11px] font-[family-name:var(--font-mono)] ${
+              className={`relative px-3 py-2 text-sm transition-colors duration-200 md:text-[11px] font-[family-name:var(--font-mono)] group ${
                 active === link.href.slice(1)
-                  ? "text-[var(--green)]"
-                  : "text-[var(--color-muted)] hover:text-[var(--color-text)]"
+                  ? "text-[var(--color-accent)]"
+                  : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
               }`}
             >
-              {active === link.href.slice(1) && (
-                <span className="text-[var(--green)] mr-1">&gt;</span>
-              )}
+              <span
+                className={`text-[var(--color-accent)] mr-1 transition-opacity duration-200 ${
+                  active === link.href.slice(1)
+                    ? "opacity-100"
+                    : "opacity-0 group-hover:opacity-100"
+                }`}
+              >
+                &gt;
+              </span>
               {link.label}
             </a>
           ))}
         </nav>
 
         <div className="flex items-center gap-2 z-50">
+          <button
+            onClick={toggleDarkPassenger}
+            className="flex items-center justify-center w-8 h-8 transition-colors duration-200 cursor-pointer"
+            aria-label={darkPassenger ? "Disable dark passenger" : "Enable dark passenger"}
+            title={darkPassenger ? "Dark Passenger active" : "Toggle Dark Passenger"}
+          >
+            <Moon
+              size={14}
+              className={
+                darkPassenger
+                  ? "text-[var(--color-accent-red)]"
+                  : "text-[var(--color-muted)] hover:text-[var(--green)]"
+              }
+            />
+          </button>
           <button
             onClick={() => setOpen(!open)}
             className="flex items-center justify-center w-8 h-8 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors duration-200 md:hidden cursor-pointer"

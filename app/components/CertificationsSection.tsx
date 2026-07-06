@@ -24,13 +24,10 @@ export default function CertificationsSection() {
       <div className="container-site">
         <Reveal>
           <div className="mb-6">
-            <p className="prompt-tag mb-3">Certifications</p>
-            <h2 className="text-pixel-header">
-              Certifications
-            </h2>
-            <p className="mt-4 max-w-[520px] text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-              Professional certifications and training that back the cloud work.
+            <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
+              <span className="text-[var(--color-accent)]">$</span> apt list --installed
             </p>
+            <h2 className="text-pixel-header">Certifications</h2>
           </div>
         </Reveal>
 
