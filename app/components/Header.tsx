@@ -65,7 +65,7 @@ export default function Header() {
         </a>
 
         <nav
-          className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-1 bg-[var(--bg)]/98 backdrop-blur-2xl transition-opacity duration-300 md:static md:flex-row md:bg-transparent md:backdrop-blur-none md:opacity-100 md:pointer-events-auto ${
+          className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-[var(--bg)]/98 transition-opacity duration-300 md:static md:flex-row md:bg-transparent md:gap-1 md:opacity-100 md:pointer-events-auto ${
             open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto"
           }`}
           aria-label="Primary"
@@ -75,7 +75,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className={`relative px-3 py-2 text-sm transition-colors duration-200 md:text-[11px] font-[family-name:var(--font-mono)] group ${
+              className={`relative px-6 py-3 text-sm transition-colors duration-200 md:px-3 md:py-2 md:text-[11px] font-[family-name:var(--font-mono)] group ${
                 active === link.href.slice(1)
                   ? "text-[var(--color-accent)]"
                   : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"

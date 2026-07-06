@@ -65,7 +65,7 @@ export default function ProjectsSection() {
             {projects.map((project, i) => (
               <Reveal key={project.title} delay={i * 0.08}>
                 <div
-                  className={`relative bg-[var(--bg)] border border-[var(--color-border)] p-5 md:p-6 h-full flex flex-col group transition-all duration-300 ${rotations[i]}`}
+                  className={`relative bg-[var(--bg)] border border-[var(--color-border)] p-4 md:p-6 h-full flex flex-col group transition-all duration-300 ${rotations[i]}`}
                 >
                   <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
                     <Pin

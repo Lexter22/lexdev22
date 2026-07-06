@@ -18,6 +18,7 @@ export default function BootSplash() {
   const [dismissed, setDismissed] = useState(false);
   const [visibleLines, setVisibleLines] = useState<number[]>([]);
   const [showPrompt, setShowPrompt] = useState(false);
+  const [progress, setProgress] = useState(0);
   const reduce = useReducedMotion();
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export default function BootSplash() {
       timers.push(
         setTimeout(() => {
           setVisibleLines((prev) => [...prev, i]);
+          setProgress(((i + 1) / bootLines.length) * 100);
           if (i === bootLines.length - 1) {
             setTimeout(() => setShowPrompt(true), 600);
           }
@@ -80,6 +82,19 @@ export default function BootSplash() {
                 {">"} {line.text}
               </motion.p>
             ))}
+            <div className="mt-6 w-full">
+              <div className="w-full h-[3px] bg-[var(--color-border)]">
+                <motion.div
+                  className="h-full bg-[var(--color-accent)]"
+                  style={{ width: `${progress}%` }}
+                  transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                />
+              </div>
+              <p className="text-[11px] text-[var(--color-muted-light)] mt-1.5 font-[family-name:var(--font-mono)]">
+                [{Math.round(progress)}%]
+              </p>
+            </div>
+
             {showPrompt && (
               <motion.p
                 initial={{ opacity: 0 }}

@@ -37,8 +37,8 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="container-site w-full py-10 md:py-14">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
+      <div className="container-site w-full py-8 md:py-14">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
           <motion.div
             variants={container}
             initial="hidden"
@@ -54,7 +54,7 @@ export default function Hero() {
               className="leading-none"
             >
               <span
-                className="text-[clamp(1.8rem,6vw,3.5rem)] font-[family-name:var(--font-pixel)] text-[var(--color-accent)] leading-[1.1]"
+                className="text-[clamp(1.8rem,8vw,3.5rem)] font-[family-name:var(--font-pixel)] text-[var(--color-accent)] leading-[1.1]"
                 style={{ imageRendering: "pixelated" }}
               >
                 LexDev22
@@ -133,7 +133,7 @@ export default function Hero() {
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
             className="relative shrink-0 self-center md:self-auto"
           >
-            <div className="w-[240px] h-[240px] sm:w-[300px] sm:h-[300px] lg:w-[400px] lg:h-[400px]">
+            <div className="w-[180px] h-[180px] sm:w-[300px] sm:h-[300px] lg:w-[400px] lg:h-[400px]">
               <img
                 src="/profile.png"
                 alt="LexDev22"
