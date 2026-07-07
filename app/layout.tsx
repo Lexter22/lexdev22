@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BootSplash from "./components/BootSplash";
+import CustomCursor from "./components/CustomCursor";
 import { DarkPassengerProvider } from "./components/DarkPassengerProvider";
 import "./globals.css";
 
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
   description:
     "AWS Student Builder Group Lead and cloud engineer focused on practical systems, clean delivery, and infrastructure that feels simple to run.",
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230a0a0a'/><text x='4' y='24' font-family='monospace' font-weight='bold' font-size='20' fill='%2300ff41'>JL</text></svg>",
+    icon: "/profile.png",
   },
 };
 
@@ -43,6 +44,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <BootSplash />
         </Suspense>
+        <CustomCursor />
         <DarkPassengerProvider>
           <Header />
           <main className="flex-1">{children}</main>

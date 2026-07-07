@@ -4,25 +4,11 @@ import Reveal from "./Reveal";
 
 const experience = [
   {
-    title: "AWS Student Builder Group Lead",
-    org: "AWS",
-    location: "Remote / Manila",
-    year: "2024 — Present",
-    body: "Leading cloud computing workshops, study groups, and hands-on labs for students. Bridging the gap between academic learning and real-world AWS infrastructure.",
-  },
-  {
-    title: "Platform Engineer",
-    org: "Various",
-    location: "Remote",
-    year: "2023 — Present",
-    body: "Designing and maintaining AWS infrastructure using Terraform and Kubernetes. Building CI/CD pipelines that teams actually trust to push with. Improving observability coverage across staging and production.",
-  },
-  {
-    title: "Infrastructure Delivery",
-    org: "Various",
-    location: "Remote",
-    year: "2022 — 2023",
-    body: "Streamlining release workflows, removing manual handoffs, and making deployments repeatable. Writing runbooks and dashboards so incidents don't turn into fire drills.",
+    title: "Junior Software Engineer",
+    org: "Dewise Solutions Philippines",
+    location: "Hybrid / Mandaluyong City, Philippines",
+    year: "Dec 2025 — April 2026",
+    body: "Developed and maintained web applications using .NET. Collaborated with cross-functional teams to deliver high-quality software solutions. Implemented responsive designs and optimized performance for better user experience.",
   },
 ];
 

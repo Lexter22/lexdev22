@@ -114,7 +114,7 @@ export default function Hero() {
             </motion.div>
 
             <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-2">
-              {["AWS", "Terraform", "Kubernetes", "CI/CD", "Community Building"].map(
+              {["AWS", "AI", "Kubernetes", "CI/CD","Software Engineering", "Community Building"].map(
                 (skill) => (
                   <span
                     key={skill}
@@ -131,9 +131,9 @@ export default function Hero() {
             initial={reduce ? {} : { opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
-            className="relative shrink-0 self-center md:self-auto"
+            className="relative shrink-0 self-center md:self-end -mb-8 md:-mb-14"
           >
-            <div className="w-[180px] h-[180px] sm:w-[300px] sm:h-[300px] lg:w-[400px] lg:h-[400px]">
+            <div className="w-[200px] h-[200px] sm:w-[380px] sm:h-[380px] lg:w-[520px] lg:h-[520px]">
               <img
                 src="/profile.png"
                 alt="LexDev22"

@@ -5,6 +5,7 @@ import ProjectsSection from "./components/ProjectsSection";
 import ExperienceSection from "./components/ExperienceSection";
 import BeyondCodingSection from "./components/BeyondCodingSection";
 import CertificationsSection from "./components/CertificationsSection";
+import BlogSection from "./components/BlogSection";
 import ContactSection from "./components/ContactSection";
 
 export default function Home() {
@@ -17,6 +18,7 @@ export default function Home() {
       <ExperienceSection />
       <BeyondCodingSection />
       <CertificationsSection />
+      <BlogSection />
       <ContactSection />
     </>
   );

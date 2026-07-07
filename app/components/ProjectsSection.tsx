@@ -6,9 +6,9 @@ import { Cloud, GitBranch, BarChart3, ExternalLink, Code2, Pin } from "lucide-re
 const projects = [
   {
     icon: Cloud,
-    title: "AWS Account Foundation",
-    body: "Multi-account AWS organization with centralized logging, networking, and IAM baselines. Terraform modules for repeatable environment provisioning.",
-    tags: ["AWS", "Terraform", "IAM"],
+    title: "Articulately",
+    body: "A web based application that allows users to practice their articulation skills through gamified tongue-twisters flashcards and exercises.",
+    tags: ["Amazon Kiro", "Flutter", "Supabase","CI/CD"],
     caseId: "EVID-001",
     links: {
       github: "https://github.com/Lexter22/aws-foundation",

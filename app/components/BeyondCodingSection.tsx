@@ -1,26 +1,26 @@
 "use client";
 
 import Reveal from "./Reveal";
-import { Users, BookOpen, Lightbulb } from "lucide-react";
+import { Users, Dumbbell, Radio } from "lucide-react";
 
 const activities = [
   {
     icon: Users,
-    label: "Leadership",
+    label: "Community Building",
     title: "AWS Student Builder Group Lead",
-    body: "Planning sessions, cloud workshops, helping members unblock on AWS concepts. Keeping the group consistent — every week, no excuses, no days off.",
+    body: "Planning sessions, cloud workshops, helping members unblock on AWS concepts. Keeping the group consistent — every week, no excuses, no days off. Building a space where future engineers grow together.",
   },
   {
-    icon: BookOpen,
-    label: "Community",
-    title: "Iron sharpens iron",
-    body: "Writing docs, presenting on infrastructure, running hands-on labs. Same as spotting a heavy set — we grow together or not at all.",
+    icon: Dumbbell,
+    label: "Body Building",
+    title: "Discipline outside the terminal",
+    body: "Progressive overload applies to code and iron alike. Same principle — show up, push harder, track progress. The gym is where I reset, refocus, and remind myself that consistency beats intensity every time.",
   },
   {
-    icon: Lightbulb,
-    label: "Mentoring",
-    title: "Growing the next set of engineers",
-    body: "Code reviews, architecture discussions, retrospectives. No ego, no shortcuts. Same standard I hold myself to.",
+    icon: Radio,
+    label: "Tech Influencer",
+    title: "Sharing knowledge at scale",
+    body: "Breaking down cloud infrastructure, career growth, and system design into content that helps others level up. No fluff, no gatekeeping — just real engineering insights for the next generation of builders.",
   },
 ];
 

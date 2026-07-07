@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: "#experience", label: "Experience" },
   { href: "#beyond-coding", label: "Beyond Coding" },
   { href: "#certifications", label: "Certifications" },
+  { href: "#blog", label: "Blog" },
   { href: "#contact", label: "Contact" },
 ];
 
@@ -61,7 +62,7 @@ export default function Header() {
               src="/profile.png"
               alt="LexDev22"
               className="w-full h-full object-cover"
-              style={{ filter: "grayscale(100%)" }}
+              style={{ filter: "none" }}
             />
           </span>
         </a>

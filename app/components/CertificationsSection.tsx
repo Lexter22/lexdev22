@@ -6,9 +6,9 @@ import { Award, Terminal } from "lucide-react";
 const certifications = [
   {
     icon: Award,
-    title: "AWS Certified Solutions Architect",
-    subtitle: "Associate level",
-    year: "2024",
+    title: "Foundational C# Microsoft Certification",
+    subtitle: "FreeCodeCamp",
+    year: "2025",
   },
   {
     icon: Terminal,
