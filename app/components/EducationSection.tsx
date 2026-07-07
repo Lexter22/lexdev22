@@ -6,8 +6,8 @@ import { GraduationCap } from "lucide-react";
 const education = [
   {
     icon: GraduationCap,
-    title: "BS Computer Science",
-    subtitle: "Major in software and systems",
+    title: "BS Information Technology",
+    subtitle: "Major in Software Engineering",
     year: "Ongoing",
   },
 ];
@@ -19,7 +19,7 @@ export default function EducationSection() {
         <Reveal>
           <div className="mb-6">
             <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
-              <span className="text-[var(--color-accent)]">$</span> cat /etc/education
+              <span className="text-[var(--green)]">$</span> cat /etc/education
             </p>
             <h2 className="text-pixel-header">Education</h2>
           </div>

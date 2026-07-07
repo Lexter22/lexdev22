@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import BootSplash from "./components/BootSplash";
-import CustomCursor from "./components/CustomCursor";
+
 import { DarkPassengerProvider } from "./components/DarkPassengerProvider";
 import "./globals.css";
 
@@ -44,7 +44,6 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <BootSplash />
         </Suspense>
-        <CustomCursor />
         <DarkPassengerProvider>
           <Header />
           <main className="flex-1">{children}</main>
