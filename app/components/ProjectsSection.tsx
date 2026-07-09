@@ -17,9 +17,9 @@ const projects = [
   },
   {
     icon: GitBranch,
-    title: "CI/CD Pipeline Suite",
-    body: "GitHub Actions workflows for testing, building, and deploying infrastructure and applications. Consistent across staging and production environments.",
-    tags: ["GitHub Actions", "CI/CD", "Docker"],
+    title: "InterVueAI",
+    body: "Created during the Agora Hackathin 2025 securing the TOP 10 place. InterVueAI is an powered interview preparation platform that generates personalized interview questions and provides feedback to help users improve their performance.",
+    tags: ["Agora", "Grok", "AI"],
     caseId: "EVID-002",
     links: {
       github: "https://github.com/Lexter22/cicd-pipelines",
@@ -28,8 +28,8 @@ const projects = [
   },
   {
     icon: BarChart3,
-    title: "Observability Stack",
-    body: "Metrics, logs, and alerting pipeline for Kubernetes workloads. Dashboards that reduce time-to-detection and runbooks for common failure modes.",
+    title: "IntelliSched",
+    body: "●	Developed a university academic scheduling system using the TALL stack (Laravel 11, Livewire 3, Alpine.js, Tailwind CSS), automating conflict-free timetable generation for 80 professors across [X] departments and [X]+ sections per semester",
     tags: ["Prometheus", "Grafana", "Kubernetes"],
     caseId: "EVID-003",
     links: {

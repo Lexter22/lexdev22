@@ -21,7 +21,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-[100dvh] flex flex-col overflow-hidden"
+      className="relative min-h-[100dvh] flex items-center overflow-hidden"
       style={{ paddingTop: "64px" }}
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -37,8 +37,8 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="container-site w-full flex-1 flex flex-col pt-8 md:pt-14">
-        <div className="flex-1 flex flex-col justify-center md:flex-row md:items-center md:justify-between gap-4 md:gap-8">
+      <div className="container-site w-full py-8 md:py-14">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-10">
           <motion.div
             variants={container}
             initial="hidden"
@@ -131,13 +131,13 @@ export default function Hero() {
             initial={reduce ? {} : { opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
-            className="relative shrink-0 self-center md:self-stretch"
+            className="relative shrink-0 self-center md:self-end"
           >
-            <div className="w-[220px] h-[220px] sm:w-[360px] sm:h-[360px] lg:w-[520px] lg:h-full min-h-[220px] sm:min-h-[360px]">
+            <div className="w-[180px] h-[180px] sm:w-[280px] sm:h-[280px] lg:w-[380px] lg:h-[380px] relative">
               <img
                 src="/profile.png"
                 alt="LexDev22"
-                className="w-full h-full object-cover animate-glitch"
+                className="w-full h-full object-cover animate-glitch p-1"
                 style={{
                   clipPath: `polygon(
                     0% 0%, 100% 0%,
@@ -165,12 +165,15 @@ export default function Hero() {
                   )`,
                 }}
               />
+              <div className="absolute top-0 left-0 w-5 h-5 sm:w-6 sm:h-6 border-t-[3px] border-l-[3px] border-[var(--color-accent)] pointer-events-none" />
+              <div className="absolute top-0 right-0 w-5 h-5 sm:w-6 sm:h-6 border-t-[3px] border-r-[3px] border-[var(--color-accent)] pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-5 h-5 sm:w-6 sm:h-6 border-b-[3px] border-l-[3px] border-[var(--color-accent)] pointer-events-none" />
+              <div className="absolute bottom-0 right-0 w-5 h-5 sm:w-6 sm:h-6 border-b-[3px] border-r-[3px] border-[var(--color-accent)] pointer-events-none" />
             </div>
           </motion.div>
         </div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-[var(--color-accent)]/30" />
     </section>
   );
 }

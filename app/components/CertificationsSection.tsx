@@ -12,9 +12,15 @@ const certifications = [
   },
   {
     icon: Terminal,
-    title: "Cloud Infrastructure Training",
-    subtitle: "Terraform, Kubernetes, CI/CD",
-    year: "2023",
+    title: "SQL Associate",
+    subtitle: "SQL, Data Analysis, and Database Management",
+    year: "2025",
+  },
+  {
+    icon: Terminal,
+    title: "The Legend of Python",
+    subtitle: "Python, Programming, Data Structures and Algorithms",
+    year: "2025",
   },
 ];
 
