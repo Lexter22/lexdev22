@@ -11,14 +11,14 @@ const projects = [
     tags: ["Amazon Kiro", "Flutter", "Supabase","CI/CD"],
     caseId: "EVID-001",
     links: {
-      github: "https://github.com/Lexter22/aws-foundation",
+      github: "https://articulately-5c15b.web.app/",
       live: null,
     },
   },
   {
     icon: GitBranch,
     title: "InterVueAI",
-    body: "Created during the Agora Hackathin 2025 securing the TOP 10 place. InterVueAI is an powered interview preparation platform that generates personalized interview questions and provides feedback to help users improve their performance.",
+    body: "Created during the Agora Hackathon 2025 securing the TOP 10 place. InterVueAI is an powered interview preparation platform that generates personalized interview questions and provides feedback to help users improve their performance.",
     tags: ["Agora", "Grok", "AI"],
     caseId: "EVID-002",
     links: {
@@ -29,7 +29,7 @@ const projects = [
   {
     icon: BarChart3,
     title: "IntelliSched",
-    body: "●	Developed a university academic scheduling system using the TALL stack (Laravel 11, Livewire 3, Alpine.js, Tailwind CSS), automating conflict-free timetable generation for 80 professors across [X] departments and [X]+ sections per semester",
+    body: "Developed a university academic scheduling system using the TALL stack (Laravel 11, Livewire 3, Alpine.js, Tailwind CSS), automating conflict-free timetable generation for 80 professors across [X] departments and [X]+ sections per semester",
     tags: ["Prometheus", "Grafana", "Kubernetes"],
     caseId: "EVID-003",
     links: {
