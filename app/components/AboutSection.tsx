@@ -10,7 +10,7 @@ const cards = [
     title: "Public Speaking",
     body: "Leading workshops, presenting at meetups, and running hands-on labs for the AWS student community. Breaking down infrastructure into clear, practical sessions.",
     caseId: "CASE-001",
-    image: "https://picsum.photos/seed/public-speaking-ws/600/400",
+    image: "/public-speaking.jpeg",
   },
   {
     icon: Ruler,
@@ -18,7 +18,6 @@ const cards = [
     title: "Show up. Do the work. Track the data.",
     body: "Don't skip reps or runbooks. Reliability, clean handoffs, and dashboards that tell the truth. Consistency compounds across every set.",
     caseId: "CASE-002",
-    image: "https://picsum.photos/seed/workspace-setup/600/400",
   },
   {
     icon: Users,
@@ -26,7 +25,6 @@ const cards = [
     title: "Clean code, honest reviews, zero drama",
     body: "Teams that trust each other ship faster. Good documentation, clear runbooks, and a code I stick to. The rest is noise.",
     caseId: "CASE-003",
-    image: "https://picsum.photos/seed/team-collab/600/400",
   },
 ];
 
@@ -69,32 +67,51 @@ export default function AboutSection() {
                     <Pin size={16} className="text-[var(--color-muted-light)] drop-shadow-sm" />
                   </div>
 
-                  <div className="relative w-full aspect-[3/2] overflow-hidden">
-                    <img
-                      src={card.image}
-                      alt={card.title}
-                      className="w-full h-full object-cover brightness-[0.85] contrast-[1.1] group-hover:brightness-100 transition-all duration-500"
-                      loading="lazy"
-                    />
-                    <span className="absolute top-2 left-2 monokai text-[10px] tracking-[0.15em] text-[var(--bg)] bg-[var(--color-accent)] px-2 py-0.5">
-                      {card.caseId}
-                    </span>
-                  </div>
-
-                  <div className="p-4 md:p-5 flex-1 flex flex-col">
-                    <div className="flex items-center gap-2 mb-2">
-                      <card.icon size={13} className="text-[var(--color-accent)] shrink-0" />
-                      <span className="monokai text-[10px] group-hover:text-[var(--color-accent)] transition-colors">
+                  {card.image ? (
+                    <>
+                      <div className="relative w-full aspect-[3/2] overflow-hidden">
+                        <img
+                          src={card.image}
+                          alt={card.title}
+                          className="w-full h-full object-cover brightness-[0.85] contrast-[1.1] group-hover:brightness-100 transition-all duration-500"
+                          loading="lazy"
+                        />
+                        <span className="absolute top-2 left-2 monokai text-[10px] tracking-[0.15em] text-[var(--bg)] bg-[var(--color-accent)] px-2 py-0.5">
+                          {card.caseId}
+                        </span>
+                      </div>
+                      <div className="p-4 md:p-5 flex-1 flex flex-col">
+                        <div className="flex items-center gap-2 mb-2">
+                          <card.icon size={13} className="text-[var(--color-accent)] shrink-0" />
+                          <span className="monokai text-[10px] group-hover:text-[var(--color-accent)] transition-colors">
+                            {card.label}
+                          </span>
+                        </div>
+                        <h3 className="text-display text-lg md:text-xl text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
+                          {card.title}
+                        </h3>
+                        <p className="text-sm leading-relaxed text-[var(--color-muted)] flex-1">
+                          {card.body}
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="p-6 md:p-8 flex-1 flex flex-col items-center text-center">
+                      <span className="absolute top-3 left-3 monokai text-[10px] tracking-[0.15em] text-[var(--bg)] bg-[var(--color-accent)] px-2 py-0.5">
+                        {card.caseId}
+                      </span>
+                      <card.icon size={24} className="text-[var(--color-accent)] mb-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+                      <span className="monokai text-[10px] group-hover:text-[var(--color-accent)] transition-colors mb-3">
                         {card.label}
                       </span>
+                      <h3 className="text-display text-lg md:text-xl text-[var(--color-text)] mb-3 group-hover:text-[var(--color-accent)] transition-colors">
+                        {card.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+                        {card.body}
+                      </p>
                     </div>
-                    <h3 className="text-display text-lg md:text-xl text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="text-sm leading-relaxed text-[var(--color-muted)] flex-1">
-                      {card.body}
-                    </p>
-                  </div>
+                  )}
                 </div>
               </Reveal>
             ))}
