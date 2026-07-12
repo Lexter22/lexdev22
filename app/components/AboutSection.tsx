@@ -1,17 +1,18 @@
 "use client";
 
 import Reveal from "./Reveal";
-import { Megaphone, Ruler, Users, Pin } from "lucide-react";
+import { Megaphone, Ruler, Users, CircleDot } from "lucide-react";
 
-const cards = [
-  {
-    icon: Megaphone,
-    label: "What I Do",
-    title: "Public Speaking",
-    body: "Leading workshops, presenting at meetups, and running hands-on labs for the AWS student community. Breaking down infrastructure into clear, practical sessions.",
-    caseId: "CASE-001",
-    image: "/public-speaking.jpeg",
-  },
+const imageCard = {
+  icon: Megaphone,
+  label: "What I Do",
+  title: "Public Speaking",
+  body: "Leading workshops, presenting at meetups, and running hands-on labs for the AWS student community. Breaking down infrastructure into clear, practical sessions.",
+  caseId: "CASE-001",
+  image: "/public-speaking.jpeg",
+};
+
+const terminalCards = [
   {
     icon: Ruler,
     label: "How I Work",
@@ -28,20 +29,39 @@ const cards = [
   },
 ];
 
-const rotations = ["md:rotate-[-0.8deg] md:translate-y-1", "md:rotate-[0.6deg] md:translate-y-[-4px]", "md:rotate-[-0.4deg] md:translate-y-2"];
-
 const skills = [
   "AWS", "Terraform", "Kubernetes", "CI/CD",
   "Observability", "Linux", "GitHub Actions", "Docker", "Python", "Automation",
   "Public Speaking", "Progressive Overload", "Consistency",
 ];
 
+function Pin({ className = "" }: { className?: string }) {
+  return (
+    <div className={`absolute z-10 ${className}`}>
+      <div className="relative">
+        <div className="w-3 h-3 rounded-full bg-[var(--color-muted-light)] border border-[var(--color-border-strong)] shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]" />
+        <div className="absolute top-[3px] left-[3px] w-1.5 h-1.5 rounded-full bg-[var(--color-border-strong)] opacity-40" />
+      </div>
+    </div>
+  );
+}
+
+function EvidenceTape({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="inline-flex items-center gap-1.5 bg-[var(--color-accent)] text-[var(--bg)] px-2 py-0.5 rotate-[-1deg]">
+      <span className="text-[8px] tracking-[0.2em] font-[family-name:var(--font-mono)] font-bold uppercase">
+        {children}
+      </span>
+    </div>
+  );
+}
+
 export default function AboutSection() {
   return (
-    <section id="about" className="py-8 md:py-12">
+    <section id="about" className="py-12 md:py-20">
       <div className="container-site">
         <Reveal>
-          <div className="mb-6">
+          <div className="mb-8 md:mb-10">
             <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
               <span className="text-[var(--color-accent)]">$</span> whoami
             </p>
@@ -49,77 +69,110 @@ export default function AboutSection() {
           </div>
         </Reveal>
 
-        <div className="relative bg-[var(--bg-alt)] border border-[var(--color-border)] p-4 md:p-8 mb-6">
+        <Reveal delay={0.06}>
           <div
-            className="absolute inset-0 opacity-[0.015] pointer-events-none"
+            className="relative border-[3px] border-[#2a2520] rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.03)] p-4 md:p-6 lg:p-8"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='none' stroke='%23f0f0f0' stroke-width='0.3'/%3E%3C/svg%3E")`,
-              backgroundSize: "20px 20px",
+              background: `
+                url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #12100e 0%, #1a1614 50%, #0f0d0b 100%)
+              `,
             }}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {cards.map((card, i) => (
-              <Reveal key={card.label} delay={i * 0.06}>
-                <div
-                  className={`relative bg-[var(--bg)] border border-[var(--color-border)] h-full flex flex-col group transition-all duration-300 ${rotations[i]}`}
-                >
-                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10">
-                    <Pin size={16} className="text-[var(--color-muted-light)] drop-shadow-sm" />
-                  </div>
+          >
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
 
-                  {card.image ? (
-                    <>
-                      <div className="relative w-full aspect-[3/2] overflow-hidden">
-                        <img
-                          src={card.image}
-                          alt={card.title}
-                          className="w-full h-full object-cover brightness-[0.85] contrast-[1.1] group-hover:brightness-100 transition-all duration-500"
-                          loading="lazy"
-                        />
-                        <span className="absolute top-2 left-2 monokai text-[10px] tracking-[0.15em] text-[var(--bg)] bg-[var(--color-accent)] px-2 py-0.5">
+            <div className="relative group mb-4 md:mb-6">
+              <Pin className="top-[-6px] left-8 md:left-12" />
+              <Pin className="top-[-6px] right-8 md:right-12" />
+              <div className="overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-colors duration-500 rotate-[-0.3deg] hover:rotate-0">
+                <div className="relative w-full aspect-[16/7] md:aspect-[21/9] overflow-hidden">
+                  <img
+                    src={imageCard.image}
+                    alt={imageCard.title}
+                    className="w-full h-full object-cover brightness-[0.7] contrast-[1.1] group-hover:brightness-[0.85] group-hover:scale-[1.02] transition-all duration-700 ease-out"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/40 to-transparent" />
+                  <div className="absolute top-3 left-3 md:top-4 md:left-4">
+                    <EvidenceTape>{imageCard.caseId}</EvidenceTape>
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8">
+                  <div className="flex items-center gap-2 mb-2">
+                    <imageCard.icon size={13} className="text-[var(--color-accent)] shrink-0" />
+                    <span className="monokai text-[10px] text-[var(--color-accent)]">
+                      {imageCard.label}
+                    </span>
+                  </div>
+                  <h3 className="text-display text-xl md:text-2xl lg:text-3xl text-[var(--color-text)] mb-2">
+                    {imageCard.title}
+                  </h3>
+                  <p className="text-sm md:text-base leading-relaxed text-[var(--color-muted)] max-w-[55ch]">
+                    {imageCard.body}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+              <svg className="absolute inset-0 w-full h-full pointer-events-none hidden md:block" aria-hidden="true">
+                <line
+                  x1="50%"
+                  y1="0"
+                  x2="50%"
+                  y2="100%"
+                  stroke="var(--color-border-strong)"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                  opacity="0.4"
+                />
+              </svg>
+
+              {terminalCards.map((card, i) => (
+                <Reveal key={card.label} delay={0.1 + i * 0.06}>
+                  <div className={`group relative bg-[var(--bg-alt)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-all duration-500 hover:-translate-y-0.5 h-full flex flex-col ${i === 0 ? "md:rotate-[-0.4deg]" : "md:rotate-[0.4deg]"}`}>
+                    <Pin className="top-[-6px] left-1/2 -translate-x-1/2" />
+
+                    <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[var(--color-border)]">
+                      <div className="flex gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-[var(--color-border-strong)]" />
+                      </div>
+                      <div className="flex items-center gap-2 ml-1">
+                        <CircleDot size={10} className="text-[var(--color-accent)]" />
+                        <span className="monokai text-[9px] text-[var(--color-muted-light)]">
                           {card.caseId}
                         </span>
                       </div>
-                      <div className="p-4 md:p-5 flex-1 flex flex-col">
-                        <div className="flex items-center gap-2 mb-2">
-                          <card.icon size={13} className="text-[var(--color-accent)] shrink-0" />
-                          <span className="monokai text-[10px] group-hover:text-[var(--color-accent)] transition-colors">
-                            {card.label}
-                          </span>
-                        </div>
-                        <h3 className="text-display text-lg md:text-xl text-[var(--color-text)] mb-2 group-hover:text-[var(--color-accent)] transition-colors">
-                          {card.title}
-                        </h3>
-                        <p className="text-sm leading-relaxed text-[var(--color-muted)] flex-1">
-                          {card.body}
-                        </p>
+                    </div>
+
+                    <div className="p-5 md:p-6 flex-1 flex flex-col">
+                      <div className="flex items-center gap-2 mb-3">
+                        <card.icon size={15} className="text-[var(--color-accent)] shrink-0" />
+                        <span className="monokai text-[10px] group-hover:text-[var(--color-accent)] transition-colors duration-300">
+                          {card.label}
+                        </span>
                       </div>
-                    </>
-                  ) : (
-                    <div className="p-6 md:p-8 flex-1 flex flex-col items-center text-center">
-                      <span className="absolute top-3 left-3 monokai text-[10px] tracking-[0.15em] text-[var(--bg)] bg-[var(--color-accent)] px-2 py-0.5">
-                        {card.caseId}
-                      </span>
-                      <card.icon size={24} className="text-[var(--color-accent)] mb-4 opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
-                      <span className="monokai text-[10px] group-hover:text-[var(--color-accent)] transition-colors mb-3">
-                        {card.label}
-                      </span>
-                      <h3 className="text-display text-lg md:text-xl text-[var(--color-text)] mb-3 group-hover:text-[var(--color-accent)] transition-colors">
+                      <h3 className="text-display text-base md:text-lg text-[var(--color-text)] mb-3 group-hover:text-[var(--color-accent)] transition-colors duration-300">
                         {card.title}
                       </h3>
-                      <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+                      <p className="text-sm leading-relaxed text-[var(--color-muted)] flex-1">
                         {card.body}
                       </p>
                     </div>
-                  )}
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
 
-        <Reveal delay={0.12}>
-          <div className="mt-6">
+                    <div className="h-[2px] w-0 group-hover:w-full bg-[var(--color-accent)] transition-all duration-500 ease-out" />
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <div className="mt-8 md:mt-12">
             <span className="monokai block mb-3">Skills &amp; Tools</span>
             <div className="flex flex-wrap gap-1.5">
               {skills.map((skill) => (

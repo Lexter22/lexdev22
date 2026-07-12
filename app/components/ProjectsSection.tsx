@@ -1,7 +1,7 @@
 "use client";
 
 import Reveal from "./Reveal";
-import { Cloud, GitBranch, BarChart3, ExternalLink, Code2, Pin } from "lucide-react";
+import { Cloud, GitBranch, BarChart3, ExternalLink, Code2, CircleDot } from "lucide-react";
 
 const projects = [
   {
@@ -39,14 +39,33 @@ const projects = [
   },
 ];
 
-const rotations = ["md:rotate-[-0.8deg] md:translate-y-1", "md:rotate-[0.6deg] md:translate-y-[-4px]", "md:rotate-[-0.4deg] md:translate-y-2"];
+function Pin({ className = "" }: { className?: string }) {
+  return (
+    <div className={`absolute z-10 ${className}`}>
+      <div className="relative">
+        <div className="w-3 h-3 rounded-full bg-[var(--color-muted-light)] border border-[var(--color-border-strong)] shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]" />
+        <div className="absolute top-[3px] left-[3px] w-1.5 h-1.5 rounded-full bg-[var(--color-border-strong)] opacity-40" />
+      </div>
+    </div>
+  );
+}
+
+function EvidenceTape({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="inline-flex items-center gap-1.5 bg-[var(--color-accent)] text-[var(--bg)] px-2 py-0.5 rotate-[-1deg]">
+      <span className="text-[8px] tracking-[0.2em] font-[family-name:var(--font-mono)] font-bold uppercase">
+        {children}
+      </span>
+    </div>
+  );
+}
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="py-8 md:py-12">
+    <section id="projects" className="py-12 md:py-20">
       <div className="container-site">
         <Reveal>
-          <div className="mb-6">
+          <div className="mb-8 md:mb-10">
             <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
               <span className="text-[var(--color-accent)]">$</span> ls ~/projects/
             </p>
@@ -54,82 +73,87 @@ export default function ProjectsSection() {
           </div>
         </Reveal>
 
-        <div className="relative bg-[var(--bg-alt)] border border-[var(--color-border)] p-4 md:p-8">
-          <div className="absolute inset-0 opacity-[0.015] pointer-events-none"
+        <Reveal delay={0.06}>
+          <div
+            className="relative border-[3px] border-[#2a2520] rounded-sm shadow-[0_8px_32px_rgba(0,0,0,0.5),inset_0_0_0_1px_rgba(255,255,255,0.03)] p-4 md:p-6 lg:p-8"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v20H0z' fill='none' stroke='%23f0f0f0' stroke-width='0.3'/%3E%3C/svg%3E")`,
-              backgroundSize: "20px 20px",
+              background: `
+                url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+                linear-gradient(135deg, #12100e 0%, #1a1614 50%, #0f0d0b 100%)
+              `,
             }}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-            {projects.map((project, i) => (
-              <Reveal key={project.title} delay={i * 0.08}>
-                <div
-                  className={`relative bg-[var(--bg)] border border-[var(--color-border)] p-4 md:p-6 h-full flex flex-col group transition-all duration-300 ${rotations[i]}`}
-                >
-                  <div className="absolute -top-2.5 left-1/2 -translate-x-1/2">
-                    <Pin
-                      size={16}
-                      className="text-[var(--color-muted-light)] drop-shadow-sm"
-                    />
+          >
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/[0.04] to-transparent" />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+              {projects.map((project, i) => (
+                <Reveal key={project.title} delay={0.08 + i * 0.06}>
+                  <div
+                    className={`group relative bg-[var(--bg)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-all duration-500 hover:-translate-y-0.5 h-full flex flex-col ${i === 0 ? "md:rotate-[-0.5deg]" : i === 2 ? "md:rotate-[0.5deg]" : ""}`}
+                  >
+                    <Pin className="top-[-6px] left-1/2 -translate-x-1/2" />
+
+                    <div className="p-4 md:p-6 flex-1 flex flex-col">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center justify-center w-10 h-10 border border-[var(--color-border)] bg-[var(--bg-alt)] group-hover:border-[var(--color-accent)]/40 transition-colors">
+                          <project.icon size={16} className="text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors" />
+                        </div>
+                        <EvidenceTape>{project.caseId}</EvidenceTape>
+                      </div>
+
+                      <h3 className="text-display text-xl md:text-2xl text-[var(--color-text)] mb-3 group-hover:text-[var(--color-accent)] transition-colors duration-300">
+                        {project.title}
+                      </h3>
+
+                      <p className="text-sm leading-relaxed text-[var(--color-muted)] flex-1 mb-4">
+                        {project.body}
+                      </p>
+
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2.5 py-1 text-[10px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)]"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="flex items-center gap-3 pt-4 border-t border-[var(--color-border)]">
+                        {project.links.github && (
+                          <a
+                            href={project.links.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
+                          >
+                            <Code2 size={13} />
+                            Source
+                          </a>
+                        )}
+                        {project.links.live && (
+                          <a
+                            href={project.links.live}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
+                          >
+                            <ExternalLink size={13} />
+                            Live
+                          </a>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="h-[2px] w-0 group-hover:w-full bg-[var(--color-accent)] transition-all duration-500 ease-out" />
                   </div>
-
-                  <span className="monokai text-[10px] tracking-[0.15em] text-[var(--color-muted-light)] mb-4">
-                    {project.caseId}
-                  </span>
-
-                  <div className="flex items-center justify-center w-10 h-10 border border-[var(--color-border)] bg-[var(--bg-alt)] mb-4 group-hover:border-[var(--color-accent)]/40 transition-colors">
-                    <project.icon size={16} className="text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors" />
-                  </div>
-
-                  <h3 className="text-display text-xl md:text-2xl text-[var(--color-text)] mb-3 group-hover:text-[var(--color-accent)] transition-colors">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-sm leading-relaxed text-[var(--color-muted)] flex-1 mb-3">
-                    {project.body}
-                  </p>
-
-                  <div className="flex flex-wrap gap-1.5 mb-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 text-[10px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)]"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center gap-3 pt-4 border-t border-[var(--color-border)]">
-                    {project.links.github && (
-                      <a
-                        href={project.links.github}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
-                      >
-                        <Code2 size={13} />
-                        Source
-                      </a>
-                    )}
-                    {project.links.live && (
-                      <a
-                        href={project.links.live}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
-                      >
-                        <ExternalLink size={13} />
-                        Live
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              ))}
+            </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
