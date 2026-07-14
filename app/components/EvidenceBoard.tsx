@@ -12,7 +12,7 @@ export function Pin({ className = "" }: { className?: string }) {
 export function EvidenceTape({ children }: { children: React.ReactNode }) {
   return (
     <div className="inline-flex items-center gap-1.5 bg-[var(--color-accent)] text-[var(--bg)] px-2 py-0.5 rotate-[-1deg]">
-      <span className="text-[8px] tracking-[0.2em] font-[family-name:var(--font-mono)] font-bold uppercase">
+      <span className="text-[10px] tracking-[0.2em] font-[family-name:var(--font-mono)] font-bold uppercase">
         {children}
       </span>
     </div>

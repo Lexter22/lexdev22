@@ -42,8 +42,8 @@ export default function BeyondCodingSection() {
             <Reveal key={item.label} delay={i * 0.06}>
               <div className="py-4 md:py-6 border-b border-[var(--color-border)] last:border-b-0">
                 <div className="flex items-start gap-4">
-                  <div className="hidden md:flex items-center justify-center w-10 h-10 shrink-0 border border-[var(--color-border)] bg-[var(--bg-alt)] group-hover/card:border-[var(--green)]/40 transition-colors">
-                    <item.icon size={16} className="text-[var(--color-text)] group-hover/card:text-[var(--color-accent)] transition-colors" />
+                  <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 shrink-0 border border-[var(--color-border)] bg-[var(--bg-alt)] group-hover/card:border-[var(--green)]/40 transition-colors">
+                    <item.icon size={14} className="text-[var(--color-text)] group-hover/card:text-[var(--color-accent)] transition-colors" />
                   </div>
                   <div className="flex-1 min-w-0 group/card">
                     <span className="monokai block mb-1.5 group-hover/card:text-[var(--color-accent)] transition-colors">{item.label}</span>

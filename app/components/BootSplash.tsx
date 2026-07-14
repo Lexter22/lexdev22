@@ -64,7 +64,7 @@ export default function BootSplash() {
           onClick={dismiss}
           className="fixed inset-0 z-[100] bg-[var(--bg)] flex flex-col items-center justify-center cursor-pointer"
         >
-          <div className="font-[family-name:var(--font-mono)] text-sm space-y-1.5 max-w-[520px] px-6">
+          <div className="font-[family-name:var(--font-mono)] text-[12px] sm:text-sm space-y-1.5 max-w-[520px] px-6">
             {bootLines.map((line, i) => (
               <motion.p
                 key={i}
@@ -90,7 +90,7 @@ export default function BootSplash() {
                   transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                 />
               </div>
-              <p className="text-[11px] text-[var(--color-muted-light)] mt-1.5 font-[family-name:var(--font-mono)]">
+              <p className="text-[12px] text-[var(--color-muted-light)] mt-1.5 font-[family-name:var(--font-mono)]">
                 [{Math.round(progress)}%]
               </p>
             </div>

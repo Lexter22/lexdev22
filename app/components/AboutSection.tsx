@@ -66,7 +66,7 @@ export default function AboutSection() {
               <Pin className="top-[-6px] left-8 md:left-12" />
               <Pin className="top-[-6px] right-8 md:right-12" />
               <div className="overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-colors duration-500 rotate-[-0.3deg] hover:rotate-0">
-                <div className="relative w-full aspect-[16/7] md:aspect-[21/9] overflow-hidden">
+                <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden">
                   <img
                     src={imageCard.image}
                     alt={imageCard.title}
@@ -78,17 +78,17 @@ export default function AboutSection() {
                     <EvidenceTape>{imageCard.caseId}</EvidenceTape>
                   </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6 lg:p-8">
+                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-6 lg:p-8">
                   <div className="flex items-center gap-2 mb-2">
                     <imageCard.icon size={13} className="text-[var(--color-accent)] shrink-0" />
-                    <span className="monokai text-[10px] text-[var(--color-accent)]">
+                    <span className="monokai text-[12px] text-[var(--color-accent)]">
                       {imageCard.label}
                     </span>
                   </div>
-                  <h3 className="text-display text-xl md:text-2xl lg:text-3xl text-[var(--color-text)] mb-2">
+                  <h3 className="text-display text-lg md:text-2xl lg:text-3xl text-[var(--color-text)] mb-2">
                     {imageCard.title}
                   </h3>
-                  <p className="text-sm md:text-base leading-relaxed text-[var(--color-muted)] max-w-[55ch]">
+                  <p className="text-sm md:text-base leading-relaxed text-[var(--color-muted)] max-w-[55ch] line-clamp-3 md:line-clamp-none">
                     {imageCard.body}
                   </p>
                 </div>
@@ -122,7 +122,7 @@ export default function AboutSection() {
                       </div>
                       <div className="flex items-center gap-2 ml-1">
                         <CircleDot size={10} className="text-[var(--color-accent)]" />
-                        <span className="monokai text-[9px] text-[var(--color-muted-light)]">
+                        <span className="monokai text-[10px] text-[var(--color-muted-light)]">
                           {card.caseId}
                         </span>
                       </div>
@@ -131,7 +131,7 @@ export default function AboutSection() {
                     <div className="p-5 md:p-6 flex-1 flex flex-col">
                       <div className="flex items-center gap-2 mb-3">
                         <card.icon size={15} className="text-[var(--color-accent)] shrink-0" />
-                        <span className="monokai text-[10px] group-hover:text-[var(--color-accent)] transition-colors duration-300">
+                        <span className="monokai text-[12px] group-hover:text-[var(--color-accent)] transition-colors duration-300">
                           {card.label}
                         </span>
                       </div>
@@ -158,7 +158,7 @@ export default function AboutSection() {
               {skills.map((skill) => (
                 <span
                   key={skill}
-                  className="px-3 py-1.5 text-[11px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)] bg-[var(--bg-alt)] hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-colors cursor-default"
+                  className="px-3 py-1.5 text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)] bg-[var(--bg-alt)] hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-colors cursor-default"
                 >
                   {skill}
                 </span>

@@ -41,7 +41,7 @@ export default function BlogSection() {
             className="block border border-[var(--color-border-strong)] bg-[var(--color-accent)]/[0.02] p-5 md:p-7 group hover:bg-[var(--color-accent)]/[0.05] transition-colors"
           >
             <div className="flex items-center gap-2 mb-4">
-              <span className="text-[11px] font-[family-name:var(--font-mono)] text-[var(--color-accent)] font-semibold tracking-wider uppercase">
+              <span className="text-[12px] font-[family-name:var(--font-mono)] text-[var(--color-accent)] font-semibold tracking-wider uppercase">
                 Featured Article
               </span>
               <ExternalLink
@@ -58,7 +58,7 @@ export default function BlogSection() {
               {featuredArticle.excerpt}
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 text-[11px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]">
+            <div className="flex flex-wrap items-center gap-3 text-[12px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]">
               <span className="flex items-center gap-1.5">
                 <Calendar size={11} />
                 {featuredArticle.date}

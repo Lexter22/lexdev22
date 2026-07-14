@@ -79,7 +79,7 @@ export default function Header() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className={`relative px-6 py-3 text-sm transition-colors duration-200 md:px-3 md:py-2 md:text-[11px] font-[family-name:var(--font-mono)] group ${
+              className={`relative px-6 py-3 text-sm transition-colors duration-200 md:px-3 md:py-2 md:text-[12px] font-[family-name:var(--font-mono)] group ${
                 active === link.href.slice(1)
                   ? "text-[var(--color-accent)]"
                   : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
@@ -102,12 +102,12 @@ export default function Header() {
         <div className="flex items-center gap-2 z-50">
           <button
             onClick={toggleDarkPassenger}
-            className="flex items-center justify-center w-8 h-8 transition-colors duration-200 cursor-pointer"
+            className="flex items-center justify-center w-11 h-11 transition-colors duration-200 cursor-pointer"
             aria-label={darkPassenger ? "Disable dark passenger" : "Enable dark passenger"}
             title={darkPassenger ? "Dark Passenger active" : "Toggle Dark Passenger"}
           >
             <Moon
-              size={14}
+              size={16}
               className={
                 darkPassenger
                   ? "text-[var(--color-accent-red)]"
@@ -117,11 +117,11 @@ export default function Header() {
           </button>
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center justify-center w-8 h-8 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors duration-200 md:hidden cursor-pointer"
+            className="flex items-center justify-center w-11 h-11 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors duration-200 md:hidden cursor-pointer"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
           >
-            {open ? <X size={15} /> : <Menu size={15} />}
+            {open ? <X size={18} /> : <Menu size={18} />}
           </button>
         </div>
       </div>

@@ -94,7 +94,7 @@ export default function ProjectsSection() {
                         {project.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="px-2.5 py-1 text-[10px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)]"
+                            className="px-2.5 py-1 text-[11px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)]"
                           >
                             {tag}
                           </span>
@@ -107,7 +107,7 @@ export default function ProjectsSection() {
                             href={project.links.github}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
+                            className="inline-flex items-center gap-1.5 py-2 px-2 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
                           >
                             <Code2 size={13} />
                             Source
@@ -118,7 +118,7 @@ export default function ProjectsSection() {
                             href={project.links.live}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-1.5 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
+                            className="inline-flex items-center gap-1.5 py-2 px-2 text-[12px] font-bold tracking-wider text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
                           >
                             <ExternalLink size={13} />
                             Live

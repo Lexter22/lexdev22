@@ -7,19 +7,19 @@ export default function Footer() {
         <p className="text-sm font-[family-name:var(--font-mono)] text-[var(--color-muted)]">
           <span className="text-[var(--color-accent)]">$</span> whoami &mdash; John Lexter Reyes
         </p>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-1">
           <a
             href="https://github.com/Lexter22"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1.5 text-sm font-[family-name:var(--font-mono)] text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
+            className="flex items-center gap-1.5 py-2 px-2 text-sm font-[family-name:var(--font-mono)] text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
           >
             <ExternalLink size={13} />
             GitHub
           </a>
           <a
             href="mailto:johnlexterreyesss@gmail.com"
-            className="flex items-center gap-1.5 text-sm font-[family-name:var(--font-mono)] text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
+            className="flex items-center gap-1.5 py-2 px-2 text-sm font-[family-name:var(--font-mono)] text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
           >
             <Mail size={13} />
             Email

@@ -21,7 +21,7 @@ export default function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-[100dvh] flex items-center overflow-hidden"
+      className="relative min-h-[100dvh] flex items-center"
       style={{ paddingTop: "64px" }}
     >
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -99,14 +99,14 @@ export default function Hero() {
             <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--color-accent)] text-[#000] text-[13px] font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-4 bg-[var(--color-accent)] text-[#000] text-[13px] font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-all"
               >
                 Reach Out
                 <ArrowRight size={14} />
               </a>
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--color-accent)]/50 active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-4 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--color-accent)]/50 active:scale-[0.97] transition-all"
               >
                 View Projects
                 <ArrowDown size={14} />
@@ -118,7 +118,7 @@ export default function Hero() {
                 (skill) => (
                   <span
                     key={skill}
-                    className="px-3 py-1.5 text-[11px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-colors cursor-default"
+                    className="px-3 py-1.5 text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-colors cursor-default"
                   >
                     {skill}
                   </span>

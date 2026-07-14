@@ -64,8 +64,8 @@ export default function ExperienceSection() {
             <Reveal key={item.title} delay={i * 0.06}>
               <div className="py-4 md:py-6 border-b border-[var(--color-border)] last:border-b-0">
                 <div className="flex items-start gap-4">
-                  <div className="hidden md:flex items-center justify-center w-10 h-10 shrink-0 border border-[var(--color-border)] bg-[var(--bg-alt)]">
-                    <item.icon size={16} className="text-[var(--color-text)]" />
+                  <div className="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 shrink-0 border border-[var(--color-border)] bg-[var(--bg-alt)]">
+                    <item.icon size={14} className="text-[var(--color-text)]" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-1">

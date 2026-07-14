@@ -67,7 +67,7 @@ export default function ContactSection() {
             <a
               href="/lexdev.pdf"
               download
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold tracking-widest hover:bg-[var(--color-surface-alt)] transition-colors"
+              className="inline-flex items-center gap-2 px-5 py-3.5 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold tracking-widest hover:bg-[var(--color-surface-alt)] transition-colors"
             >
               <Download size={14} />
               Download CV
