@@ -1,14 +1,48 @@
 "use client";
 
 import Reveal from "./Reveal";
+import { Briefcase, GraduationCap, Award, Terminal } from "lucide-react";
 
-const experience = [
+const entries = [
   {
+    icon: Briefcase,
     title: "Junior Software Engineer",
     org: "Dewise Solutions Philippines",
     location: "Hybrid / Mandaluyong City, Philippines",
     year: "Dec 2025 — April 2026",
     body: "Developed and maintained web applications using .NET. Collaborated with cross-functional teams to deliver high-quality software solutions. Implemented responsive designs and optimized performance for better user experience.",
+  },
+  {
+    icon: GraduationCap,
+    title: "BS Information Technology",
+    org: "Major in Software Engineering",
+    location: "",
+    year: "Ongoing",
+    body: "",
+  },
+  {
+    icon: Award,
+    title: "Foundational C# Microsoft Certification",
+    org: "FreeCodeCamp",
+    location: "",
+    year: "2025",
+    body: "",
+  },
+  {
+    icon: Terminal,
+    title: "SQL Associate",
+    org: "SQL, Data Analysis, and Database Management",
+    location: "",
+    year: "2025",
+    body: "",
+  },
+  {
+    icon: Terminal,
+    title: "The Legend of Python",
+    org: "Python, Programming, Data Structures and Algorithms",
+    location: "",
+    year: "2025",
+    body: "",
   },
 ];
 
@@ -26,11 +60,13 @@ export default function ExperienceSection() {
         </Reveal>
 
         <div className="border-t border-[var(--color-border)]">
-          {experience.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.08}>
+          {entries.map((item, i) => (
+            <Reveal key={item.title} delay={i * 0.06}>
               <div className="py-4 md:py-6 border-b border-[var(--color-border)] last:border-b-0">
                 <div className="flex items-start gap-4">
-                  <span className="hidden md:flex mt-1.5 w-3 h-3 shrink-0 bg-[var(--green)]" />
+                  <div className="hidden md:flex items-center justify-center w-10 h-10 shrink-0 border border-[var(--color-border)] bg-[var(--bg-alt)]">
+                    <item.icon size={16} className="text-[var(--color-text)]" />
+                  </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-1">
                       <h3 className="text-display text-lg md:text-xl text-[var(--color-text)]">
@@ -41,11 +77,14 @@ export default function ExperienceSection() {
                       </span>
                     </div>
                     <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)] mb-1.5">
-                      {item.org} &mdash; {item.location}
+                      {item.org}
+                      {item.location && <span> &mdash; {item.location}</span>}
                     </p>
-                    <p className="text-sm md:text-[15px] leading-relaxed text-[var(--color-muted)] max-w-[600px]">
-                      {item.body}
-                    </p>
+                    {item.body && (
+                      <p className="text-sm md:text-[15px] leading-relaxed text-[var(--color-muted)] max-w-[600px]">
+                        {item.body}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

@@ -1,16 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useScroll } from "motion/react";
 import { Menu, X, Moon } from "lucide-react";
 import { useDarkPassenger } from "./DarkPassengerProvider";
 
 const NAV_LINKS = [
   { href: "#about", label: "About" },
-  { href: "#education", label: "Education" },
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
   { href: "#beyond-coding", label: "Beyond Coding" },
-  { href: "#certifications", label: "Certifications" },
   { href: "#articles", label: "Articles" },
   { href: "#contact", label: "Contact" },
 ];
@@ -21,11 +20,13 @@ export default function Header() {
   const [active, setActive] = useState("");
   const { active: darkPassenger, toggle: toggleDarkPassenger } = useDarkPassenger();
 
+  const { scrollY } = useScroll();
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    return scrollY.on("change", (latest) => {
+      setScrolled(latest > 20);
+    });
+  }, [scrollY]);
 
   useEffect(() => {
     if (!open) return;

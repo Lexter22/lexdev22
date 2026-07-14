@@ -1,7 +1,8 @@
 "use client";
 
 import Reveal from "./Reveal";
-import { Cloud, GitBranch, BarChart3, ExternalLink, Code2, CircleDot } from "lucide-react";
+import { Cloud, GitBranch, BarChart3, ExternalLink, Code2 } from "lucide-react";
+import { Pin, EvidenceTape } from "./EvidenceBoard";
 
 const projects = [
   {
@@ -18,47 +19,26 @@ const projects = [
   {
     icon: GitBranch,
     title: "InterVueAI",
-    body: "Created during the Agora Hackathon 2025 securing the TOP 10 place. InterVueAI is an powered interview preparation platform that generates personalized interview questions and provides feedback to help users improve their performance.",
+    body: "Created during the Agora Hackathon 2025 securing the TOP 10 place. An AI-powered interview preparation platform that generates personalized interview questions and provides feedback to help users improve their performance.",
     tags: ["Agora", "Grok", "AI"],
     caseId: "EVID-002",
     links: {
-      github: "https://github.com/Lexter22/cicd-pipelines",
+      github: null,
       live: null,
     },
   },
   {
     icon: BarChart3,
     title: "IntelliSched",
-    body: "Developed a university academic scheduling system using the TALL stack (Laravel 11, Livewire 3, Alpine.js, Tailwind CSS), automating conflict-free timetable generation for 80 professors across [X] departments and [X]+ sections per semester",
-    tags: ["Prometheus", "Grafana", "Kubernetes"],
+    body: "University academic scheduling system using the TALL stack (Laravel 11, Livewire 3, Alpine.js, Tailwind CSS), automating conflict-free timetable generation for professors across multiple departments.",
+    tags: ["Laravel", "Livewire", "Tailwind CSS"],
     caseId: "EVID-003",
     links: {
-      github: "https://github.com/Lexter22/observability-stack",
+      github: null,
       live: null,
     },
   },
 ];
-
-function Pin({ className = "" }: { className?: string }) {
-  return (
-    <div className={`absolute z-10 ${className}`}>
-      <div className="relative">
-        <div className="w-3 h-3 rounded-full bg-[var(--color-muted-light)] border border-[var(--color-border-strong)] shadow-[0_2px_4px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.15)]" />
-        <div className="absolute top-[3px] left-[3px] w-1.5 h-1.5 rounded-full bg-[var(--color-border-strong)] opacity-40" />
-      </div>
-    </div>
-  );
-}
-
-function EvidenceTape({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="inline-flex items-center gap-1.5 bg-[var(--color-accent)] text-[var(--bg)] px-2 py-0.5 rotate-[-1deg]">
-      <span className="text-[8px] tracking-[0.2em] font-[family-name:var(--font-mono)] font-bold uppercase">
-        {children}
-      </span>
-    </div>
-  );
-}
 
 export default function ProjectsSection() {
   return (
