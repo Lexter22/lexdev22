@@ -24,8 +24,8 @@ const terminalCards = [
   {
     icon: Users,
     label: "What I Value",
-    title: "Clean code, honest reviews, zero drama",
-    body: "Teams that trust each other ship faster. Good documentation, clear runbooks, and a code I stick to. The rest is noise.",
+    title: "Build things that help other builders",
+    body: "Open source, workshops, docs that actually work. If what I build or share saves someone a few hours, that's a good day.",
     caseId: "CASE-003",
   },
 ];
