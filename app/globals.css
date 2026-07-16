@@ -13,7 +13,6 @@
   --color-muted-light: #909090;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-display);
   --animate-glitch: glitch 12s ease-in-out infinite;
 }
 

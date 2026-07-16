@@ -65,7 +65,7 @@ export default function ContactSection() {
         <Reveal delay={0.1}>
           <div className="mt-6">
             <a
-              href="/lexdev.pdf"
+              href="/lexter.pdf"
               download
               className="inline-flex items-center gap-2 px-5 py-3.5 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold tracking-widest hover:bg-[var(--color-surface-alt)] transition-colors"
             >
