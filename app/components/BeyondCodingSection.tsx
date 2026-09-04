@@ -27,7 +27,7 @@ export default function BeyondCodingSection() {
             <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
               <span className="text-[var(--color-accent)]">$</span> ls ~/hobbies/
             </p>
-            <h2 className="text-pixel-header">Beyond Coding</h2>
+            <h2 className="text-pixel-header text-wrap balance">Beyond Coding</h2>
           </div>
         </Reveal>
 

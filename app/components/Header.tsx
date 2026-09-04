@@ -142,7 +142,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-property: color, background-color, border-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.3s ${
         scrolled
           ? "bg-[var(--bg)]/90 backdrop-blur-md border-b border-[var(--color-border)]"
           : "bg-transparent"
@@ -156,12 +156,14 @@ export default function Header() {
           aria-label="LexDev22 home"
         >
           <span className="flex items-center justify-center w-8 h-8 overflow-hidden border border-[var(--color-border-strong)]">
-            <img
+<img
               src="/profile.png"
               alt="LexDev22"
+              width={400}
+              height={400}
               className="w-full h-full object-cover"
               style={{ filter: "none" }}
-            />
+/>
           </span>
           <span className="hidden xl:inline text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider text-[var(--color-muted)] group-hover:text-[var(--color-accent)]">
             LexDev22

@@ -45,7 +45,7 @@ export default function AboutSection() {
             <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
               <span className="text-[var(--color-accent)]">$</span> whoami
             </p>
-            <h2 className="text-pixel-header">About Me</h2>
+            <h2 className="text-pixel-header text-wrap balance">About Me</h2>
           </div>
         </Reveal>
 
@@ -67,11 +67,13 @@ export default function AboutSection() {
               <Pin className="top-[-6px] right-8 md:right-12" />
               <div className="overflow-hidden border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-colors duration-500 rotate-[-0.3deg] hover:rotate-0">
                 <div className="relative w-full aspect-[16/9] md:aspect-[21/9] overflow-hidden">
-                  <img
-                    src={imageCard.image}
-                    alt={imageCard.title}
-                    className="w-full h-full object-cover brightness-[0.7] contrast-[1.1] group-hover:brightness-[0.85] group-hover:scale-[1.02] transition-all duration-700 ease-out"
-                    loading="lazy"
+<img
+                      src={imageCard.image}
+                      alt={imageCard.title}
+                      width={800}
+                      height={450}
+                      className="w-full h-full object-cover brightness-[0.7] contrast-[1.1] group-hover:brightness-[0.85] group-hover:scale-[1.02] transition-property: transform, opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.7s ease-out"
+                      loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg)] via-[var(--bg)]/40 to-transparent" />
                   <div className="absolute top-3 left-3 md:top-4 md:left-4">
@@ -111,7 +113,7 @@ export default function AboutSection() {
 
               {terminalCards.map((card, i) => (
                 <Reveal key={card.label} delay={0.1 + i * 0.06}>
-                  <div className={`group relative bg-[var(--bg-alt)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-all duration-500 hover:-translate-y-0.5 h-full flex flex-col ${i === 0 ? "md:rotate-[-0.4deg]" : "md:rotate-[0.4deg]"}`}>
+                  <div className={`group relative bg-[var(--bg-alt)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.5s hover:-translate-y-0.5 h-full flex flex-col ${i === 0 ? "md:rotate-[-0.4deg]" : "md:rotate-[0.4deg]"}`}>
                     <Pin className="top-[-6px] left-1/2 -translate-x-1/2" />
 
                     <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[var(--color-border)]">
@@ -143,7 +145,7 @@ export default function AboutSection() {
                       </p>
                     </div>
 
-                    <div className="h-[2px] w-0 group-hover:w-full bg-[var(--color-accent)] transition-all duration-500 ease-out" />
+                    <div className="h-[2px] w-0 group-hover:w-full bg-[var(--color-accent)] transition-property: width; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.5s ease-out" />
                   </div>
                 </Reveal>
               ))}

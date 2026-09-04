@@ -49,7 +49,7 @@ export default function ProjectsSection() {
             <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
               <span className="text-[var(--color-accent)]">$</span> ls ~/projects/
             </p>
-            <h2 className="text-pixel-header">Projects</h2>
+            <h2 className="text-pixel-header text-wrap balance">Projects</h2>
           </div>
         </Reveal>
 
@@ -70,7 +70,7 @@ export default function ProjectsSection() {
               {projects.map((project, i) => (
                 <Reveal key={project.title} delay={0.08 + i * 0.06}>
                   <div
-                    className={`group relative bg-[var(--bg)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-all duration-500 hover:-translate-y-0.5 h-full flex flex-col ${i === 0 ? "md:rotate-[-0.5deg]" : i === 2 ? "md:rotate-[0.5deg]" : ""}`}
+                    className={`group relative bg-[var(--bg)] border border-[var(--color-border)] hover:border-[var(--color-accent)]/30 transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.5s hover:-translate-y-0.5 h-full flex flex-col ${i === 0 ? "md:rotate-[-0.5deg]" : i === 2 ? "md:rotate-[0.5deg]" : ""}`}
                   >
                     <Pin className="top-[-6px] left-1/2 -translate-x-1/2" />
 

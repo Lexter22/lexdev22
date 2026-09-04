@@ -22,7 +22,7 @@ export default function BlogSection() {
               <span className="text-[var(--color-accent)]">$</span> cat
               articles/latest
             </p>
-            <h2 className="text-pixel-header">Articles</h2>
+            <h2 className="text-pixel-header text-wrap balance">Articles</h2>
           </div>
         </Reveal>
 

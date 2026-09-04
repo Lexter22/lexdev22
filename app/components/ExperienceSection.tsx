@@ -73,7 +73,7 @@ export default function ExperienceSection() {
             <p className="mb-1 text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)]">
               <span className="text-[var(--color-accent)]">$</span> cat experience.log
             </p>
-            <h2 className="text-pixel-header">Experience</h2>
+            <h2 className="text-pixel-header text-wrap balance">Experience</h2>
             <p className="mt-3 max-w-[620px] text-sm leading-relaxed text-[var(--color-muted)] md:text-[15px]">
               Leadership, professional work, and the education behind both.
             </p>
@@ -127,6 +127,8 @@ export default function ExperienceSection() {
                         <img
                           src={badge.src}
                           alt={badge.alt}
+                          width={400}
+                          height={400}
                           className="h-full w-full object-contain"
                           loading="lazy"
                         />

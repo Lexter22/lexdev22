@@ -99,14 +99,14 @@ export default function Hero() {
             <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-4 bg-[var(--color-accent)] text-[#000] text-[13px] font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-4 bg-[var(--color-accent)] text-[#000] text-[13px] font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.2s"
               >
                 Reach Out
                 <ArrowRight size={14} />
               </a>
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-4 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--color-accent)]/50 active:scale-[0.97] transition-all"
+                className="inline-flex items-center gap-2 px-6 py-4 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--color-accent)]/50 active:scale-[0.97] transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.2s"
               >
                 View Projects
                 <ArrowDown size={14} />
@@ -137,6 +137,8 @@ export default function Hero() {
               <img
                 src="/profile.png"
                 alt="LexDev22"
+                width={400}
+                height={400}
                 className="w-full h-full object-cover animate-glitch p-1"
                 style={{
                   clipPath: `polygon(
