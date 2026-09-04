@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScroll } from "motion/react";
 import { Menu, X, Moon } from "lucide-react";
 import { useDarkPassenger } from "./DarkPassengerProvider";
@@ -18,6 +18,11 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
+  const mobileNavRef = useRef<HTMLElement>(null);
+  const homeLinkRef = useRef<HTMLAnchorElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const themeButtonRef = useRef<HTMLButtonElement>(null);
+  const restoreMenuFocusRef = useRef(true);
   const { active: darkPassenger, toggle: toggleDarkPassenger } = useDarkPassenger();
 
   const { scrollY } = useScroll();
@@ -30,8 +35,67 @@ export default function Header() {
 
   useEffect(() => {
     if (!open) return;
+
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    const nav = mobileNavRef.current;
+    const pageMain = document.querySelector<HTMLElement>("main");
+    const pageFooter = document.querySelector<HTMLElement>("footer");
+    const homeLink = homeLinkRef.current;
+    const menuButton = menuButtonRef.current;
+    const firstLink = nav?.querySelector<HTMLAnchorElement>("a[href]");
+
+    if (pageMain) pageMain.inert = true;
+    if (pageFooter) pageFooter.inert = true;
+    if (homeLink) homeLink.inert = true;
+
+    const focusFrame = window.requestAnimationFrame(() => firstLink?.focus());
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        restoreMenuFocusRef.current = true;
+        setOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !nav) return;
+
+      const focusable: HTMLElement[] = [
+        ...nav.querySelectorAll<HTMLAnchorElement>("a[href]"),
+        themeButtonRef.current,
+        menuButton,
+      ].filter(
+        (element): element is HTMLButtonElement | HTMLAnchorElement =>
+          element !== null,
+      );
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+      if (pageMain) pageMain.inert = false;
+      if (pageFooter) pageFooter.inert = false;
+      if (homeLink) homeLink.inert = false;
+
+      if (restoreMenuFocusRef.current) {
+        menuButton?.focus();
+      }
+      restoreMenuFocusRef.current = true;
+    };
   }, [open]);
 
   useEffect(() => {
@@ -48,6 +112,34 @@ export default function Header() {
     return () => obs.disconnect();
   }, []);
 
+  const closeMenu = (restoreFocus = true) => {
+    restoreMenuFocusRef.current = restoreFocus;
+    setOpen(false);
+  };
+
+  const navLinkClass = (href: string) =>
+    `relative px-6 py-3 text-sm transition-colors duration-200 md:px-3 md:py-2 md:text-[12px] font-[family-name:var(--font-mono)] group ${
+      active === href.slice(1)
+        ? "text-[var(--color-accent)]"
+        : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+    }`;
+
+  const navLinkLabel = (href: string, label: string) => (
+    <>
+      <span
+        aria-hidden="true"
+        className={`text-[var(--color-accent)] mr-1 transition-opacity duration-200 ${
+          active === href.slice(1)
+            ? "opacity-100"
+            : "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+        }`}
+      >
+        &gt;
+      </span>
+      {label}
+    </>
+  );
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -57,7 +149,12 @@ export default function Header() {
       }`}
     >
       <div className="container-site flex items-center justify-between h-14 md:h-[56px]">
-        <a href="#top" className="flex items-center gap-2.5 group" aria-label="LexDev22 home">
+        <a
+          ref={homeLinkRef}
+          href="#top"
+          className="flex min-w-11 h-11 items-center gap-2.5 group"
+          aria-label="LexDev22 home"
+        >
           <span className="flex items-center justify-center w-8 h-8 overflow-hidden border border-[var(--color-border-strong)]">
             <img
               src="/profile.png"
@@ -66,41 +163,53 @@ export default function Header() {
               style={{ filter: "none" }}
             />
           </span>
+          <span className="hidden xl:inline text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider text-[var(--color-muted)] group-hover:text-[var(--color-accent)]">
+            LexDev22
+          </span>
         </a>
 
         <nav
-          className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-[var(--bg)]/98 transition-opacity duration-300 md:static md:flex-row md:bg-transparent md:gap-1 md:opacity-100 md:pointer-events-auto ${
-            open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none md:opacity-100 md:pointer-events-auto"
-          }`}
+          className="hidden md:flex md:items-center md:gap-1"
           aria-label="Primary"
         >
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              onClick={() => setOpen(false)}
-              className={`relative px-6 py-3 text-sm transition-colors duration-200 md:px-3 md:py-2 md:text-[12px] font-[family-name:var(--font-mono)] group ${
-                active === link.href.slice(1)
-                  ? "text-[var(--color-accent)]"
-                  : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
-              }`}
+              className={navLinkClass(link.href)}
+              aria-current={active === link.href.slice(1) ? "location" : undefined}
             >
-              <span
-                className={`text-[var(--color-accent)] mr-1 transition-opacity duration-200 ${
-                  active === link.href.slice(1)
-                    ? "opacity-100"
-                    : "opacity-0 group-hover:opacity-100"
-                }`}
-              >
-                &gt;
-              </span>
-              {link.label}
+              {navLinkLabel(link.href, link.label)}
             </a>
           ))}
         </nav>
 
+        {open && (
+          <nav
+            ref={mobileNavRef}
+            id="mobile-navigation"
+            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-[var(--bg)]/98 md:hidden"
+            aria-label="Mobile navigation"
+            role="dialog"
+            aria-modal="true"
+          >
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => closeMenu(false)}
+                className={navLinkClass(link.href)}
+                aria-current={active === link.href.slice(1) ? "location" : undefined}
+              >
+                {navLinkLabel(link.href, link.label)}
+              </a>
+            ))}
+          </nav>
+        )}
+
         <div className="flex items-center gap-2 z-50">
           <button
+            ref={themeButtonRef}
             onClick={toggleDarkPassenger}
             className="flex items-center justify-center w-11 h-11 transition-colors duration-200 cursor-pointer"
             aria-label={darkPassenger ? "Disable dark passenger" : "Enable dark passenger"}
@@ -116,10 +225,18 @@ export default function Header() {
             />
           </button>
           <button
-            onClick={() => setOpen(!open)}
+            ref={menuButtonRef}
+            onClick={() => {
+              if (open) closeMenu();
+              else {
+                restoreMenuFocusRef.current = true;
+                setOpen(true);
+              }
+            }}
             className="flex items-center justify-center w-11 h-11 text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors duration-200 md:hidden cursor-pointer"
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
+            aria-controls="mobile-navigation"
           >
             {open ? <X size={18} /> : <Menu size={18} />}
           </button>
