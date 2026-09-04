@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>LexDev22</title>
+  <rect width="64" height="64" rx="8" fill="#090b0b"/>
+  <path d="M2 18V8a6 6 0 0 1 6-6h10M46 2h10a6 6 0 0 1 6 6v10M62 46v10a6 6 0 0 1-6 6H46M18 62H8a6 6 0 0 1-6-6V46" fill="none" stroke="#00ff41" stroke-width="3"/>
+  <path d="M15 13h10v28h24v10H15z" fill="#00ff41"/>
+  <rect x="39" y="27" width="10" height="7" fill="#f0f0f0"/>
+</svg>

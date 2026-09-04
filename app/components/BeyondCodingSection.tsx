@@ -1,15 +1,9 @@
 "use client";
 
 import Reveal from "./Reveal";
-import { Users, Dumbbell, Radio } from "lucide-react";
+import { Dumbbell, Radio } from "lucide-react";
 
 const activities = [
-  {
-    icon: Users,
-    label: "Community Building",
-    title: "AWS Student Builder Group Lead",
-    body: "Planning sessions, cloud workshops, helping members unblock on AWS concepts. Keeping the group consistent — every week, no excuses, no days off. Building a space where future engineers grow together.",
-  },
   {
     icon: Dumbbell,
     label: "Body Building",

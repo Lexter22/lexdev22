@@ -23,9 +23,6 @@ export const metadata: Metadata = {
   title: "John Lexter Reyes | AWS Student Builder Group Lead",
   description:
     "AWS Student Builder Group Lead and cloud engineer focused on practical systems, clean delivery, and infrastructure that feels simple to run.",
-  icons: {
-    icon: "/profile.png",
-  },
 };
 
 export default function RootLayout({
