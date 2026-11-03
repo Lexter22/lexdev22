@@ -49,7 +49,7 @@ export default function Hero() {
               width={420}
               height={420}
               sizes="(max-width: 640px) 260px, (max-width: 1024px) 340px, 420px"
-              className="max-w-full w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] md:w-[420px] md:h-[420px] object-cover rounded-[10px] border border-[var(--color-border)]"
+              className="max-w-full w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] md:w-[420px] md:h-[420px] object-cover rounded-sm border border-[var(--color-border)]"
             />
           </div>
 

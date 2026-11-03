@@ -73,10 +73,16 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
   return (
     <article
       onClick={onOpen}
-      onKeyDown={(e) => { if (e.key === "Enter") onOpen(); }}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
       role="button"
       tabIndex={0}
       className="flex-shrink-0 w-full sm:w-80 md:w-96 border border-[var(--color-border)] bg-[var(--bg)] rounded-sm p-5 sm:p-6 group cursor-pointer hover:border-[var(--color-accent)]/40 transition-colors duration-300"
+      aria-label={`Open ${project.title} case`}
     >
       <div className="flex-1 flex flex-col min-h-0">
         <div className="flex items-start justify-between gap-2 mb-3">
@@ -137,14 +143,14 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--bg-alt)]/80 border border-[var(--color-border-strong)] text-[var(--color-text)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface-alt)] transition-all duration-200 backdrop-blur-sm"
+          className="absolute top-3 right-3 z-20 w-10 h-10 flex items-center justify-center rounded-md bg-[var(--bg-alt)]/80 border border-[var(--color-border-strong)] text-[var(--color-text)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface-alt)] transition-all duration-200 backdrop-blur-sm"
           aria-label="Close case"
         >
           <X size={18} strokeWidth={2} />
           <span className="sr-only">Close</span>
         </button>
 
-        <div className="relative h-[35%] overflow-hidden border-b border-[var(--color-border)] mb-5 rounded-t-sm">
+        <div className="relative h-[35%] overflow-hidden border-b border-[var(--color-border)] mb-5 rounded-sm">
           <img
             src={project.screenshot}
             alt={`${project.title} evidence photo`}
@@ -237,12 +243,19 @@ export default function ProjectsSection() {
 
         <Reveal delay={0.06}>
           <div className="relative">
-            <div className="flex gap-6 sm:gap-8 overflow-x-auto scrollbar-hide pb-6 sm:pb-8" style={{ scrollbarWidth: "none" }}>
+            <div
+              className="flex flex-col sm:flex-row gap-6 sm:gap-8 overflow-x-auto pb-6 sm:pb-8"
+              style={{ scrollbarWidth: "none" }}
+            >
               {projects.map((project) => (
-                <ProjectCard key={project.title} project={project} onOpen={() => setOpenProject(project)} />
+                <ProjectCard
+                  key={project.title}
+                  project={project}
+                  onOpen={() => setOpenProject(project)}
+                />
               ))}
             </div>
-            <div className="absolute bottom-2 right-2 text-[10px] sm:text-[11px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]">
+            <div className="hidden sm:absolute sm:bottom-2 sm:right-2 text-[10px] sm:text-[11px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]">
               &gt; swipe to browse cases
             </div>
           </div>

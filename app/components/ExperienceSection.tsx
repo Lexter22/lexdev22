@@ -93,7 +93,7 @@ export default function ExperienceSection() {
         </Reveal>
 
         {/* Professional Experience */}
-        <Reveal delay={0.04} variant="fade-up">
+        <Reveal delay={0.04} variant="slide-left">
           <div className="mb-8 sm:mb-10 md:mb-12">
             <div className="space-y-8">
               {roles.map((job) => (
@@ -129,7 +129,7 @@ export default function ExperienceSection() {
         </Reveal>
 
         {/* Leadership */}
-        <Reveal delay={0.08}>
+        <Reveal delay={0.08} variant="fade-up">
           <div className="mb-8 sm:mb-10 md:mb-12 border-y border-[var(--color-border)] py-6 sm:py-8 md:py-10">
             <div className="flex flex-col gap-4 mb-6">
               <div>
@@ -156,7 +156,7 @@ export default function ExperienceSection() {
         </Reveal>
 
         {/* Education */}
-        <Reveal delay={0.12}>
+        <Reveal delay={0.12} variant="scale-up">
           <div className="mb-8 sm:mb-10 md:mb-12">
             <article className="border border-[var(--color-border)] bg-[var(--bg-alt)] rounded-sm p-6 sm:p-8">
               <div className="flex flex-col gap-4">
@@ -177,7 +177,7 @@ export default function ExperienceSection() {
         </Reveal>
 
         {/* Skills */}
-        <Reveal delay={0.14}>
+        <Reveal delay={0.14} variant="stagger">
           <div className="mb-8 sm:mb-10 md:mb-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
               {skills.map((skill, i) => (
@@ -201,7 +201,7 @@ export default function ExperienceSection() {
         </Reveal>
 
         {/* Certifications */}
-        <Reveal delay={0.14}>
+        <Reveal delay={0.14} variant="fade-up">
           <div className="mb-8 sm:mb-10 md:mb-12 space-y-4">
             {certifications.map((cert) => (
               <div
@@ -225,7 +225,7 @@ export default function ExperienceSection() {
         </Reveal>
 
         {/* Technical Speaking */}
-        <Reveal delay={0.16}>
+        <Reveal delay={0.16} variant="fade-up">
           <div className="mb-8 sm:mb-10 md:mb-12 border-y border-[var(--color-border)] py-6 sm:py-8 md:py-10">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {technicalSpeaking.map((talk, i) => (

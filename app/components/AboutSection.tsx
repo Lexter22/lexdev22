@@ -36,10 +36,11 @@ export default function AboutSection() {
           </div>
         </Reveal>
 
-        <Reveal delay={0.06}>
+        <Reveal delay={0.06} variant="fade-up">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-start">
             <div className="lg:col-span-1">
-              <div className="border border-[var(--color-border)] bg-[var(--bg-alt)] rounded-sm p-4 sm:p-6">
+              <Reveal variant="scale-up">
+                <div className="border border-[var(--color-border)] bg-[var(--bg-alt)] rounded-sm p-4 sm:p-6">
                 <div className="relative aspect-[4/3] overflow-hidden rounded-sm border border-[var(--color-border)] group">
                   <img
                     src={imageCard.image}
@@ -65,6 +66,7 @@ export default function AboutSection() {
                   </div>
                 </div>
               </div>
+              </Reveal>
             </div>
 
             <div className="space-y-4 sm:space-y-6 min-w-0">

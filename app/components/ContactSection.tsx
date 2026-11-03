@@ -7,9 +7,9 @@ export default function ContactSection() {
   return (
     <section id="contact" className="py-8 sm:py-10 md:py-14">
       <div className="container-site">
-        <Reveal>
+        <Reveal variant="fade-up">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-            <div className="max-w-[600px]">
+            <div className="lg:col-span-1 max-w-[600px]">
               <h2 className="text-pixel-header text-wrap balance">
                 Let's build something
               </h2>
@@ -31,7 +31,7 @@ export default function ContactSection() {
               </div>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="lg:col-span-1">
               <img
                 src="/workshop1.jpg"
                 alt="Lex working"

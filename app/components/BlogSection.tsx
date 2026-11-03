@@ -16,20 +16,20 @@ export default function BlogSection() {
   return (
     <section id="articles" className="py-8 sm:py-10 md:py-14">
       <div className="container-site">
-        <Reveal>
+        <Reveal variant="fade-up">
           <div className="mb-6 sm:mb-8 md:mb-10">
             <h2 className="text-pixel-header text-wrap balance">Articles</h2>
           </div>
         </Reveal>
 
-        <Reveal delay={0.06}>
+        <Reveal delay={0.06} variant="fade-up">
           <p className="text-sm sm:text-base md:text-[15px] leading-relaxed text-[var(--color-muted)] max-w-[520px] mb-6">
             I write about building things, learning in public, and the
             intersections between tech and life.
           </p>
         </Reveal>
 
-        <Reveal delay={0.1}>
+        <Reveal delay={0.1} variant="fade-up">
           <Link
             href={featuredArticle.url}
             target="_blank"

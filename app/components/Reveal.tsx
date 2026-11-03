@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { motion, useReducedMotion } from "motion/react";
 
-type Variant = "fade-up" | "scale-up" | "slide-left" | "stagger";
+type Variant = "fade-up" | "scale-up" | "slide-left" | "stagger" | "pop-in";
 
 type Props = {
   children: React.ReactNode;
@@ -13,35 +13,54 @@ type Props = {
   variant?: Variant;
 };
 
-type VariantConfig = {
-  hidden: Record<string, unknown>;
-  visible: Record<string, unknown>;
-  transition?: Record<string, unknown>;
-};
+const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
-const variants: Record<Variant, VariantConfig> = {
+// Mobile reduces travel distance and blur so reveals don't feel overwhelming
+// on narrow screens where 60px is a large fraction of the viewport.
+const variants: Record<Variant, any> = {
   "fade-up": {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0 },
+    hidden: {
+      opacity: 0,
+      y: isMobile ? 30 : 60,
+      filter: `blur(${isMobile ? 4 : 8}px)`,
+    },
+    visible: { opacity: 1, y: 0, filter: "blur(0px)" },
   },
   "scale-up": {
-    hidden: { opacity: 0, scale: 0.85 },
-    visible: { opacity: 1, scale: 1 },
+    hidden: {
+      opacity: 0,
+      scale: isMobile ? 0.95 : 0.9,
+      filter: `blur(${isMobile ? 4 : 8}px)`,
+    },
+    visible: { opacity: 1, scale: 1, filter: "blur(0px)" },
   },
   "slide-left": {
-    hidden: { opacity: 0, x: -40 },
-    visible: { opacity: 1, x: 0 },
+    hidden: {
+      opacity: 0,
+      x: isMobile ? -30 : -60,
+      filter: `blur(${isMobile ? 4 : 8}px)`,
+    },
+    visible: { opacity: 1, x: 0, filter: "blur(0px)" },
   },
   stagger: {
-    hidden: { opacity: 0, y: 40 },
+    hidden: {
+      opacity: 0,
+      y: isMobile ? 30 : 60,
+      filter: `blur(${isMobile ? 4 : 8}px)`,
+    },
     visible: {
       opacity: 1,
       y: 0,
+      filter: "blur(0px)",
       transition: {
-        staggerChildren: 0.12,
+        staggerChildren: 0.15,
         delayChildren: 0.1,
       },
     },
+  },
+  "pop-in": {
+    hidden: { opacity: 0, scale: 0.96 },
+    visible: { opacity: 1, scale: 1 },
   },
 };
 
@@ -65,10 +84,10 @@ export default function Reveal({
       <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
+        viewport={{ once: true, amount: isMobile ? 0.18 : 0.12 }}
         variants={variants[variant] as any}
         transition={{
-          duration: 0.7,
+          duration: isMobile ? 0.6 : 0.8,
           delay,
           ease: [0.25, 0.1, 0.25, 1],
         }}

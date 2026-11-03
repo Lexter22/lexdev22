@@ -177,7 +177,7 @@ export default function Header() {
           <nav
             ref={mobileNavRef}
             id="mobile-navigation"
-            className="fixed top-0 left-0 right-0 z-40 flex flex-col items-center gap-2 bg-[var(--bg)]/98 md:hidden pt-20 sm:pt-24 pb-6 px-6 sm:px-8"
+            className="fixed top-0 left-0 right-0 z-40 flex flex-col items-center gap-1 bg-[var(--bg)]/98 md:hidden pt-20 sm:pt-24 pb-8 px-6 sm:px-8"
             aria-label="Mobile navigation"
             role="dialog"
             aria-modal="true"
@@ -187,14 +187,17 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => closeMenu(false)}
-                className={`block text-center px-3 py-3 text-sm transition-colors duration-200 font-[family-name:var(--font-mono)] group ${
+                className={`flex items-center gap-2 px-4 py-3 text-sm transition-all duration-200 font-[family-name:var(--font-mono)] group rounded-lg ${
                   active === link.href.slice(1)
-                    ? "text-[var(--color-accent)]"
-                    : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+                    ? "bg-[var(--color-surface-alt)] text-[var(--color-accent)]"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface-alt)]/50"
                 }`}
                 aria-current={active === link.href.slice(1) ? "location" : undefined}
               >
-                {navLinkLabel(link.href, link.label)}
+                <span className="text-[var(--color-accent)] mr-1 group-hover:opacity-100 opacity-0 transition-opacity">
+                  &gt;
+                </span>
+                {link.label}
               </a>
             ))}
           </nav>
