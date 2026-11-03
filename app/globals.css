@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-accent: #00ff41;
+  --color-accent: #00cc4a;
   --color-accent-red: #CC1A1A;
   --color-surface: #101010;
   --color-surface-alt: #181818;
@@ -20,7 +20,7 @@
   :root {
     --bg: #0a0a0a;
     --bg-alt: #101010;
-    --green: #00ff41;
+    --green: #00cc4a;
   }
 
   * {
@@ -29,8 +29,12 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 72px;
+    scroll-padding-top: 64px;
     color-scheme: dark;
+    overflow-x: hidden;
+  }
+
+  body {
     overflow-x: hidden;
   }
 
@@ -39,6 +43,12 @@
     color: var(--color-text);
     font-family: var(--font-mono, Geist Mono, monospace);
     position: relative;
+  }
+
+  @media (max-width: 767px) {
+    body {
+      padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
   }
 
   body::before {
@@ -59,13 +69,15 @@
     inset: 0;
     z-index: 2;
     pointer-events: none;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.08) 2px,
-      rgba(0, 0, 0, 0.08) 4px
-    );
+    background:
+      radial-gradient(800px circle at 50% 50%, rgba(0, 255, 65, 0.03), transparent),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+      );
   }
 
   ::selection {
@@ -90,19 +102,26 @@
 
 @utility text-pixel-header {
   font-family: var(--font-pixel);
-  font-size: clamp(1.4rem, 4vw, 2rem);
-  line-height: 1.35;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  line-height: 1.2;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: var(--color-text);
+  letter-spacing: 0.04em;
+  color: var(--color-accent);
 }
 
-@utility container-site {
+.container-site {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+@media (min-width: 768px) {
+  .container-site {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }
 
 @utility prompt-tag {

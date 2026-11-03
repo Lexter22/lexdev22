@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useScroll } from "motion/react";
-import { Menu, X, Moon } from "lucide-react";
-import { useDarkPassenger } from "./DarkPassengerProvider";
+import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "#about", label: "About" },
@@ -21,9 +20,7 @@ export default function Header() {
   const mobileNavRef = useRef<HTMLElement>(null);
   const homeLinkRef = useRef<HTMLAnchorElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const themeButtonRef = useRef<HTMLButtonElement>(null);
   const restoreMenuFocusRef = useRef(true);
-  const { active: darkPassenger, toggle: toggleDarkPassenger } = useDarkPassenger();
 
   const { scrollY } = useScroll();
 
@@ -62,7 +59,6 @@ export default function Header() {
 
       const focusable: HTMLElement[] = [
         ...nav.querySelectorAll<HTMLAnchorElement>("a[href]"),
-        themeButtonRef.current,
         menuButton,
       ].filter(
         (element): element is HTMLButtonElement | HTMLAnchorElement =>
@@ -153,44 +149,35 @@ export default function Header() {
           ref={homeLinkRef}
           href="#top"
           className="flex min-w-11 h-11 items-center gap-2.5 group"
-          aria-label="LexDev22 home"
+          aria-label="John Lexter B. Reyes home"
         >
-          <span className="flex items-center justify-center w-8 h-8 overflow-hidden border border-[var(--color-border-strong)]">
-<img
-              src="/profile.png"
-              alt="LexDev22"
-              width={400}
-              height={400}
-              className="w-full h-full object-cover"
-              style={{ filter: "none" }}
-/>
-          </span>
-          <span className="hidden xl:inline text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider text-[var(--color-muted)] group-hover:text-[var(--color-accent)]">
-            LexDev22
+          <span className="text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider text-[var(--color-muted)] group-hover:text-[var(--color-accent)]">
+            Lex
           </span>
         </a>
 
-        <nav
-          className="hidden md:flex md:items-center md:gap-1"
-          aria-label="Primary"
-        >
-          {NAV_LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className={navLinkClass(link.href)}
-              aria-current={active === link.href.slice(1) ? "location" : undefined}
-            >
-              {navLinkLabel(link.href, link.label)}
-            </a>
-          ))}
-        </nav>
+        <div className="flex items-center gap-4 md:gap-6">
+          <nav
+            className="hidden md:flex md:items-center md:gap-1"
+            aria-label="Primary"
+          >
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className={navLinkClass(link.href)}
+                aria-current={active === link.href.slice(1) ? "location" : undefined}
+              >
+                {navLinkLabel(link.href, link.label)}
+              </a>
+            ))}
+          </nav>
 
         {open && (
           <nav
             ref={mobileNavRef}
             id="mobile-navigation"
-            className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-[var(--bg)]/98 md:hidden"
+            className="fixed top-0 left-0 right-0 z-40 flex flex-col items-start gap-2 bg-[var(--bg)]/98 md:hidden pt-20 sm:pt-24 pb-6 px-6 sm:px-8"
             aria-label="Mobile navigation"
             role="dialog"
             aria-modal="true"
@@ -200,7 +187,11 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => closeMenu(false)}
-                className={navLinkClass(link.href)}
+                className={`block px-3 py-3 text-sm transition-colors duration-200 font-[family-name:var(--font-mono)] group ${
+                  active === link.href.slice(1)
+                    ? "text-[var(--color-accent)]"
+                    : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
+                }`}
                 aria-current={active === link.href.slice(1) ? "location" : undefined}
               >
                 {navLinkLabel(link.href, link.label)}
@@ -210,22 +201,6 @@ export default function Header() {
         )}
 
         <div className="flex items-center gap-2 z-50">
-          <button
-            ref={themeButtonRef}
-            onClick={toggleDarkPassenger}
-            className="flex items-center justify-center w-11 h-11 transition-colors duration-200 cursor-pointer"
-            aria-label={darkPassenger ? "Disable dark passenger" : "Enable dark passenger"}
-            title={darkPassenger ? "Dark Passenger active" : "Toggle Dark Passenger"}
-          >
-            <Moon
-              size={16}
-              className={
-                darkPassenger
-                  ? "text-[var(--color-accent-red)]"
-                  : "text-[var(--color-muted)] hover:text-[var(--green)]"
-              }
-            />
-          </button>
           <button
             ref={menuButtonRef}
             onClick={() => {
@@ -240,8 +215,9 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="mobile-navigation"
           >
-            {open ? <X size={18} /> : <Menu size={18} />}
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
+        </div>
         </div>
       </div>
     </header>

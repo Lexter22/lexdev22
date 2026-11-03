@@ -14,20 +14,16 @@ const featuredArticle = {
 
 export default function BlogSection() {
   return (
-    <section id="articles" className="py-8 md:py-12">
+    <section id="articles" className="py-8 sm:py-10 md:py-14">
       <div className="container-site">
         <Reveal>
-          <div className="mb-6">
-            <p className="text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted)] mb-1">
-              <span className="text-[var(--color-accent)]">$</span> cat
-              articles/latest
-            </p>
+          <div className="mb-6 sm:mb-8 md:mb-10">
             <h2 className="text-pixel-header text-wrap balance">Articles</h2>
           </div>
         </Reveal>
 
         <Reveal delay={0.06}>
-          <p className="text-sm md:text-[15px] leading-relaxed text-[var(--color-muted)] max-w-[520px] mb-6">
+          <p className="text-sm sm:text-base md:text-[15px] leading-relaxed text-[var(--color-muted)] max-w-[520px] mb-6">
             I write about building things, learning in public, and the
             intersections between tech and life.
           </p>

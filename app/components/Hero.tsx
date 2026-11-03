@@ -1,12 +1,10 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowRight, ArrowDown } from "lucide-react";
-import { useDarkPassenger } from "./DarkPassengerProvider";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   const reduce = useReducedMotion();
-  const { active: darkPassenger } = useDarkPassenger();
 
   const container = {
     hidden: {},
@@ -37,15 +35,26 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="container-site w-full py-8 md:py-14">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-10">
-          <motion.div
-            variants={container}
-            initial="hidden"
-            animate="show"
-            className="max-w-[600px]"
-          >
-            <motion.p variants={fadeUp} className="prompt-tag mb-4">
+      <div className="container-site w-full py-8 sm:py-12 md:py-24">
+        <motion.div
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="grid grid-cols-1 md:grid-cols-2 items-start md:items-start gap-8 md:gap-16 max-w-[1200px]"
+        >
+          <div className="shrink-0 relative">
+            <img
+              src="/profile.png"
+              alt="John Lexter B. Reyes"
+              width={420}
+              height={420}
+              sizes="(max-width: 640px) 260px, (max-width: 1024px) 340px, 420px"
+              className="max-w-full w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] md:w-[420px] md:h-[420px] object-cover rounded-[10px] border border-[var(--color-border)]"
+            />
+          </div>
+
+          <motion.div variants={fadeUp} className="flex flex-col items-start gap-4 max-w-[560px] flex-1">
+            <motion.p variants={fadeUp} className="prompt-tag">
               echo $USER
             </motion.p>
 
@@ -54,128 +63,44 @@ export default function Hero() {
               className="leading-none"
             >
               <span
-                className="text-[clamp(1.8rem,8vw,3.5rem)] font-[family-name:var(--font-pixel)] text-[var(--color-accent)] leading-[1.1]"
+                className="text-[clamp(1.5rem,7vw,2.75rem)] font-[family-name:var(--font-pixel)] text-[var(--color-accent)] leading-[1.05]"
                 style={{ imageRendering: "pixelated" }}
               >
-                LexDev22
+                John Lexter B. Reyes
               </span>
               {!reduce && (
-                <span className="inline-block w-[0.6ch] h-[0.85em] bg-[var(--color-accent)] ml-1.5 animate-[blink_1s_step-end_infinite] align-middle" />
+                <span className="inline-block w-[0.8ch] h-[0.9em] bg-[var(--color-accent)] ml-2 animate-[blink_1s_step-end_infinite] align-middle" />
               )}
             </motion.h1>
 
             <motion.p
               variants={fadeUp}
-              className="mt-2 text-[13px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]"
+              className="text-sm md:text-base leading-relaxed text-[var(--color-muted)] max-w-[65ch]"
             >
-              <span className="text-[var(--color-accent-red)]">#</span> John Lexter Reyes
+              I'm a BSIT student at PUP Bi&ntilde;an Campus and a tech community builder. I design server-side systems, optimize databases, and ship cloud infrastructure. As AWS Student Builder Group Lead, I bring builders together to learn, build, and ship.
             </motion.p>
 
-            <motion.div variants={fadeUp} className="mt-6 space-y-1">
-              {darkPassenger ? (
-                <>
-                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-                    Every system has a dark side.
-                  </p>
-                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-                    Clean execution. No evidence.
-                  </p>
-                </>
-              ) : (
-                <>
-                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-                    Infrastructure that never skips a rep.
-                  </p>
-                  <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-                    I follow a code — clean, tested, shipped.
-                  </p>
-                </>
-              )}
-              <p className="text-[15px] md:text-[17px] leading-relaxed text-[var(--color-muted)]">
-                AWS Student Builder Group Lead.
-              </p>
-            </motion.div>
-
-            <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-3">
+            <motion.div
+              variants={fadeUp}
+              className="mt-10 sm:mt-12 flex flex-wrap gap-4"
+            >
               <a
-                href="#contact"
-                className="inline-flex items-center gap-2 px-6 py-4 bg-[var(--color-accent)] text-[#000] text-[13px] font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.2s"
+                href="#projects"
+                className="inline-flex items-center gap-3 px-7 sm:px-9 py-4 sm:py-5 bg-[var(--color-accent)] text-[#000] text-[13px] sm:text-sm font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.2s"
               >
-                Reach Out
+                View Projects
                 <ArrowRight size={14} />
               </a>
               <a
-                href="#projects"
-                className="inline-flex items-center gap-2 px-6 py-4 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--color-accent)]/50 active:scale-[0.97] transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.2s"
+                href="#contact"
+                className="inline-flex items-center gap-3 px-7 sm:px-9 py-4 sm:py-5 border border-[var(--color-border-strong)] text-[var(--color-text)] text-[13px] sm:text-sm font-bold uppercase tracking-widest hover:bg-[var(--color-surface-alt)] hover:border-[var(--color-accent)]/50 active:scale-[0.97] transition-property: color, border-color, background-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.2s"
               >
-                View Projects
-                <ArrowDown size={14} />
+                Reach Out
               </a>
             </motion.div>
-
-            <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-2">
-              {["AWS", "AI", "Kubernetes", "CI/CD","Software Engineering", "Community Building"].map(
-                (skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-1.5 text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)] hover:border-[var(--color-accent)]/40 hover:text-[var(--color-accent)] transition-colors cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ),
-              )}
-            </motion.div>
           </motion.div>
-
-          <motion.div
-            initial={reduce ? {} : { opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
-            className="relative shrink-0 self-center md:self-end"
-          >
-            <div className="w-[180px] h-[180px] sm:w-[280px] sm:h-[280px] lg:w-[380px] lg:h-[380px] relative">
-              <img
-                src="/profile.png"
-                alt="LexDev22"
-                width={400}
-                height={400}
-                className="w-full h-full object-cover animate-glitch p-1"
-                style={{
-                  clipPath: `polygon(
-                    0% 0%, 100% 0%,
-                    100% 98%,
-                    95% 98%, 95% 100%,
-                    90% 100%, 90% 98%,
-                    85% 98%, 85% 100%,
-                    80% 100%, 80% 98%,
-                    75% 98%, 75% 100%,
-                    70% 100%, 70% 98%,
-                    65% 98%, 65% 100%,
-                    60% 100%, 60% 98%,
-                    55% 98%, 55% 100%,
-                    50% 100%, 50% 98%,
-                    45% 98%, 45% 100%,
-                    40% 100%, 40% 98%,
-                    35% 98%, 35% 100%,
-                    30% 100%, 30% 98%,
-                    25% 98%, 25% 100%,
-                    20% 100%, 20% 98%,
-                    15% 98%, 15% 100%,
-                    10% 100%, 10% 98%,
-                    5% 98%, 5% 100%,
-                    0% 100%
-                  )`,
-                }}
-              />
-              <div className="absolute top-0 left-0 w-5 h-5 sm:w-6 sm:h-6 border-t-[3px] border-l-[3px] border-[var(--color-accent)] pointer-events-none" />
-              <div className="absolute top-0 right-0 w-5 h-5 sm:w-6 sm:h-6 border-t-[3px] border-r-[3px] border-[var(--color-accent)] pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-5 h-5 sm:w-6 sm:h-6 border-b-[3px] border-l-[3px] border-[var(--color-accent)] pointer-events-none" />
-              <div className="absolute bottom-0 right-0 w-5 h-5 sm:w-6 sm:h-6 border-b-[3px] border-r-[3px] border-[var(--color-accent)] pointer-events-none" />
-            </div>
-          </motion.div>
-        </div>
+        </motion.div>
       </div>
-
     </section>
   );
 }
