@@ -69,7 +69,7 @@ export default function AboutSection() {
 
             <div className="space-y-4 sm:space-y-6 min-w-0">
               {terminalCards.map((card, i) => (
-                <Reveal key={card.label} delay={0.1 + i * 0.06}>
+                <Reveal key={card.label} delay={0.1 + i * 0.06} variant="fade-up">
                   <div className="flex items-start gap-3 border border-[var(--color-border)] bg-[var(--bg-alt)] rounded-sm p-3 sm:p-4 hover:border-[var(--color-accent)]/40 transition-colors duration-300">
                     <card.icon size={16} className="text-[var(--color-accent)] shrink-0" />
                     <div className="flex-1 min-w-0">

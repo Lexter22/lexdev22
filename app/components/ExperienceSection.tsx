@@ -93,7 +93,7 @@ export default function ExperienceSection() {
         </Reveal>
 
         {/* Professional Experience */}
-        <Reveal delay={0.04}>
+        <Reveal delay={0.04} variant="fade-up">
           <div className="mb-8 sm:mb-10 md:mb-12">
             <div className="space-y-8">
               {roles.map((job) => (

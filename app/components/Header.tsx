@@ -177,7 +177,7 @@ export default function Header() {
           <nav
             ref={mobileNavRef}
             id="mobile-navigation"
-            className="fixed top-0 left-0 right-0 z-40 flex flex-col items-start gap-2 bg-[var(--bg)]/98 md:hidden pt-20 sm:pt-24 pb-6 px-6 sm:px-8"
+            className="fixed top-0 left-0 right-0 z-40 flex flex-col items-center gap-2 bg-[var(--bg)]/98 md:hidden pt-20 sm:pt-24 pb-6 px-6 sm:px-8"
             aria-label="Mobile navigation"
             role="dialog"
             aria-modal="true"
@@ -187,7 +187,7 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => closeMenu(false)}
-                className={`block px-3 py-3 text-sm transition-colors duration-200 font-[family-name:var(--font-mono)] group ${
+                className={`block text-center px-3 py-3 text-sm transition-colors duration-200 font-[family-name:var(--font-mono)] group ${
                   active === link.href.slice(1)
                     ? "text-[var(--color-accent)]"
                     : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"

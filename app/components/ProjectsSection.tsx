@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Reveal from "./Reveal";
-import { ExternalLink, Code2 } from "lucide-react";
+import { Code2, X } from "lucide-react";
 
 const projects = [
   {
@@ -137,10 +137,11 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       >
         <button
           onClick={onClose}
-          className="absolute top-3 right-3 z-20 p-2 text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors"
+          className="absolute top-3 right-3 z-20 w-10 h-10 flex items-center justify-center rounded-full bg-[var(--bg-alt)]/80 border border-[var(--color-border-strong)] text-[var(--color-text)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface-alt)] transition-all duration-200 backdrop-blur-sm"
           aria-label="Close case"
         >
-          <ExternalLink size={16} />
+          <X size={18} strokeWidth={2} />
+          <span className="sr-only">Close</span>
         </button>
 
         <div className="relative h-[35%] overflow-hidden border-b border-[var(--color-border)] mb-5 rounded-t-sm">

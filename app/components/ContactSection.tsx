@@ -20,7 +20,7 @@ export default function ContactSection() {
 
               <div className="mt-8 sm:mt-10 md:mt-12">
                 <a
-                  href="https://linkedin.com/in/johnlexterreyes"
+                  href="https://www.linkedin.com/in/lexter-reyes/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center justify-center gap-2 px-6 sm:px-10 py-5 sm:py-6 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[#000] text-[13px] sm:text-sm font-bold uppercase tracking-widest hover:brightness-110 active:scale-[0.97] transition-colors"
