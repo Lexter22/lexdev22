@@ -1,13 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { ArrowUpRight, Code2, X } from "lucide-react";
+import ChapterHeading from "./ChapterHeading";
 import Reveal from "./Reveal";
-import { Code2, X } from "lucide-react";
 
 const projects = [
   {
     title: "MemberFlow",
     year: "2026",
+    tone: "tone-blue",
     short: "Serverless membership & Digital ID platform for AWS SBG PUP Biñan.",
     stats: [
       { label: "Registrations", value: "300+" },
@@ -16,13 +19,13 @@ const projects = [
     ],
     tags: ["React", "TypeScript", "Supabase", "AWS Lambda"],
     links: { github: null, live: null },
-    screenshot: "/coming-soon.svg",
     details:
       "Built with React, TypeScript, Supabase, and AWS Lambda. Processed 300+ registrations with multi-step forms, document uploads, and digital ID issuance. Implemented an email pipeline using Supabase Edge Functions, AWS Lambda, and Gmail SMTP with queued retries and a scheduled GitHub Actions worker; sent 100+ emails with a 99%+ send success rate. Replaced Google Forms and manual acceptance emails with a single approval workflow that sends acceptance emails and generates membership IDs; enforced access controls through JWT authentication and PostgreSQL Row-Level Security.",
   },
   {
     title: "InterVueAI",
     year: "2026",
+    tone: "tone-amber",
     short: "AI interview MVP built in 24 hours; Top 10 out of 23 teams at AWS Cloud Club Philippines Innovation Cup.",
     stats: [
       { label: "Placement", value: "Top 10" },
@@ -31,13 +34,13 @@ const projects = [
     ],
     tags: ["Supabase", "Agora", "Grok AI"],
     links: { github: null, live: null },
-    screenshot: "/coming-soon.svg",
     details:
       "Built an AI interview MVP in 24 hours using Supabase, Agora, and Grok AI to automate simulated interviews and candidate feedback. Placed in the Top 10 out of 23 teams at the AWS Cloud Club Philippines Innovation Cup, held in collaboration with Agora.",
   },
   {
     title: "Articulately",
     year: "2026",
+    tone: "tone-pink",
     short: "Flutter and Supabase articulation-practice app with gamified tongue twisters, flashcards, and exercises.",
     stats: [
       { label: "Article views", value: "400" },
@@ -46,13 +49,13 @@ const projects = [
     ],
     tags: ["Flutter", "Supabase"],
     links: { github: "https://articulately-5c15b.web.app/", live: null },
-    screenshot: "/coming-soon.svg",
     details:
       "Built and deployed a Flutter and Supabase articulation-practice application with gamified tongue twisters, flashcards, and exercises. Published an AWS Builder Center article that received 400 views.",
   },
   {
     title: "IntelliSched",
     year: "2026",
+    tone: "tone-violet",
     short: "Academic scheduling system for 40 professors, 20 departments, and 12 courses.",
     stats: [
       { label: "Professors", value: "40" },
@@ -61,7 +64,6 @@ const projects = [
     ],
     tags: ["Laravel", "Livewire", "Alpine.js", "Tailwind CSS"],
     links: { github: null, live: null },
-    screenshot: "/coming-soon.svg",
     details:
       "Developed an academic scheduling system using Laravel, Livewire, Alpine.js, and Tailwind CSS. Designed to support 40 professors, 20 departments, and 12 courses. Replaced paper-based collection with authenticated forms for professors to submit availability and preferred subjects. Automated schedule generation for subject offerings and sections, rejecting overlapping room, professor, and section schedules; integrated Gemini AI for explanations and suggestions.",
   },
@@ -69,198 +71,156 @@ const projects = [
 
 type Project = (typeof projects)[number];
 
-function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
+function ProjectRow({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
+  const [lead, ...rest] = project.stats;
   return (
-    <article
+    <button
+      type="button"
       onClick={onOpen}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onOpen();
-        }
-      }}
-      role="button"
-      tabIndex={0}
-      className="flex-shrink-0 w-full sm:w-80 md:w-96 border border-[var(--color-border)] bg-[var(--bg)] rounded-sm p-5 sm:p-6 group cursor-pointer hover:border-[var(--color-accent)]/40 transition-colors duration-300"
-      aria-label={`Open ${project.title} case`}
+      aria-haspopup="dialog"
+      className={`${project.tone} group relative grid w-full gap-x-6 gap-y-3 border-b border-[var(--color-border)] px-1 py-6 text-left hover:bg-[var(--bg-alt)] sm:px-4 md:grid-cols-[3rem_minmax(0,1fr)_11rem_1.5rem] md:items-center`}
     >
-      <div className="flex-1 flex flex-col min-h-0">
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <h3 className="text-display text-base sm:text-lg text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors">
-            {project.title}
-          </h3>
-          {project.year && (
-            <span className="text-[11px] sm:text-[12px] font-[family-name:var(--font-mono)] font-semibold uppercase tracking-wider text-[var(--color-accent)]">
-              {project.year}
-            </span>
-          )}
+      {/* Solid tone bar slides in on hover */}
+      <span
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-[3px] origin-top scale-y-0 bg-[var(--tone)] transition-transform duration-300 group-hover:scale-y-100 group-focus-visible:scale-y-100"
+      />
+      <span className="text-[12px] font-bold tabular-nums text-[var(--tone)]">{String(index + 1).padStart(2, "0")}</span>
+
+      <div className="min-w-0">
+        <div className="mb-1.5 flex items-baseline gap-3">
+          <h3 className="text-display text-lg text-[var(--color-text)] md:text-xl">{project.title}</h3>
+          <span className="text-[11px] font-semibold text-[var(--color-muted-light)]">{project.year}</span>
         </div>
-
-        <p className="text-sm sm:text-base leading-relaxed text-[var(--color-muted)] flex-1 mb-4 line-clamp-2">
-          {project.short}
-        </p>
-
-        <div className="mt-auto grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-2 mb-4">
-          {project.stats.map((s) => (
-            <div key={s.label} className="border border-[var(--color-border)] bg-[var(--bg-alt)] p-2 sm:p-3 min-h-[40px] flex flex-col">
-              <p className="text-[11px] sm:text-[12px] font-[family-name:var(--font-mono)] font-semibold uppercase tracking-wider text-[var(--color-muted-light)] leading-none mb-0.5">
-                {s.label}
-              </p>
-              <p className="text-[12px] sm:text-[14px] font-bold text-[var(--color-text)] leading-none">
-                {s.value}
-              </p>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-wrap gap-1 sm:gap-1.5">
+        <p className="mb-3 max-w-[80ch] text-sm leading-relaxed text-[var(--color-muted)]">{project.short}</p>
+        <ul className="flex flex-wrap gap-1.5">
           {project.tags.map((tag) => (
-            <span
-              key={tag}
-              className="px-2.5 py-1 sm:px-3 sm:py-1.5 text-xs sm:text-[11px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)]"
-            >
-              {tag}
-            </span>
+            <li key={tag} className="tag">{tag}</li>
           ))}
-        </div>
+        </ul>
       </div>
-    </article>
+
+      <div className="flex items-baseline gap-3 md:block md:text-right">
+        <p className="font-[family-name:var(--font-pixel)] text-lg text-[var(--tone)] md:text-xl">{lead.value}</p>
+        <p className="text-[11px] uppercase tracking-wider text-[var(--color-muted-light)] md:mt-2">{lead.label}</p>
+        <p className="hidden text-[11px] text-[var(--color-muted-light)] md:mt-1 md:block">
+          {rest.map((s) => `${s.value} ${s.label.toLowerCase()}`).join(" · ")}
+        </p>
+      </div>
+
+      <ArrowUpRight
+        size={18}
+        aria-hidden="true"
+        className="absolute right-2 top-6 text-[var(--color-muted-light)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--tone)] md:static"
+      />
+      <span className="sr-only">Open case study</span>
+    </button>
   );
 }
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const previous = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+      previous?.focus();
+    };
+  }, [onClose]);
+
   return (
-    <div
+    <motion.div
       role="dialog"
       aria-modal="true"
-      aria-label={project.title}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm"
+      aria-labelledby="project-modal-title"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4 sm:p-6"
       onClick={onClose}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
     >
-      <div
-        className="relative bg-[var(--bg-alt)] border border-[var(--color-border-strong)] p-4 sm:p-6 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto flex flex-col"
+      <motion.div
+        className={`${project.tone} panel relative max-h-[90svh] w-full max-w-2xl overflow-y-auto border-t-[3px] !border-t-[var(--tone)] p-5 sm:p-7`}
         onClick={(e) => e.stopPropagation()}
+        initial={{ y: 24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 16, opacity: 0 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <button
+          ref={closeRef}
           onClick={onClose}
-          className="absolute top-3 right-3 z-20 w-10 h-10 flex items-center justify-center rounded-md bg-[var(--bg-alt)]/80 border border-[var(--color-border-strong)] text-[var(--color-text)] hover:text-[var(--color-accent)] hover:bg-[var(--color-surface-alt)] transition-all duration-200 backdrop-blur-sm"
-          aria-label="Close case"
+          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-[4px] border border-[var(--color-border-strong)] text-[var(--color-text)] hover:border-[var(--color-text)]"
+          aria-label="Close case study"
         >
-          <X size={18} strokeWidth={2} />
-          <span className="sr-only">Close</span>
+          <X size={18} aria-hidden="true" />
         </button>
 
-        <div className="relative h-[35%] overflow-hidden border-b border-[var(--color-border)] mb-5 rounded-sm">
-          <img
-            src={project.screenshot}
-            alt={`${project.title} evidence photo`}
-            width={800}
-            height={600}
-            className="w-full h-full object-cover brightness-[0.85]"
-            loading="lazy"
-          />
-          <div className="absolute inset-0 bg-black/40" />
+        <p className="chapter-eyebrow mb-2">{project.year}</p>
+        <h2 id="project-modal-title" className="text-display mb-4 pr-12 text-2xl text-[var(--color-text)]">
+          {project.title}
+        </h2>
+        <p className="mb-6 text-sm leading-relaxed text-[var(--color-muted)]">{project.details}</p>
+
+        <div className="mb-5 grid grid-cols-3 gap-px overflow-hidden rounded-[4px] border border-[var(--color-border)] bg-[var(--color-border)]">
+          {project.stats.map((s) => (
+            <div key={s.label} className="bg-[var(--bg)] px-3 py-3">
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-muted-light)]">{s.label}</p>
+              <p className="mt-1 text-base font-bold text-[var(--tone)]">{s.value}</p>
+            </div>
+          ))}
         </div>
 
-        <div className="p-0 sm:p-0">
-          <div className="flex items-start justify-between gap-4 sm:gap-6 mb-4">
-            <div>
-              <h2 className="text-display text-lg sm:text-xl text-[var(--color-text)] mb-1">
-                {project.title}
-              </h2>
-              {project.year && (
-                <span className="text-[11px] sm:text-[12px] font-[family-name:var(--font-mono)] font-semibold uppercase tracking-wider text-[var(--color-accent)]">
-                  {project.year}
-                </span>
-              )}
-            </div>
-            {project.links.github && (
-              <a
-                href={project.links.github}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-1.5 px-3 py-2 border border-[var(--color-accent)] bg-[var(--color-accent)] text-[#000] text-[11px] sm:text-[12px] font-bold uppercase tracking-wider hover:brightness-110 active:scale-[0.97] transition-colors"
-              >
-                <Code2 size={12} />
-                Source
-              </a>
-            )}
-          </div>
-
-          <p className="text-[12px] sm:text-[14px] leading-relaxed text-[var(--color-muted)] mb-6 max-w-none">
-            {project.details}
-          </p>
-
-          <div className="flex flex-wrap gap-2">
-            {project.stats.map((s) => (
-              <div key={s.label} className="border border-[var(--color-border)] bg-[var(--bg)] p-3 sm:p-4 min-h-[40px]">
-                <p className="text-[11px] sm:text-[12px] font-[family-name:var(--font-mono)] uppercase tracking-wider text-[var(--color-muted-light)] leading-none">
-                  {s.label}
-                </p>
-                <p className="mt-1 text-[14px] sm:text-[16px] font-bold text-[var(--color-text)]">
-                  {s.value}
-                </p>
-              </div>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <ul className="flex flex-wrap gap-1.5">
+            {project.tags.map((tag) => (
+              <li key={tag} className="tag">{tag}</li>
             ))}
-          </div>
-
-          <div className="mt-5 sm:mt-6">
-            <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-4">
-              {project.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 text-[11px] sm:text-[12px] font-[family-name:var(--font-mono)] font-semibold tracking-wider border border-[var(--color-border)] text-[var(--color-muted)]"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
+          </ul>
+          {project.links.github && (
+            <a href={project.links.github} target="_blank" rel="noreferrer" className="btn btn-primary !min-h-10 !py-2">
+              <Code2 size={13} aria-hidden="true" />
+              Open project
+            </a>
+          )}
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }
 
 export default function ProjectsSection() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
-
-  if (openProject) {
-    return <ProjectModal project={openProject} onClose={() => setOpenProject(null)} />;
-  }
+  const close = useCallback(() => setOpenProject(null), []);
 
   return (
-    <section id="projects" className="py-8 sm:py-10 md:py-14">
+    <section id="projects" className="chapter tone-blue">
       <div className="container-site">
-        <Reveal>
-          <div className="mb-8 sm:mb-10 md:mb-12">
-            <h2 className="text-pixel-header text-wrap balance">Projects</h2>
-            <p className="mt-2 max-w-[600px] text-xs sm:text-sm leading-relaxed text-[var(--color-muted)]">
-              Case files laid out horizontally. Click a case to open full details.
-            </p>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.06}>
-          <div className="relative">
-            <div
-              className="flex flex-col sm:flex-row gap-6 sm:gap-8 overflow-x-auto pb-6 sm:pb-8"
-              style={{ scrollbarWidth: "none" }}
-            >
-              {projects.map((project) => (
-                <ProjectCard
-                  key={project.title}
-                  project={project}
-                  onOpen={() => setOpenProject(project)}
-                />
-              ))}
-            </div>
-            <div className="hidden sm:absolute sm:bottom-2 sm:right-2 text-[10px] sm:text-[11px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]">
-              &gt; swipe to browse cases
-            </div>
-          </div>
-        </Reveal>
+        <ChapterHeading
+          index="02"
+          path="projects"
+          title="Projects"
+          intro="Four builds from 2026, from a 24-hour hackathon MVP to a membership platform with 300+ registrations. Open one for the full case."
+        />
+        <ol className="border-t border-[var(--color-border)]">
+          {projects.map((project, i) => (
+            <li key={project.title}>
+              <Reveal delay={i * 0.05} y={16}>
+                <ProjectRow project={project} index={i} onOpen={() => setOpenProject(project)} />
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </div>
+      <AnimatePresence>
+        {openProject && <ProjectModal key={openProject.title} project={openProject} onClose={close} />}
+      </AnimatePresence>
     </section>
   );
 }

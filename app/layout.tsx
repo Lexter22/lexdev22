@@ -1,8 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Press_Start_2P } from "next/font/google";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ScrollProgressBar from "./components/ScrollProgressBar";
+import ChapterRail from "./components/ChapterRail";
 
 import "./globals.css";
 
@@ -23,14 +23,15 @@ export const metadata: Metadata = {
   title: "John Lexter B. Reyes | AWS Student Builder Group Lead",
   description:
     "John Lexter B. Reyes, AWS Student Builder Group Lead and cloud engineer focused on practical systems, clean delivery, and infrastructure that feels simple to run.",
+};
+
+export const viewport: Viewport = {
   themeColor: "#0a0a0a",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-    viewportFit: "cover",
-  },
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -50,7 +51,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        <ScrollProgressBar />
+        <ChapterRail />
         <Header />
           <main id="main" className="flex-1">{children}</main>
           <Footer />

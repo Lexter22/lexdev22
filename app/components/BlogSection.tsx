@@ -1,78 +1,66 @@
-import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
+import ChapterHeading from "./ChapterHeading";
 import Reveal from "./Reveal";
-import { Calendar, Clock, ExternalLink } from "lucide-react";
 
-const featuredArticle = {
-  title: "I Couldn't Articulate Clearly, So I Built This",
-  excerpt:
-    "When words failed me, I turned to building. Here's how the struggle to communicate led to creating something meaningful.",
-  date: "2026-07-10",
-  readTime: "6 min read",
-  tags: ["Building", "Communication"],
-  url: "https://builder.aws.com/content/3D741qzraId1EC9xYFet80pZPGk/i-couldnt-articulate-clearly-so-i-built-this",
-};
+const articles = [
+  {
+    title: "I Couldn't Articulate Clearly, So I Built This",
+    excerpt:
+      "When words failed me, I turned to building. Here's how the struggle to communicate led to creating something meaningful.",
+    date: "Jul 10, 2026",
+    readTime: "6 min read",
+    source: "AWS Builder Center",
+    tags: ["Building", "Communication"],
+    url: "https://builder.aws.com/content/3D741qzraId1EC9xYFet80pZPGk/i-couldnt-articulate-clearly-so-i-built-this",
+  },
+];
 
 export default function BlogSection() {
   return (
-    <section id="articles" className="py-8 sm:py-10 md:py-14">
+    <section id="articles" className="chapter tone-amber">
       <div className="container-site">
-        <Reveal variant="fade-up">
-          <div className="mb-6 sm:mb-8 md:mb-10">
-            <h2 className="text-pixel-header text-wrap balance">Articles</h2>
-          </div>
-        </Reveal>
+        <ChapterHeading
+          index="06"
+          path="articles"
+          title="Articles"
+          intro="Writing about building things and learning in public."
+        />
 
-        <Reveal delay={0.06} variant="fade-up">
-          <p className="text-sm sm:text-base md:text-[15px] leading-relaxed text-[var(--color-muted)] max-w-[520px] mb-6">
-            I write about building things, learning in public, and the
-            intersections between tech and life.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.1} variant="fade-up">
-          <Link
-            href={featuredArticle.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block border border-[var(--color-border-strong)] bg-[var(--color-accent)]/[0.02] p-5 md:p-7 group hover:bg-[var(--color-accent)]/[0.05] transition-colors"
-          >
-            <div className="flex items-center gap-2 mb-4">
-              <span className="text-[12px] font-[family-name:var(--font-mono)] text-[var(--color-accent)] font-semibold tracking-wider uppercase">
-                Featured Article
-              </span>
-              <ExternalLink
-                size={11}
-                className="text-[var(--color-accent)] opacity-60"
-              />
-            </div>
-
-            <h3 className="text-xl md:text-2xl font-bold text-[var(--color-text)] group-hover:text-[var(--color-accent)] transition-colors mb-3">
-              {featuredArticle.title}
-            </h3>
-
-            <p className="text-sm md:text-[15px] leading-relaxed text-[var(--color-muted)] max-w-[650px] mb-4">
-              {featuredArticle.excerpt}
-            </p>
-
-            <div className="flex flex-wrap items-center gap-3 text-[12px] font-[family-name:var(--font-mono)] text-[var(--color-muted-light)]">
-              <span className="flex items-center gap-1.5">
-                <Calendar size={11} />
-                {featuredArticle.date}
-              </span>
-              <span className="text-[var(--color-border-strong)]">/</span>
-              <span className="flex items-center gap-1.5">
-                <Clock size={11} />
-                {featuredArticle.readTime}
-              </span>
-              <span className="text-[var(--color-border-strong)]">/</span>
-              {featuredArticle.tags.map((tag) => (
-                <span key={tag} className="text-[var(--color-accent)]">
-                  #{tag}
-                </span>
-              ))}
-            </div>
-          </Link>
-        </Reveal>
+        <ul className="border-t border-[var(--color-border)]">
+          {articles.map((a) => (
+            <li key={a.url}>
+              <Reveal y={16}>
+                <a
+                  href={a.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group grid gap-3 border-b border-[var(--color-border)] px-1 py-6 hover:bg-[var(--bg-alt)] sm:px-4 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:gap-6"
+                >
+                  <div className="text-[12px] text-[var(--color-muted-light)]">
+                    <p className="font-semibold text-[var(--tone)]">{a.date}</p>
+                    <p className="mt-0.5">{a.readTime}</p>
+                  </div>
+                  <div>
+                    <h3 className="mb-2 text-lg font-bold text-[var(--color-text)] md:text-xl">{a.title}</h3>
+                    <p className="mb-3 max-w-[64ch] text-sm leading-relaxed text-[var(--color-muted)]">{a.excerpt}</p>
+                    <p className="text-[12px] text-[var(--color-muted-light)]">
+                      {a.source} · {a.tags.map((t) => `#${t}`).join(" ")}
+                    </p>
+                  </div>
+                  <span className="flex items-center gap-1 self-start text-[12px] font-semibold text-[var(--tone)]">
+                    Read
+                    <ArrowUpRight
+                      size={14}
+                      aria-hidden="true"
+                      className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                    <span className="sr-only">(opens in a new tab)</span>
+                  </span>
+                </a>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

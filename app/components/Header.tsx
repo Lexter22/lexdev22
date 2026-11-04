@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { href: "#about", label: "About" },
   { href: "#projects", label: "Projects" },
   { href: "#experience", label: "Experience" },
-  { href: "#beyond-coding", label: "Beyond Coding" },
+  { href: "#events", label: "Events" },
   { href: "#articles", label: "Articles" },
   { href: "#contact", label: "Contact" },
 ];
@@ -138,10 +138,10 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-property: color, background-color, border-color, opacity, transform; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 0.3s ${
+      className={`fixed top-0 left-0 right-0 z-50 border-b transition-colors duration-300 ${
         scrolled
-          ? "bg-[var(--bg)]/90 backdrop-blur-md border-b border-[var(--color-border)]"
-          : "bg-transparent"
+          ? "bg-[var(--bg)] border-[var(--color-border)]"
+          : "bg-transparent border-transparent"
       }`}
     >
       <div className="container-site flex items-center justify-between h-14 md:h-[56px]">
