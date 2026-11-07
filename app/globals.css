@@ -21,14 +21,16 @@
     --bg-alt: #131315;
     --green: #00cc4a;
 
-    /* Solid personality accents. No glows, no gradients. */
+    /*
+     * Restrained palette (color theory): one signature accent + neutrals.
+     * Green is the brand pop; a single muted blue is reserved strictly for
+     * terminal syntax highlighting. No per-section rainbow.
+     */
     --c-green: #00cc4a;
-    --c-amber: #f2b33d;
-    --c-blue: #5aa9ff;
-    --c-pink: #ff7a90;
-    --c-violet: #b48cff;
+    --c-green-dim: #0f9a45;
+    --c-blue: #5aa9ff; /* terminal syntax only */
 
-    /* Each chapter sets its own tone; green is the default */
+    /* Every section shares the green accent. Differentiate by layout, not hue. */
     --tone: var(--c-green);
   }
 
@@ -49,6 +51,38 @@
     background-color: var(--bg);
     color: var(--color-text);
     font-family: var(--font-mono, Geist Mono, monospace);
+  }
+
+  /*
+   * Ambient "cloud haze": two large, soft, slowly drifting color fields.
+   * Nods to the cloud-infra subject without a grid or scanlines. Fixed and
+   * heavily blurred so it reads as atmosphere, never as content.
+   */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -20vmax;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(38vmax 30vmax at 18% 12%, rgba(0, 204, 74, 0.1), transparent 60%),
+      radial-gradient(42vmax 34vmax at 86% 28%, rgba(90, 169, 255, 0.07), transparent 62%),
+      radial-gradient(46vmax 36vmax at 60% 96%, rgba(0, 204, 74, 0.06), transparent 60%);
+    filter: blur(40px);
+    opacity: 0.9;
+    animation: drift 34s ease-in-out infinite alternate;
+  }
+
+  @keyframes drift {
+    0% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    50% {
+      transform: translate3d(2.5vmax, -1.5vmax, 0) scale(1.06);
+    }
+    100% {
+      transform: translate3d(-2vmax, 2vmax, 0) scale(1.02);
+    }
   }
 
   @media (max-width: 767px) {
@@ -125,12 +159,13 @@
 }
 
 @layer components {
-  /* ---------- Tones ---------- */
-  .tone-green { --tone: var(--c-green); }
-  .tone-amber { --tone: var(--c-amber); }
-  .tone-blue { --tone: var(--c-blue); }
-  .tone-pink { --tone: var(--c-pink); }
-  .tone-violet { --tone: var(--c-violet); }
+  /* ---------- Tone ---------- */
+  /* One accent across the whole site. Legacy tone-* classes map to green. */
+  .tone-green,
+  .tone-amber,
+  .tone-blue,
+  .tone-pink,
+  .tone-violet { --tone: var(--c-green); }
 
   /* ---------- Chapter rhythm ---------- */
   .chapter {
@@ -139,17 +174,13 @@
     border-top: 1px solid var(--color-border);
   }
 
+  /*
+   * One left-aligned header unit: eyebrow, title, then intro stacked.
+   * No floating caption off to the right.
+   */
   .chapter-head {
-    display: grid;
-    gap: 0.875rem;
+    position: relative;
     margin-bottom: clamp(1.75rem, 3.5vw, 2.5rem);
-  }
-  @media (min-width: 768px) {
-    .chapter-head--split {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
-      align-items: end;
-      gap: 3rem;
-    }
   }
 
   .chapter-eyebrow {
@@ -159,7 +190,7 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--color-muted-light);
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.6rem;
   }
   .chapter-eyebrow span {
     color: var(--tone);
@@ -176,16 +207,41 @@
   }
 
   .chapter-intro {
-    font-size: 0.875rem;
+    margin-top: 1rem;
+    font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--color-muted);
-    max-width: 56ch;
+    max-width: 62ch;
   }
 
+  /*
+   * Panels read as lifted slabs: a subtle top-down surface gradient, a 1px
+   * highlight on the top edge (as if lit from above), and a soft drop shadow.
+   */
   .panel {
+    position: relative;
     border: 1px solid var(--color-border);
-    background: var(--bg-alt);
-    border-radius: 6px;
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 120px),
+      var(--bg-alt);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 1px 2px rgba(0, 0, 0, 0.4),
+      0 12px 32px -12px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Interactive panels lift toward the accent on hover */
+  .panel-hover {
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .panel-hover:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--c-green) 45%, var(--color-border));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 1px 2px rgba(0, 0, 0, 0.4),
+      0 20px 44px -16px rgba(0, 0, 0, 0.8);
   }
 
   .tag {

@@ -7,7 +7,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
+  show: { transition: { staggerChildren: 0.08 } },
 };
 const fade: Variants = {
   hidden: { opacity: 0, y: 10 },
@@ -24,41 +24,30 @@ type Props = {
   path: string;
   title: string;
   intro?: string;
-  /** Put the intro beside the title on wide screens. */
+  /** Deprecated: kept for call-site compatibility; header is always stacked now. */
   split?: boolean;
   className?: string;
 };
 
-/** Chapter number + plain title + optional intro. Colors come from the section's tone. */
-export default function ChapterHeading({ index, path, title, intro, split = true, className = "" }: Props) {
+/** Chapter number + title + optional intro, stacked as one left-aligned unit. */
+export default function ChapterHeading({ index, path, title, intro, className = "" }: Props) {
   const reduce = useReduced();
   const anim = reduce
     ? {}
     : { initial: "hidden" as const, whileInView: "show" as const, viewport: { once: true, amount: 0.5 } };
 
   return (
-    <motion.div
-      className={`chapter-head ${split && intro ? "chapter-head--split" : ""} ${className}`}
-      variants={container}
-      {...anim}
-    >
-      <div>
-        <motion.p className="chapter-eyebrow" variants={fade} aria-hidden="true">
-          <span>{index}</span>&nbsp;&nbsp;~/{path}
-        </motion.p>
-        <h2 className="chapter-title flex items-center gap-3">
-          <motion.span
-            aria-hidden="true"
-            className="inline-block h-[0.7em] w-[0.7em] shrink-0 bg-[var(--tone)]"
-            variants={fade}
-          />
-          <span className="block overflow-hidden pb-[0.1em]">
-            <motion.span className="block" variants={rise}>
-              {title}
-            </motion.span>
-          </span>
-        </h2>
-      </div>
+    <motion.div className={`chapter-head ${className}`} variants={container} {...anim}>
+      <motion.p className="chapter-eyebrow" variants={fade} aria-hidden="true">
+        <span>{index}</span>&nbsp;&nbsp;~/{path}
+      </motion.p>
+      <h2 className="chapter-title">
+        <span className="block overflow-hidden pb-[0.1em]">
+          <motion.span className="block" variants={rise}>
+            {title}
+          </motion.span>
+        </span>
+      </h2>
       {intro && (
         <motion.p className="chapter-intro" variants={fade}>
           {intro}

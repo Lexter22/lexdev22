@@ -7,7 +7,7 @@ import { useInset, useLerp, useReduced } from "./scroll";
 
 /* ---------- Terminal script ---------- */
 
-type Tone = "text" | "muted" | "green" | "amber" | "blue";
+type Tone = "text" | "muted" | "green" | "blue";
 type Step =
   | { kind: "cmd"; host: "local" | "remote"; text: string }
   | { kind: "out"; segs: [string, Tone][] };
@@ -16,7 +16,6 @@ const toneClass: Record<Tone, string> = {
   text: "text-[var(--color-text)]",
   muted: "text-[var(--color-muted-light)]",
   green: "text-[var(--c-green)]",
-  amber: "text-[var(--c-amber)]",
   blue: "text-[var(--c-blue)]",
 };
 
@@ -29,9 +28,9 @@ const script: Step[] = [
   {
     kind: "out",
     segs: [
-      ["AWS Student Builder Group Lead", "amber"],
+      ["AWS Student Builder Group Lead", "green"],
       ["  ·  ", "muted"],
-      ["Cloud Engineer", "blue"],
+      ["DevOps · Data · QA Automation", "text"],
     ],
   },
   { kind: "cmd", host: "remote", text: "ls" },
@@ -59,7 +58,7 @@ function Prompt({ host }: { host: "local" | "remote" }) {
   if (host === "local") {
     return (
       <>
-        <span className="text-[var(--c-pink)]">guest@web</span> <span className="text-[var(--c-blue)]">~</span>{" "}
+        <span className="text-[var(--color-muted)]">guest@web</span> <span className="text-[var(--c-blue)]">~</span>{" "}
         <span className="text-[var(--color-muted-light)]">%</span>{" "}
       </>
     );
@@ -146,13 +145,13 @@ function HeroContent({ photoClip }: { photoClip?: MotionValue<string> }) {
           <span className="block text-[var(--c-green)]">B. Reyes</span>
         </h1>
         <p className="mb-5 text-sm font-semibold sm:text-base">
-          <span className="text-[var(--c-amber)]">AWS Student Builder Group Lead</span>
+          <span className="text-[var(--c-green)]">AWS Student Builder Group Lead</span>
           <span className="text-[var(--color-muted-light)]"> · </span>
-          <span className="text-[var(--c-blue)]">Cloud Engineer</span>
+          <span className="text-[var(--color-text)]">DevOps · Data · QA Automation</span>
         </p>
         <p className="mb-7 max-w-[52ch] leading-relaxed text-[var(--color-muted)]">
-          BSIT student at PUP Bi&ntilde;an. I design server-side systems, optimize databases, and ship cloud
-          infrastructure.
+          I lead the AWS Student Builder Group at PUP Bi&ntilde;an, bridging academics and industry through hands-on
+          workshops. I focus on DevOps, data, and QA automation.
         </p>
         <div className="flex flex-wrap gap-3">
           <a href="#projects" className="btn btn-primary">

@@ -16,8 +16,7 @@ const events: {
   title: string;
   meta: string;
   body: string;
-  image?: { src: string; alt: string; width: number; height: number };
-  badge?: string;
+  image: { src: string; alt: string; width: number; height: number };
 }[] = [
   {
     type: "Workshop",
@@ -30,8 +29,13 @@ const events: {
     type: "Seminar",
     title: "Cloud 101: Introduction to AWS",
     meta: "AWS SBG PUP Biñan · Organizer and main speaker",
-    body: "An introduction to AWS for new members of the chapter, with 100 participants in the room.",
-    badge: "100",
+    body: "An introduction to AWS for new members, delivered as the main speaker to a room of 100 participants.",
+    image: {
+      src: "/intro-to-aws.jpg",
+      alt: "Lex speaking at Cloud 101 beside a slide reading Navigating your way into the Cloud",
+      width: 2048,
+      height: 1365,
+    },
   },
 ];
 
@@ -86,18 +90,7 @@ export default function EventsSection() {
         <ul className="grid gap-4 md:grid-cols-2">
           {events.map((e) => (
             <li key={e.title} className="panel flex flex-col overflow-hidden">
-              {e.image ? (
-                <ScrollImage {...e.image} className="aspect-[16/10] w-full" />
-              ) : (
-                <div className="flex aspect-[16/10] w-full flex-col justify-between border-b border-[var(--color-border)] bg-[var(--bg)] p-5">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--color-muted-light)]">
-                    Attendees
-                  </span>
-                  <span className="font-[family-name:var(--font-pixel)] text-[clamp(3rem,8vw,5.5rem)] leading-none text-[var(--tone)]">
-                    {e.badge}
-                  </span>
-                </div>
-              )}
+              <ScrollImage {...e.image} className="aspect-[16/10] w-full" />
               <div className="flex flex-1 flex-col p-5">
                 <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--tone)]">{e.type}</p>
                 <h3 className="text-display text-lg text-[var(--color-text)]">{e.title}</h3>

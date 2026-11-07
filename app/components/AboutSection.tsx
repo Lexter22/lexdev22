@@ -35,8 +35,7 @@ const heading = {
   index: "01",
   path: "about",
   title: "About",
-  intro:
-    "I'm a BSIT student at PUP Biñan and founder of the AWS Student Builder Group on campus. I build backend systems and cloud infrastructure, and I give talks on AWS and developer tooling at other schools.",
+  intro: "Beyond building, I teach. These are talks I've given on AWS and developer tooling at other schools.",
 };
 
 /** Each photo fades in over the previous one, then its frame opens up as you keep scrolling. */
