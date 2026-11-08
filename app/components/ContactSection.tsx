@@ -44,8 +44,8 @@ const channels = [
   {
     icon: FileText,
     action: "Read my résumé",
-    value: "PDF",
-    href: "/lexter.pdf.pdf",
+    value: "Google Drive",
+    href: "https://drive.google.com/file/d/1B27S9agr8AhDGpNNJOpm4H3fPH6J0tPn/view?usp=sharing",
     external: true,
   },
 ];
