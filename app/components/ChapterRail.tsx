@@ -58,7 +58,7 @@ export default function ChapterRail() {
         <span aria-hidden="true" className="absolute bottom-2 right-[4px] top-2 w-px bg-[var(--color-border-strong)]" />
         <motion.span
           aria-hidden="true"
-          className="absolute bottom-2 right-[4px] top-2 w-px origin-top bg-[var(--c-green)]"
+          className="absolute bottom-2 right-[4px] top-2 w-px origin-top bg-[var(--sky)]"
           style={{ scaleY: fill }}
         />
         {chapters.map((c) => {
@@ -87,7 +87,7 @@ export default function ChapterRail() {
                         {c.image ? (
                           <img src={c.image} alt="" className="h-full w-full object-cover" />
                         ) : (
-                          <span className="flex h-full w-full items-center justify-center font-[family-name:var(--font-mono)] text-sm font-bold text-[var(--c-green)]">
+                          <span className="flex h-full w-full items-center justify-center font-[family-name:var(--font-mono)] text-sm font-bold text-[var(--sky)]">
                             {c.n}
                           </span>
                         )}
@@ -104,9 +104,9 @@ export default function ChapterRail() {
                   aria-hidden="true"
                   className={`relative h-[10px] w-[10px] rotate-45 border transition-all duration-300 ${
                     isActive
-                      ? "scale-110 border-[var(--c-green)] bg-[var(--c-green)]"
+                      ? "scale-110 border-[var(--accent)] bg-[var(--accent)]"
                       : isOpen
-                        ? "border-[var(--c-green)] bg-[var(--bg)]"
+                        ? "border-[var(--sky)] bg-[var(--bg)]"
                         : "border-[var(--color-border-strong)] bg-[var(--bg)]"
                   }`}
                 />

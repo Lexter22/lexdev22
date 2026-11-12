@@ -8,6 +8,21 @@ import Reveal from "./Reveal";
 
 const projects = [
   {
+    title: "AWS SCD South Website",
+    year: "2026",
+    tone: "tone-green",
+    short: "Official website of AWS Student Community Day: South Summit 2026, where I did QA.",
+    stats: [
+      { label: "Role", value: "QA" },
+      { label: "Attendees", value: "200" },
+      { label: "Event date", value: "Oct 7" },
+    ],
+    tags: ["QA", "Event website"],
+    links: { github: "https://aws.scd-south.cloud/", live: null },
+    details:
+      "Did quality assurance on the official website for AWS Student Community Day: South Summit 2026, the Cloud × AI student summit held on October 7, 2026 in Biñan, Laguna. The summit drew 200 attendees, and I also served as its Event Director.",
+  },
+  {
     title: "MemberFlow",
     year: "2026",
     tone: "tone-blue",
@@ -71,48 +86,40 @@ const projects = [
 
 type Project = (typeof projects)[number];
 
-function ProjectRow({ project, index, onOpen }: { project: Project; index: number; onOpen: () => void }) {
+function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
   const [lead, ...rest] = project.stats;
   return (
     <button
       type="button"
       onClick={onOpen}
       aria-haspopup="dialog"
-      className={`${project.tone} group relative grid w-full gap-x-6 gap-y-3 border-b border-[var(--color-border)] px-1 py-6 text-left hover:bg-[var(--bg-alt)] sm:px-4 md:grid-cols-[3rem_minmax(0,1fr)_11rem_1.5rem] md:items-center`}
+      className={`${project.tone} panel panel-hover group flex h-full w-full flex-col p-5 text-left sm:p-6`}
     >
-      {/* Solid tone bar slides in on hover */}
-      <span
-        aria-hidden="true"
-        className="absolute inset-y-0 left-0 w-[3px] origin-top scale-y-0 bg-[var(--tone)] transition-transform duration-300 group-hover:scale-y-100 group-focus-visible:scale-y-100"
-      />
-      <span className="text-[12px] font-bold tabular-nums text-[var(--tone)]">{String(index + 1).padStart(2, "0")}</span>
-
-      <div className="min-w-0">
-        <div className="mb-1.5 flex items-baseline gap-3">
-          <h3 className="text-display text-lg text-[var(--color-text)] md:text-xl">{project.title}</h3>
-          <span className="text-[11px] font-semibold text-[var(--color-muted-light)]">{project.year}</span>
-        </div>
-        <p className="mb-3 max-w-[80ch] text-sm leading-relaxed text-[var(--color-muted)]">{project.short}</p>
-        <ul className="flex flex-wrap gap-1.5">
-          {project.tags.map((tag) => (
-            <li key={tag} className="tag">{tag}</li>
-          ))}
-        </ul>
+      <div className="flex items-start justify-between gap-4">
+        <span className="text-[11px] font-semibold text-[var(--color-muted-light)]">{project.year}</span>
+        <ArrowUpRight
+          size={18}
+          aria-hidden="true"
+          className="text-[var(--color-muted-light)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
+        />
       </div>
 
-      <div className="flex items-baseline gap-3 md:block md:text-right">
-        <p className="font-[family-name:var(--font-pixel)] text-lg text-[var(--tone)] md:text-xl">{lead.value}</p>
-        <p className="text-[11px] uppercase tracking-wider text-[var(--color-muted-light)] md:mt-2">{lead.label}</p>
-        <p className="hidden text-[11px] text-[var(--color-muted-light)] md:mt-1 md:block">
+      <h3 className="text-display mt-3 text-lg text-[var(--color-text)] md:text-xl">{project.title}</h3>
+      <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-[var(--color-muted)]">{project.short}</p>
+
+      <div className="mt-6 border-t border-[var(--color-border)] pt-4">
+        <p className="font-[family-name:var(--font-pixel)] text-lg text-[var(--accent)]">{lead.value}</p>
+        <p className="mt-2 text-[11px] uppercase tracking-wider text-[var(--color-muted-light)]">{lead.label}</p>
+        <p className="mt-1 text-[11px] text-[var(--color-muted-light)]">
           {rest.map((s) => `${s.value} ${s.label.toLowerCase()}`).join(" · ")}
         </p>
       </div>
 
-      <ArrowUpRight
-        size={18}
-        aria-hidden="true"
-        className="absolute right-2 top-6 text-[var(--color-muted-light)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--tone)] md:static"
-      />
+      <ul className="mt-auto flex flex-wrap gap-1.5 pt-5">
+        {project.tags.map((tag) => (
+          <li key={tag} className="tag">{tag}</li>
+        ))}
+      </ul>
       <span className="sr-only">Open case study</span>
     </button>
   );
@@ -139,14 +146,14 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       role="dialog"
       aria-modal="true"
       aria-labelledby="project-modal-title"
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-black/85 p-4 sm:p-6"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-[#0b131b]/85 p-4 sm:p-6"
       onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className={`${project.tone} panel relative max-h-[90svh] w-full max-w-2xl overflow-y-auto border-t-[3px] !border-t-[var(--tone)] p-5 sm:p-7`}
+        className={`${project.tone} panel relative max-h-[90svh] w-full max-w-2xl overflow-y-auto border-t-[3px] !border-t-[var(--accent)] p-5 sm:p-7`}
         onClick={(e) => e.stopPropagation()}
         initial={{ y: 24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -172,7 +179,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           {project.stats.map((s) => (
             <div key={s.label} className="bg-[var(--bg)] px-3 py-3">
               <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-muted-light)]">{s.label}</p>
-              <p className="mt-1 text-base font-bold text-[var(--tone)]">{s.value}</p>
+              <p className="mt-1 text-base font-bold text-[var(--accent)]">{s.value}</p>
             </div>
           ))}
         </div>
@@ -205,18 +212,22 @@ export default function ProjectsSection() {
         <ChapterHeading
           index="02"
           path="projects"
-          title="Projects"
-          intro="Four builds from 2026, from a 24-hour hackathon MVP to a membership platform with 300+ registrations. Open one for the full case."
+          title="Selected Projects"
+          intro="A selection of 2026 work, from a 24-hour hackathon MVP to a membership platform with 300+ registrations. Open one for the full case."
         />
-        <ol className="border-t border-[var(--color-border)]">
+        {/* Two wide cards on top, three narrower below; the last one fills the row on tablets */}
+        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
           {projects.map((project, i) => (
-            <li key={project.title}>
-              <Reveal delay={i * 0.05} y={16}>
-                <ProjectRow project={project} index={i} onOpen={() => setOpenProject(project)} />
+            <li
+              key={project.title}
+              className={`${i < 2 ? "lg:col-span-3" : "lg:col-span-2"} ${i === projects.length - 1 ? "md:col-span-2" : ""}`}
+            >
+              <Reveal delay={i * 0.05} y={16} className="h-full">
+                <ProjectCard project={project} onOpen={() => setOpenProject(project)} />
               </Reveal>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
       <AnimatePresence>
         {openProject && <ProjectModal key={openProject.title} project={openProject} onClose={close} />}

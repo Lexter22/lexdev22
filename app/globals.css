@@ -1,37 +1,46 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-accent: #00cc4a;
-  --color-accent-red: #cc1a1a;
-  --color-surface: #131315;
-  --color-surface-alt: #1a1a1d;
-  --color-silver: #1a1a1d;
-  --color-border: #242428;
-  --color-border-strong: #34343a;
-  --color-text: #ededed;
-  --color-muted: #a9a9ae;
-  --color-muted-light: #7d7d83;
+  --color-accent: var(--accent);
+  --color-accent-red: #e5484d;
+  --color-surface: #1b2b39;
+  --color-surface-alt: #1b2b39;
+  --color-silver: #1b2b39;
+  --color-border: #2b3b49;
+  --color-border-strong: #3a4d5e;
+  --color-text: #dfe8ed;
+  --color-muted: #7892a5;
+  --color-muted-light: #7892a5;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
 @layer base {
   :root {
-    --bg: #0c0c0d;
-    --bg-alt: #131315;
-    --green: #00cc4a;
+    --bg: #111c27;
+    --bg-alt: #1b2b39;
 
     /*
-     * Restrained palette (color theory): one signature accent + neutrals.
-     * Green is the brand pop; a single muted blue is reserved strictly for
-     * terminal syntax highlighting. No per-section rainbow.
+     * Arctic Current. One job per color.
+     *   Deep Arctic    #111c27  background (about 70% of the page)
+     *   Elevated       #1b2b39  cards and containers
+     *   Subtle Border  #2b3b49  dividers and card outlines
+     *   Muted Sky      #7892a5  secondary: descriptions, labels, metadata, icons
+     *   Cloud White    #dfe8ed  typography: headings, body, titles
+     *   Electric Blue  #398bfa  attention only: buttons, active nav, key links,
+     *                           hover, key numbers, small highlights in headings.
+     * Blue stays scarce on purpose. Do not make headings or cards blue.
      */
-    --c-green: #00cc4a;
-    --c-green-dim: #0f9a45;
-    --c-blue: #5aa9ff; /* terminal syntax only */
+    --arctic: #111c27;
+    --sky: #7892a5;
+    --cloud: #dfe8ed;
+    --accent: #398bfa;
+    --on-accent: #111c27; /* text on top of Electric Blue: Deep Arctic, 5:1 */
 
-    /* Every section shares the green accent. Differentiate by layout, not hue. */
-    --tone: var(--c-green);
+    --tone: var(--sky);
+
+    /* Fine noise in Cloud White at very low alpha, used on the page and on cards. Keep it faint. */
+    --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.87  0 0 0 0 0.91  0 0 0 0 0.93  0 0 0 0.065 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   }
 
   * {
@@ -54,35 +63,19 @@
   }
 
   /*
-   * Ambient "cloud haze": two large, soft, slowly drifting color fields.
-   * Nods to the cloud-infra subject without a grid or scanlines. Fixed and
-   * heavily blurred so it reads as atmosphere, never as content.
+   * Texture, built only from palette tints so no new color enters the page.
+   * A fine grain on the page and on cards, so flat fills stop reading as flat.
+   * It sits UNDER the content (z-index 0, main is above), so text and photos stay crisp
+   * and the palette is never washed out. It never catches clicks.
    */
-  body::before {
+  body::after {
     content: "";
     position: fixed;
-    inset: -20vmax;
+    inset: 0;
     z-index: 0;
     pointer-events: none;
-    background:
-      radial-gradient(38vmax 30vmax at 18% 12%, rgba(0, 204, 74, 0.1), transparent 60%),
-      radial-gradient(42vmax 34vmax at 86% 28%, rgba(90, 169, 255, 0.07), transparent 62%),
-      radial-gradient(46vmax 36vmax at 60% 96%, rgba(0, 204, 74, 0.06), transparent 60%);
-    filter: blur(40px);
-    opacity: 0.9;
-    animation: drift 34s ease-in-out infinite alternate;
-  }
-
-  @keyframes drift {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-    50% {
-      transform: translate3d(2.5vmax, -1.5vmax, 0) scale(1.06);
-    }
-    100% {
-      transform: translate3d(-2vmax, 2vmax, 0) scale(1.02);
-    }
+    background-image: var(--grain);
+    background-size: 180px 180px;
   }
 
   @media (max-width: 767px) {
@@ -92,8 +85,8 @@
   }
 
   ::selection {
-    background: var(--c-green);
-    color: #000;
+    background: var(--accent);
+    color: var(--on-accent);
   }
 
   a,
@@ -103,7 +96,7 @@
 
   a:focus-visible,
   button:focus-visible {
-    outline: 2px solid var(--tone);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
 }
@@ -136,7 +129,7 @@
 
 .prompt-tag::before {
   content: "$";
-  color: var(--c-green);
+  color: var(--accent);
   font-weight: 700;
 }
 
@@ -165,7 +158,7 @@
   .tone-amber,
   .tone-blue,
   .tone-pink,
-  .tone-violet { --tone: var(--c-green); }
+  .tone-violet { --tone: var(--sky); }
 
   /* ---------- Chapter rhythm ---------- */
   .chapter {
@@ -214,21 +207,20 @@
     max-width: 62ch;
   }
 
-  /*
-   * Panels read as lifted slabs: a subtle top-down surface gradient, a 1px
-   * highlight on the top edge (as if lit from above), and a soft drop shadow.
-   */
+  /* Panels: Elevated Surface with a Subtle Border, a faint top light and a soft base shadow. */
   .panel {
     position: relative;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0) 120px),
+      var(--grain),
+      linear-gradient(180deg, rgba(223, 232, 237, 0.045), rgba(223, 232, 237, 0) 110px),
       var(--bg-alt);
+    background-size: 180px 180px, auto, auto;
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      0 1px 2px rgba(0, 0, 0, 0.4),
-      0 12px 32px -12px rgba(0, 0, 0, 0.7);
+      inset 0 1px 0 rgba(223, 232, 237, 0.06),
+      0 1px 2px rgba(0, 0, 0, 0.3),
+      0 14px 28px -18px rgba(0, 0, 0, 0.55);
   }
 
   /* Interactive panels lift toward the accent on hover */
@@ -237,11 +229,8 @@
   }
   .panel-hover:hover {
     transform: translateY(-3px);
-    border-color: color-mix(in srgb, var(--c-green) 45%, var(--color-border));
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 1px 2px rgba(0, 0, 0, 0.4),
-      0 20px 44px -16px rgba(0, 0, 0, 0.8);
+    border-color: var(--accent);
+    box-shadow: 0 16px 32px -20px rgba(0, 0, 0, 0.7);
   }
 
   .tag {
@@ -260,13 +249,13 @@
     z-index: 2;
     padding: 4px 10px;
     border-radius: 3px;
-    background: #000;
+    background: var(--accent);
     font-family: var(--font-mono);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-text);
+    color: var(--on-accent);
   }
 
   .btn {
@@ -287,12 +276,14 @@
   .btn:active {
     transform: scale(0.97);
   }
+  /* Primary actions are solid accent */
   .btn-primary {
-    background: var(--tone);
-    color: #000;
+    background: var(--accent);
+    color: var(--on-accent);
   }
   .btn-primary:hover {
     background: var(--color-text);
+    color: var(--bg);
   }
   .btn-ghost {
     border-color: var(--color-border-strong);
@@ -309,7 +300,7 @@
     overflow: hidden;
     border: 1px solid var(--color-border-strong);
     border-radius: 10px;
-    background: #101012;
+    background: var(--bg-alt);
   }
   .term-bar {
     position: relative;
@@ -319,7 +310,7 @@
     height: 36px;
     padding-inline: 14px;
     border-bottom: 1px solid var(--color-border);
-    background: #1a1a1d;
+    background: var(--bg);
   }
   .term-dot {
     width: 12px;
@@ -350,7 +341,7 @@
     height: 1.15em;
     margin-left: 1px;
     vertical-align: -0.2em;
-    background: var(--c-green);
+    background: var(--accent);
     animation: blink 1.05s step-end infinite;
   }
 

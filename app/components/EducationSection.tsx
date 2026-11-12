@@ -73,7 +73,7 @@ export default function EducationSection() {
                 type="button"
                 onClick={() => setShowAllCerts((v) => !v)}
                 aria-expanded={showAllCerts}
-                className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--tone)] hover:underline"
+                className="mt-3 inline-flex items-center gap-1.5 text-[12px] font-semibold text-[var(--accent)] hover:underline"
               >
                 {showAllCerts ? "Show less" : `Show ${hiddenCount} more`}
                 <ChevronDown

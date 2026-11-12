@@ -60,7 +60,7 @@ export default function ExperienceSection() {
           <span aria-hidden="true" className="absolute bottom-2 left-[7px] top-2 w-px bg-[var(--color-border-strong)] md:left-[11rem]" />
           <motion.span
             aria-hidden="true"
-            className="absolute bottom-2 left-[7px] top-2 w-px origin-top bg-[var(--tone)] md:left-[11rem]"
+            className="absolute bottom-2 left-[7px] top-2 -ml-[0.5px] w-0.5 origin-top bg-[var(--accent)] md:left-[11rem]"
             style={{ scaleY: reduce ? 1 : railScale }}
           />
 
@@ -69,10 +69,10 @@ export default function ExperienceSection() {
               {/* Marker fills in once the rail reaches it */}
               <span
                 aria-hidden="true"
-                className="absolute left-[7px] top-1 h-3 w-3 -translate-x-1/2 rotate-45 border border-[var(--tone)] bg-[var(--bg)] md:left-[11rem]"
+                className="absolute left-[7px] top-1 h-3 w-3 -translate-x-1/2 rotate-45 border border-[var(--color-border-strong)] bg-[var(--bg)] md:left-[11rem]"
               >
                 <motion.span
-                  className="absolute inset-[1px] bg-[var(--tone)]"
+                  className="absolute inset-[1px] bg-[var(--accent)]"
                   initial={reduce ? false : { scale: 0 }}
                   whileInView={{ scale: 1 }}
                   viewport={{ once: true, margin: "0px 0px -40% 0px" }}

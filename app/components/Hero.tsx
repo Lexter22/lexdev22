@@ -7,7 +7,7 @@ import { useInset, useLerp, useReduced } from "./scroll";
 
 /* ---------- Terminal script ---------- */
 
-type Tone = "text" | "muted" | "green" | "blue";
+type Tone = "text" | "muted" | "accent";
 type Step =
   | { kind: "cmd"; host: "local" | "remote"; text: string }
   | { kind: "out"; segs: [string, Tone][] };
@@ -15,8 +15,7 @@ type Step =
 const toneClass: Record<Tone, string> = {
   text: "text-[var(--color-text)]",
   muted: "text-[var(--color-muted-light)]",
-  green: "text-[var(--c-green)]",
-  blue: "text-[var(--c-blue)]",
+  accent: "text-[var(--accent)]",
 };
 
 const script: Step[] = [
@@ -28,7 +27,7 @@ const script: Step[] = [
   {
     kind: "out",
     segs: [
-      ["AWS Student Builder Group Lead", "green"],
+      ["AWS Student Builder Group Lead", "accent"],
       ["  ·  ", "muted"],
       ["DevOps · Data · QA Automation", "text"],
     ],
@@ -36,7 +35,7 @@ const script: Step[] = [
   { kind: "cmd", host: "remote", text: "ls" },
   {
     kind: "out",
-    segs: [["about/  projects/  experience/  events/  education/  articles/  contact/", "blue"]],
+    segs: [["about/  projects/  experience/  events/  education/  articles/  contact/", "muted"]],
   },
   { kind: "cmd", host: "remote", text: "./portfolio --open" },
 ];
@@ -58,16 +57,16 @@ function Prompt({ host }: { host: "local" | "remote" }) {
   if (host === "local") {
     return (
       <>
-        <span className="text-[var(--color-muted)]">guest@web</span> <span className="text-[var(--c-blue)]">~</span>{" "}
+        <span className="text-[var(--color-muted)]">guest@web</span> <span className="text-[var(--color-muted-light)]">~</span>{" "}
         <span className="text-[var(--color-muted-light)]">%</span>{" "}
       </>
     );
   }
   return (
     <>
-      <span className="text-[var(--c-green)]">lex@portfolio</span>
+      <span className="text-[var(--accent)]">lex@portfolio</span>
       <span className="text-[var(--color-muted-light)]">:</span>
-      <span className="text-[var(--c-blue)]">~</span>
+      <span className="text-[var(--color-muted)]">~</span>
       <span className="text-[var(--color-muted-light)]">$</span>{" "}
     </>
   );
@@ -109,9 +108,9 @@ function TerminalWindow({ children }: { children: ReactNode }) {
   return (
     <div className="term">
       <div className="term-bar">
-        <span className="term-dot bg-[#ff5f57]" />
-        <span className="term-dot bg-[#febc2e]" />
-        <span className="term-dot bg-[#28c840]" />
+        <span className="term-dot bg-[var(--accent)]" />
+        <span className="term-dot bg-[var(--color-border-strong)]" />
+        <span className="term-dot bg-[var(--color-border-strong)]" />
         <span className="term-title">lex@portfolio: ~ (zsh)</span>
       </div>
       <div className="term-body">{children}</div>
@@ -141,11 +140,11 @@ function HeroContent({ photoClip }: { photoClip?: MotionValue<string> }) {
       <div className="max-w-[600px]">
         <p className="prompt-tag mb-3">whoami</p>
         <h1 className="chapter-title mb-4 !text-[clamp(1.5rem,4vw,2.75rem)]">
-          <span className="block">John Lexter</span>
-          <span className="block text-[var(--c-green)]">B. Reyes</span>
+          <span className="block text-[var(--color-text)]">John Lexter</span>
+          <span className="block text-[var(--accent)]">B. Reyes</span>
         </h1>
         <p className="mb-5 text-sm font-semibold sm:text-base">
-          <span className="text-[var(--c-green)]">AWS Student Builder Group Lead</span>
+          <span className="text-[var(--color-muted)]">AWS Student Builder Group Lead</span>
           <span className="text-[var(--color-muted-light)]"> · </span>
           <span className="text-[var(--color-text)]">DevOps · Data · QA Automation</span>
         </p>
@@ -258,7 +257,7 @@ export default function Hero() {
           style={{ opacity: hintOpacity }}
         >
           Scroll to run
-          <ChevronDown size={16} className="animate-bounce text-[var(--c-green)]" />
+          <ChevronDown size={16} className="animate-bounce text-[var(--accent)]" />
         </motion.div>
       </div>
     </section>

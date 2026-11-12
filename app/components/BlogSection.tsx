@@ -2,7 +2,24 @@ import { ArrowUpRight } from "lucide-react";
 import ChapterHeading from "./ChapterHeading";
 import Reveal from "./Reveal";
 
-const articles = [
+const articles: {
+  title: string;
+  excerpt: string;
+  date: string;
+  readTime?: string;
+  source: string;
+  tags: string[];
+  url: string;
+}[] = [
+  {
+    title: "The AWS SCD South Experience: Built to Build, Grow, and Lead",
+    excerpt:
+      "My leadership journey at AWS Student Community Day: South Summit 2026, where Cloud × AI brought student builders together.",
+    date: "Oct 21, 2026",
+    source: "AWS Builder Center",
+    tags: ["Community", "Leadership"],
+    url: "https://builder.aws.com/comment/3L0QScWPOqVpGjSxtVK5TTJyINU",
+  },
   {
     title: "I Couldn't Articulate Clearly, So I Built This",
     excerpt:
@@ -28,17 +45,17 @@ export default function BlogSection() {
 
         <ul className="border-t border-[var(--color-border)]">
           {articles.map((a) => (
-            <li key={a.url}>
+            <li key={a.url} className="border-b border-[var(--color-border)]">
               <Reveal y={16}>
                 <a
                   href={a.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group grid gap-3 border-b border-[var(--color-border)] px-1 py-6 hover:bg-[var(--bg-alt)] sm:px-4 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:gap-6"
+                  className="group grid gap-3 px-1 py-6 hover:bg-[var(--bg-alt)] sm:px-4 md:grid-cols-[9rem_minmax(0,1fr)_auto] md:gap-6"
                 >
                   <div className="text-[12px] text-[var(--color-muted-light)]">
                     <p className="font-semibold text-[var(--tone)]">{a.date}</p>
-                    <p className="mt-0.5">{a.readTime}</p>
+                    {a.readTime && <p className="mt-0.5">{a.readTime}</p>}
                   </div>
                   <div>
                     <h3 className="mb-2 text-lg font-bold text-[var(--color-text)] md:text-xl">{a.title}</h3>
@@ -47,7 +64,7 @@ export default function BlogSection() {
                       {a.source} · {a.tags.map((t) => `#${t}`).join(" ")}
                     </p>
                   </div>
-                  <span className="flex items-center gap-1 self-start text-[12px] font-semibold text-[var(--tone)]">
+                  <span className="flex items-center gap-1 self-start text-[12px] font-semibold text-[var(--accent)]">
                     Read
                     <ArrowUpRight
                       size={14}

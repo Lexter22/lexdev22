@@ -60,7 +60,7 @@ export default function ContactSection() {
             <span>07</span>&nbsp;&nbsp;~/contact
           </p>
           <h2 className="text-balance font-[family-name:var(--font-mono)] text-[clamp(1.75rem,4vw,3rem)] font-bold leading-[1.1] tracking-tight text-[var(--color-text)]">
-            Got a challenge? <span className="text-[var(--c-green)]">Let&apos;s build it.</span>
+            Got a challenge? <span className="text-[var(--accent)]">Let&apos;s build it.</span>
           </h2>
           <p className="mt-4 max-w-[44ch] text-base leading-relaxed text-[var(--color-muted)]">
             Internships, open-source work, or a side project: reach out any way you like and tell me what you&apos;re
@@ -77,14 +77,14 @@ export default function ContactSection() {
                   {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   className="group flex items-center gap-4 px-1 py-4 hover:bg-[var(--bg-alt)] sm:px-3"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[6px] bg-[var(--color-surface-alt)] text-[var(--c-green)]">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[6px] bg-[var(--color-surface-alt)] text-[var(--sky)]">
                     <c.icon size={17} aria-hidden="true" />
                   </span>
                   <span className="min-w-0 flex-1">
-                    <span className="flex items-center gap-2 text-sm font-bold text-[var(--color-text)] group-hover:text-[var(--c-green)]">
+                    <span className="flex items-center gap-2 text-sm font-bold text-[var(--color-text)] group-hover:text-[var(--accent)]">
                       {c.action}
                       {c.note && (
-                        <span className="rounded-[3px] bg-[var(--c-green)] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-black">
+                        <span className="rounded-[3px] bg-[var(--accent)] px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[var(--on-accent)]">
                           {c.note}
                         </span>
                       )}
@@ -94,7 +94,7 @@ export default function ContactSection() {
                   <ArrowUpRight
                     size={18}
                     aria-hidden="true"
-                    className="shrink-0 text-[var(--color-muted-light)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--c-green)]"
+                    className="shrink-0 text-[var(--color-muted-light)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
                   />
                   {c.external && <span className="sr-only">(opens in a new tab)</span>}
                 </a>
