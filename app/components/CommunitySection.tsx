@@ -21,7 +21,7 @@ const communityDay = {
     { label: "Venue", value: "Biñan People's Center Auditorium" },
   ],
   contributions: [
-    "Led and event managing 80 volunteers and 200 attendees",
+    "Led an event, managing 80 volunteers and 200 attendees",
     "Brought in the sponsors that supported the event",
   ],
   group: {
@@ -208,7 +208,7 @@ export default function EventsSection() {
                 <Reveal className="md:col-span-7">
                   <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--tone)]">{e.type}</p>
                   <h4 className="text-display text-lg md:text-xl">{e.title}</h4>
-                  <p className="mt-2 text-[12px] text-[var(--color-muted-light)]">{e.meta}</p>
+                  <p className="mt-2 text-[13px] text-[var(--color-muted-light)]">{e.meta}</p>
                   <p className="mt-4 max-w-[52ch] text-sm leading-relaxed text-[var(--color-muted)]">{e.body}</p>
                 </Reveal>
               </li>
@@ -238,7 +238,7 @@ export default function EventsSection() {
                       href={b.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-3 inline-flex items-center gap-1 text-[13px] font-bold text-[var(--accent)] underline-offset-4 hover:underline"
+                      className="mt-1 inline-flex min-h-11 items-center gap-1 text-[13px] font-bold text-[var(--accent)] underline-offset-4 hover:underline"
                     >
                       View on Credly
                       <ArrowUpRight size={14} aria-hidden="true" />

@@ -74,18 +74,24 @@ const projects = [
   {
     title: "IntelliSched",
     year: "2026",
-    short: "Academic scheduling system for 40 professors, 20 departments, and 12 courses.",
+    short:
+      "Academic scheduling system for 94 faculty, 84 sections, and 283 subjects, containerized and deployed to Render.",
     stats: [
-      { label: "Professors", value: "40" },
-      { label: "Departments", value: "20" },
-      { label: "Courses", value: "12" },
+      { label: "Faculty", value: "94" },
+      { label: "Sections", value: "84" },
+      { label: "Subjects", value: "283" },
     ],
-    tags: ["Laravel", "Livewire", "Alpine.js", "Tailwind CSS"],
+    tags: ["Laravel", "Livewire", "PostgreSQL", "Docker", "Playwright", "Selenium"],
     live: null,
-    image: null,
-    imageAlt: "",
-    details:
-      "Developed an academic scheduling system using Laravel, Livewire, Alpine.js, and Tailwind CSS. Designed to support 40 professors, 20 departments, and 12 courses. Replaced paper-based collection with authenticated forms for professors to submit availability and preferred subjects. Automated schedule generation for subject offerings and sections, rejecting overlapping room, professor, and section schedules; integrated Gemini AI for explanations and suggestions.",
+    image: "/projects/intellisched.jpg",
+    imageAlt: "IntelliSched sign-in page for PUP Biñan, with the system name and a Welcome Back login form",
+    details: [
+      "Managed the PostgreSQL schema (16 tables, 42 migrations) and the seeders that load 10 program curricula from CSV, supporting 94 faculty, 84 sections and 283 subjects.",
+      "Built and optimized Laravel and Livewire backend services. I removed a database write and up to two extra queries per schedule row from the Course Offering render path, and trimmed unused eager loads on the professor query.",
+      "Containerized the app with Docker (nginx, php-fpm) and deployed it to Render with managed PostgreSQL. I added a GitHub Actions CI pipeline and a 16-item deployment readiness checklist for client handover.",
+      "Fixed production failures, including blank pages on 578 KB responses (nginx FastCGI temp-directory permissions, resolved with directory ownership and 1 MB response buffers) and PDF export 502s (PHP memory raised from 256 MB to 512 MB).",
+      "Automated QA with Selenium and Playwright, covering authentication, session, professor-management and faculty-availability flows. Load-tested the live site: 50 concurrent users loaded the availability form with zero errors, and 50 concurrent submissions caused no deadlocks or data loss.",
+    ],
   },
 ];
 
@@ -103,14 +109,14 @@ function BrowserShot({
   className?: string;
   ratio?: string;
 }) {
-  if (!project.image || !project.live) return null;
+  if (!project.image) return null;
   return (
     <div className={`overflow-hidden rounded-[6px] border border-[var(--color-border-strong)] bg-[var(--bg)] ${className}`}>
       <div className="flex h-7 items-center gap-1.5 border-b border-[var(--color-border)] px-3">
         <span className="h-2 w-2 rounded-full bg-[var(--color-border-strong)]" />
         <span className="h-2 w-2 rounded-full bg-[var(--color-border-strong)]" />
         <span className="ml-2 truncate rounded-[3px] bg-[var(--bg-alt)] px-2 py-0.5 text-[10px] text-[var(--color-muted-light)]">
-          {host(project.live)}
+          {project.live ? host(project.live) : `${project.title.toLowerCase()} · screenshot`}
         </span>
       </div>
       <img
@@ -141,15 +147,19 @@ function Stats({ stats }: { stats: Project["stats"] }) {
 function Featured({ project, onOpen }: { project: Project; onOpen: () => void }) {
   return (
     <article className="panel grid gap-6 p-4 sm:p-6 lg:grid-cols-12 lg:items-center lg:gap-10 lg:p-8">
-      <a
-        href={project.live!}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="group block lg:col-span-7"
-        aria-label={`${project.title}, open the live site in a new tab`}
-      >
-        <BrowserShot project={project} className="transition-colors group-hover:border-[var(--accent)]" />
-      </a>
+      {project.live ? (
+        <a
+          href={project.live}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group block lg:col-span-7"
+          aria-label={`${project.title}, open the live site in a new tab`}
+        >
+          <BrowserShot project={project} className="transition-colors group-hover:border-[var(--accent)]" />
+        </a>
+      ) : (
+        <BrowserShot project={project} className="lg:col-span-7" />
+      )}
 
       <div className="lg:col-span-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-muted-light)]">
@@ -161,11 +171,13 @@ function Featured({ project, onOpen }: { project: Project; onOpen: () => void })
           <Stats stats={project.stats} />
         </div>
         <div className="mt-5 grid grid-cols-2 gap-3 sm:flex">
-          <a href={project.live!} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-            Visit site
-            <ArrowUpRight size={14} aria-hidden="true" />
-            <span className="sr-only">(opens in a new tab)</span>
-          </a>
+          {project.live && (
+            <a href={project.live} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              Visit site
+              <ArrowUpRight size={14} aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
+          )}
           <button type="button" onClick={onOpen} aria-haspopup="dialog" className="btn btn-ghost">
             Case study
           </button>
@@ -231,7 +243,7 @@ function MoreProjects({ items, onOpen }: { items: Project[]; onOpen: (p: Project
                 <span className="mt-1 line-clamp-2 block text-sm leading-relaxed text-[var(--color-muted)]">
                   {p.short}
                 </span>
-                <span className="mt-2 block text-[11px] text-[var(--color-muted-light)]">{p.tags.join(" · ")}</span>
+                <span className="mt-2 block text-[12px] text-[var(--color-muted-light)]">{p.tags.join(" · ")}</span>
               </span>
               <span className="hidden shrink-0 text-right sm:block">
                 <span className="block text-base font-bold text-[var(--accent)]">{p.stats[0].value}</span>
@@ -301,7 +313,15 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           {project.title}
         </h2>
         {project.image && <BrowserShot project={project} className="mb-5" />}
-        <p className="mb-6 text-sm leading-relaxed text-[var(--color-muted)]">{project.details}</p>
+        {Array.isArray(project.details) ? (
+          <ul className="mb-6 list-disc space-y-2 pl-5 text-sm leading-relaxed text-[var(--color-muted)] marker:text-[var(--accent)]">
+            {project.details.map((d) => (
+              <li key={d}>{d}</li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mb-6 text-sm leading-relaxed text-[var(--color-muted)]">{project.details}</p>
+        )}
 
         <div className="mb-5">
           <Stats stats={project.stats} />
@@ -332,9 +352,11 @@ export default function ProjectsSection() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const close = useCallback(() => setOpenProject(null), []);
   // Projects with a screenshot lead; the rest drop to a compact list. Add an image to promote one.
-  const shown = projects.filter((p) => p.image && p.live);
-  const listed = projects.filter((p) => !(p.image && p.live));
-  const [featured, ...gallery] = shown;
+  const shown = projects.filter((p) => p.image);
+  const listed = projects.filter((p) => !p.image);
+  // Feature the first one with a live site (it gets the Visit button); the rest become image cards
+  const featured = shown.find((p) => p.live) ?? shown[0];
+  const gallery = shown.filter((p) => p !== featured);
   // The list fills the empty slot next to an odd gallery card, otherwise it gets its own row
   const listSpan = gallery.length % 2 === 0 ? "md:col-span-2" : "";
 

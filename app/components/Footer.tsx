@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="relative z-10 border-t border-[var(--color-border)]">
       <div className="container-site flex items-center justify-between gap-4 py-5 text-[12px] text-[var(--color-muted-light)]">
         <p>© {year} John Lexter B. Reyes</p>
-        <a href="#top" className="inline-flex items-center gap-1.5 hover:text-[var(--accent)]">
+        <a href="#top" className="inline-flex min-h-11 items-center gap-1.5 hover:text-[var(--accent)]">
           Back to top
           <ArrowUp size={12} aria-hidden="true" />
         </a>

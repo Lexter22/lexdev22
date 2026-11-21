@@ -114,7 +114,7 @@ export default function Header() {
   };
 
   const navLinkClass = (href: string) =>
-    `relative px-6 py-3 text-sm transition-colors duration-200 md:px-3 md:py-2 md:text-[12px] font-[family-name:var(--font-mono)] group ${
+    `relative px-6 py-3 text-sm transition-colors duration-200 md:inline-flex md:min-h-11 md:items-center md:px-3 md:py-0 md:text-[12px] font-[family-name:var(--font-mono)] group ${
       active === href.slice(1)
         ? "text-[var(--color-accent)]"
         : "text-[var(--color-muted)] hover:text-[var(--color-accent)]"
