@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUpRight, Code2, X } from "lucide-react";
+import { ArrowUpRight, ChevronRight, Code2, X } from "lucide-react";
 import ChapterHeading from "./ChapterHeading";
 import Reveal from "./Reveal";
 
@@ -10,7 +10,6 @@ const projects = [
   {
     title: "AWS SCD South Website",
     year: "2026",
-    tone: "tone-green",
     short: "Official website of AWS Student Community Day: South Summit 2026, where I did QA.",
     stats: [
       { label: "Role", value: "QA" },
@@ -18,14 +17,15 @@ const projects = [
       { label: "Event date", value: "Oct 7" },
     ],
     tags: ["QA", "Event website"],
-    links: { github: "https://aws.scd-south.cloud/", live: null },
+    live: "https://aws.scd-south.cloud/",
+    image: "/projects/scd-south.jpg",
+    imageAlt: "The South Summit 2026 website, opening its SouthFest story section",
     details:
       "Did quality assurance on the official website for AWS Student Community Day: South Summit 2026, the Cloud × AI student summit held on October 7, 2026 in Biñan, Laguna. The summit drew 200 attendees, and I also served as its Event Director.",
   },
   {
     title: "MemberFlow",
     year: "2026",
-    tone: "tone-blue",
     short: "Serverless membership & Digital ID platform for AWS SBG PUP Biñan.",
     stats: [
       { label: "Registrations", value: "300+" },
@@ -33,14 +33,15 @@ const projects = [
       { label: "Emails sent", value: "100+" },
     ],
     tags: ["React", "TypeScript", "Supabase", "AWS Lambda"],
-    links: { github: null, live: null },
+    live: null,
+    image: null,
+    imageAlt: "",
     details:
       "Built with React, TypeScript, Supabase, and AWS Lambda. Processed 300+ registrations with multi-step forms, document uploads, and digital ID issuance. Implemented an email pipeline using Supabase Edge Functions, AWS Lambda, and Gmail SMTP with queued retries and a scheduled GitHub Actions worker; sent 100+ emails with a 99%+ send success rate. Replaced Google Forms and manual acceptance emails with a single approval workflow that sends acceptance emails and generates membership IDs; enforced access controls through JWT authentication and PostgreSQL Row-Level Security.",
   },
   {
     title: "InterVueAI",
     year: "2026",
-    tone: "tone-amber",
     short: "AI interview MVP built in 24 hours; Top 10 out of 23 teams at AWS Cloud Club Philippines Innovation Cup.",
     stats: [
       { label: "Placement", value: "Top 10" },
@@ -48,14 +49,15 @@ const projects = [
       { label: "Build time", value: "24 hrs" },
     ],
     tags: ["Supabase", "Agora", "Grok AI"],
-    links: { github: null, live: null },
+    live: null,
+    image: null,
+    imageAlt: "",
     details:
       "Built an AI interview MVP in 24 hours using Supabase, Agora, and Grok AI to automate simulated interviews and candidate feedback. Placed in the Top 10 out of 23 teams at the AWS Cloud Club Philippines Innovation Cup, held in collaboration with Agora.",
   },
   {
     title: "Articulately",
     year: "2026",
-    tone: "tone-pink",
     short: "Flutter and Supabase articulation-practice app with gamified tongue twisters, flashcards, and exercises.",
     stats: [
       { label: "Article views", value: "400" },
@@ -63,14 +65,15 @@ const projects = [
       { label: "Backend", value: "Supabase" },
     ],
     tags: ["Flutter", "Supabase"],
-    links: { github: "https://articulately-5c15b.web.app/", live: null },
+    live: "https://articulately-5c15b.web.app/",
+    image: "/projects/articulately.jpg",
+    imageAlt: "Articulately home screen with Easy, Medium, Hard and Random difficulty buttons",
     details:
       "Built and deployed a Flutter and Supabase articulation-practice application with gamified tongue twisters, flashcards, and exercises. Published an AWS Builder Center article that received 400 views.",
   },
   {
     title: "IntelliSched",
     year: "2026",
-    tone: "tone-violet",
     short: "Academic scheduling system for 40 professors, 20 departments, and 12 courses.",
     stats: [
       { label: "Professors", value: "40" },
@@ -78,7 +81,9 @@ const projects = [
       { label: "Courses", value: "12" },
     ],
     tags: ["Laravel", "Livewire", "Alpine.js", "Tailwind CSS"],
-    links: { github: null, live: null },
+    live: null,
+    image: null,
+    imageAlt: "",
     details:
       "Developed an academic scheduling system using Laravel, Livewire, Alpine.js, and Tailwind CSS. Designed to support 40 professors, 20 departments, and 12 courses. Replaced paper-based collection with authenticated forms for professors to submit availability and preferred subjects. Automated schedule generation for subject offerings and sections, rejecting overlapping room, professor, and section schedules; integrated Gemini AI for explanations and suggestions.",
   },
@@ -86,42 +91,164 @@ const projects = [
 
 type Project = (typeof projects)[number];
 
+const host = (url: string) => new URL(url).host;
+
+/** Screenshot in a browser frame whose address bar shows the real URL. */
+function BrowserShot({
+  project,
+  className = "",
+  ratio = "aspect-[16/10]",
+}: {
+  project: Project;
+  className?: string;
+  ratio?: string;
+}) {
+  if (!project.image || !project.live) return null;
+  return (
+    <div className={`overflow-hidden rounded-[6px] border border-[var(--color-border-strong)] bg-[var(--bg)] ${className}`}>
+      <div className="flex h-7 items-center gap-1.5 border-b border-[var(--color-border)] px-3">
+        <span className="h-2 w-2 rounded-full bg-[var(--color-border-strong)]" />
+        <span className="h-2 w-2 rounded-full bg-[var(--color-border-strong)]" />
+        <span className="ml-2 truncate rounded-[3px] bg-[var(--bg-alt)] px-2 py-0.5 text-[10px] text-[var(--color-muted-light)]">
+          {host(project.live)}
+        </span>
+      </div>
+      <img
+        src={project.image}
+        alt={project.imageAlt}
+        width={1440}
+        height={900}
+        loading="lazy"
+        className={`${ratio} w-full object-cover object-top`}
+      />
+    </div>
+  );
+}
+
+function Stats({ stats }: { stats: Project["stats"] }) {
+  return (
+    <dl className="grid grid-cols-3 border-y border-[var(--color-border)]">
+      {stats.map((st, i) => (
+        <div key={st.label} className={`py-3 ${i > 0 ? "border-l border-[var(--color-border)] pl-3 sm:pl-4" : ""}`}>
+          <dt className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-muted-light)]">{st.label}</dt>
+          <dd className="mt-1 text-[15px] font-bold text-[var(--color-text)]">{st.value}</dd>
+        </div>
+      ))}
+    </dl>
+  );
+}
+
+function Featured({ project, onOpen }: { project: Project; onOpen: () => void }) {
+  return (
+    <article className="panel grid gap-6 p-4 sm:p-6 lg:grid-cols-12 lg:items-center lg:gap-10 lg:p-8">
+      <a
+        href={project.live!}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="group block lg:col-span-7"
+        aria-label={`${project.title}, open the live site in a new tab`}
+      >
+        <BrowserShot project={project} className="transition-colors group-hover:border-[var(--accent)]" />
+      </a>
+
+      <div className="lg:col-span-5">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-muted-light)]">
+          Featured · {project.year}
+        </p>
+        <h3 className="text-display mt-2 text-xl md:text-2xl">{project.title}</h3>
+        <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)] md:text-[15px]">{project.short}</p>
+        <div className="mt-5">
+          <Stats stats={project.stats} />
+        </div>
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:flex">
+          <a href={project.live!} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+            Visit site
+            <ArrowUpRight size={14} aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
+          <button type="button" onClick={onOpen} aria-haspopup="dialog" className="btn btn-ghost">
+            Case study
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void }) {
-  const [lead, ...rest] = project.stats;
   return (
     <button
       type="button"
       onClick={onOpen}
       aria-haspopup="dialog"
-      className={`${project.tone} panel panel-hover group flex h-full w-full flex-col p-5 text-left sm:p-6`}
+      className="panel panel-hover group flex h-full w-full flex-col gap-5 p-4 text-left sm:p-5"
     >
-      <div className="flex items-start justify-between gap-4">
-        <span className="text-[11px] font-semibold text-[var(--color-muted-light)]">{project.year}</span>
-        <ArrowUpRight
-          size={18}
-          aria-hidden="true"
-          className="text-[var(--color-muted-light)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
-        />
+      <div className="w-full">
+        <BrowserShot project={project} ratio="aspect-[2/1]" />
       </div>
 
-      <h3 className="text-display mt-3 text-lg text-[var(--color-text)] md:text-xl">{project.title}</h3>
-      <p className="mt-3 max-w-[56ch] text-sm leading-relaxed text-[var(--color-muted)]">{project.short}</p>
-
-      <div className="mt-6 border-t border-[var(--color-border)] pt-4">
-        <p className="font-[family-name:var(--font-pixel)] text-lg text-[var(--accent)]">{lead.value}</p>
-        <p className="mt-2 text-[11px] uppercase tracking-wider text-[var(--color-muted-light)]">{lead.label}</p>
-        <p className="mt-1 text-[11px] text-[var(--color-muted-light)]">
-          {rest.map((s) => `${s.value} ${s.label.toLowerCase()}`).join(" · ")}
-        </p>
+      <div className="flex flex-1 flex-col">
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="text-display text-lg">{project.title}</h3>
+          <ArrowUpRight
+            size={18}
+            aria-hidden="true"
+            className="mt-0.5 shrink-0 text-[var(--color-muted-light)] transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
+          />
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{project.short}</p>
+        <ul className="mt-auto flex flex-wrap gap-1.5 pt-4">
+          {project.tags.map((tag) => (
+            <li key={tag} className="tag">
+              {tag}
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <ul className="mt-auto flex flex-wrap gap-1.5 pt-5">
-        {project.tags.map((tag) => (
-          <li key={tag} className="tag">{tag}</li>
-        ))}
-      </ul>
       <span className="sr-only">Open case study</span>
     </button>
+  );
+}
+
+/** Projects without a screenshot: one compact row each, headline number on the right. */
+function MoreProjects({ items, onOpen }: { items: Project[]; onOpen: (p: Project) => void }) {
+  return (
+    <div className="panel h-full p-4 sm:p-5">
+      <h3 className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-muted-light)]">
+        More projects
+      </h3>
+      <ul className="mt-3 divide-y divide-[var(--color-border)] border-t border-[var(--color-border)]">
+        {items.map((p) => (
+          <li key={p.title}>
+            <button
+              type="button"
+              onClick={() => onOpen(p)}
+              aria-haspopup="dialog"
+              className="group flex w-full items-center gap-4 py-4 text-left"
+            >
+              <span className="min-w-0 flex-1">
+                <span className="text-display block text-base group-hover:text-[var(--accent)]">{p.title}</span>
+                <span className="mt-1 line-clamp-2 block text-sm leading-relaxed text-[var(--color-muted)]">
+                  {p.short}
+                </span>
+                <span className="mt-2 block text-[11px] text-[var(--color-muted-light)]">{p.tags.join(" · ")}</span>
+              </span>
+              <span className="hidden shrink-0 text-right sm:block">
+                <span className="block text-base font-bold text-[var(--accent)]">{p.stats[0].value}</span>
+                <span className="block text-[10px] font-semibold uppercase tracking-wider text-[var(--color-muted-light)]">
+                  {p.stats[0].label}
+                </span>
+              </span>
+              <ChevronRight
+                size={18}
+                aria-hidden="true"
+                className="shrink-0 text-[var(--color-muted-light)] transition-transform group-hover:translate-x-0.5 group-hover:text-[var(--accent)]"
+              />
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
@@ -153,7 +280,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
       exit={{ opacity: 0 }}
     >
       <motion.div
-        className={`${project.tone} panel relative max-h-[90svh] w-full max-w-2xl overflow-y-auto border-t-[3px] !border-t-[var(--accent)] p-5 sm:p-7`}
+        className="panel relative max-h-[90svh] w-full max-w-2xl overflow-y-auto border-t-[3px] !border-t-[var(--accent)] p-5 sm:p-7"
         onClick={(e) => e.stopPropagation()}
         initial={{ y: 24, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -163,7 +290,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         <button
           ref={closeRef}
           onClick={onClose}
-          className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded-[4px] border border-[var(--color-border-strong)] text-[var(--color-text)] hover:border-[var(--color-text)]"
+          className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-[4px] border border-[var(--color-border-strong)] bg-[var(--bg-alt)] text-[var(--color-text)] hover:border-[var(--color-text)]"
           aria-label="Close case study"
         >
           <X size={18} aria-hidden="true" />
@@ -173,27 +300,26 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         <h2 id="project-modal-title" className="text-display mb-4 pr-12 text-2xl text-[var(--color-text)]">
           {project.title}
         </h2>
+        {project.image && <BrowserShot project={project} className="mb-5" />}
         <p className="mb-6 text-sm leading-relaxed text-[var(--color-muted)]">{project.details}</p>
 
-        <div className="mb-5 grid grid-cols-3 gap-px overflow-hidden rounded-[4px] border border-[var(--color-border)] bg-[var(--color-border)]">
-          {project.stats.map((s) => (
-            <div key={s.label} className="bg-[var(--bg)] px-3 py-3">
-              <p className="text-[10px] font-semibold uppercase tracking-wider text-[var(--color-muted-light)]">{s.label}</p>
-              <p className="mt-1 text-base font-bold text-[var(--accent)]">{s.value}</p>
-            </div>
-          ))}
+        <div className="mb-5">
+          <Stats stats={project.stats} />
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-3">
           <ul className="flex flex-wrap gap-1.5">
             {project.tags.map((tag) => (
-              <li key={tag} className="tag">{tag}</li>
+              <li key={tag} className="tag">
+                {tag}
+              </li>
             ))}
           </ul>
-          {project.links.github && (
-            <a href={project.links.github} target="_blank" rel="noreferrer" className="btn btn-primary !min-h-10 !py-2">
+          {project.live && (
+            <a href={project.live} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
               <Code2 size={13} aria-hidden="true" />
               Open project
+              <span className="sr-only">(opens in a new tab)</span>
             </a>
           )}
         </div>
@@ -205,6 +331,12 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 export default function ProjectsSection() {
   const [openProject, setOpenProject] = useState<Project | null>(null);
   const close = useCallback(() => setOpenProject(null), []);
+  // Projects with a screenshot lead; the rest drop to a compact list. Add an image to promote one.
+  const shown = projects.filter((p) => p.image && p.live);
+  const listed = projects.filter((p) => !(p.image && p.live));
+  const [featured, ...gallery] = shown;
+  // The list fills the empty slot next to an odd gallery card, otherwise it gets its own row
+  const listSpan = gallery.length % 2 === 0 ? "md:col-span-2" : "";
 
   return (
     <section id="projects" className="chapter tone-blue">
@@ -215,18 +347,28 @@ export default function ProjectsSection() {
           title="Selected Projects"
           intro="A selection of 2026 work, from a 24-hour hackathon MVP to a membership platform with 300+ registrations. Open one for the full case."
         />
-        {/* Two wide cards on top, three narrower below; the last one fills the row on tablets */}
-        <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-6 lg:gap-5">
-          {projects.map((project, i) => (
-            <li
-              key={project.title}
-              className={`${i < 2 ? "lg:col-span-3" : "lg:col-span-2"} ${i === projects.length - 1 ? "md:col-span-2" : ""}`}
-            >
+
+        {featured && (
+          <Reveal y={16}>
+            <Featured project={featured} onOpen={() => setOpenProject(featured)} />
+          </Reveal>
+        )}
+
+        <ul className={`grid gap-4 md:grid-cols-2 lg:gap-5 ${featured ? "mt-4 lg:mt-5" : ""}`}>
+          {gallery.map((project, i) => (
+            <li key={project.title}>
               <Reveal delay={i * 0.05} y={16} className="h-full">
                 <ProjectCard project={project} onOpen={() => setOpenProject(project)} />
               </Reveal>
             </li>
           ))}
+          {listed.length > 0 && (
+            <li className={listSpan}>
+              <Reveal delay={gallery.length * 0.05} y={16} className="h-full">
+                <MoreProjects items={listed} onOpen={setOpenProject} />
+              </Reveal>
+            </li>
+          )}
         </ul>
       </div>
       <AnimatePresence>
