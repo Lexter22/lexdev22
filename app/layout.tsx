@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ChapterRail from "./components/ChapterRail";
 
+import { GITHUB, LINKEDIN } from "./components/links";
+import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "./site";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -20,9 +22,37 @@ const pixelFont = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "John Lexter B. Reyes | Software Engineer",
-  description:
-    "John Lexter B. Reyes builds backend services, cloud deployments and automated tests, and leads the AWS Student Builder Group at PUP Biñan.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "profile",
+    url: "/",
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    locale: "en_PH",
+  },
+  twitter: { card: "summary_large_image", title: SITE_TITLE, description: SITE_DESCRIPTION },
+  robots: { index: true, follow: true },
+  // Google Search Console ownership check (renders <meta name="google-site-verification"> in <head>)
+  verification: { google: "I_5kyN8DoEwmndUHCIj7zF9eheE6nWLs6enOiZxRnCE" },
+};
+
+/** Structured data: who this site is about. Only facts already shown on the page. */
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: SITE_NAME,
+  url: SITE_URL,
+  image: `${SITE_URL}/profile.png`,
+  jobTitle: "Software Engineer",
+  description: SITE_DESCRIPTION,
+  sameAs: [GITHUB, LINKEDIN],
+  alumniOf: { "@type": "CollegeOrUniversity", name: "Polytechnic University of the Philippines – Biñan Campus" },
+  knowsAbout: ["Backend development", "Cloud computing", "AWS", "Azure", "PostgreSQL", "Docker", "QA automation"],
 };
 
 export const viewport: Viewport = {
@@ -45,6 +75,10 @@ export default function RootLayout({
       className={`${geistMono.variable} ${pixelFont.variable} antialiased`}
     >
       <body className="min-h-screen flex flex-col">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, "\\u003c") }}
+        />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-[var(--accent)] focus:text-[var(--on-accent)] focus:rounded-sm transition-all"
