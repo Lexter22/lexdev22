@@ -99,6 +99,14 @@
     outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
+
+  button,
+  a,
+  [role="button"],
+  summary {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
 .container-site {

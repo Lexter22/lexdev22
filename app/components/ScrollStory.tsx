@@ -17,8 +17,9 @@ type Props<T> = {
   name: (item: T) => string;
 };
 
-/** Scroll distance per step, in svh. */
-const STEP = 55;
+/** Scroll distance per step, in svh. Smaller on mobile so tapping through doesn't exhaust the thumb. */
+const DEFAULT_STEP = 55;
+const MOBILE_STEP = 30;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -31,6 +32,15 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const n = items.length;
+  const [stepPx, setStepPx] = useState(() =>
+    typeof window !== "undefined" && window.innerWidth < 768 ? MOBILE_STEP : DEFAULT_STEP
+  );
+
+  useEffect(() => {
+    const onResize = () => setStepPx(window.innerWidth < 768 ? MOBILE_STEP : DEFAULT_STEP);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   useEffect(() => {
     let frame = 0;
@@ -66,8 +76,8 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
   };
 
   return (
-    <div ref={ref} className="relative" style={{ height: `calc(100svh + ${(n - 1) * STEP}svh)` }}>
-      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] flex-col justify-center py-4">
+    <div ref={ref} className="relative" style={{ height: `calc(100svh + ${(n - 1) * stepPx}svh)` }}>
+      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] max-h-[60svh] flex-col justify-center py-4">
         <div className="grid">
           {items.map((item, i) => {
             const on = i === active;

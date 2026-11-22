@@ -26,7 +26,7 @@ const skillGroups = [
   { label: "Tools & DevOps", items: ["Git", "GitHub", "GitHub Actions", "CI/CD", "Azure DevOps", "Observability"] },
 ];
 
-/** Chapter 05, Beyond the code: education, certifications and skills, kept compact. */
+/** Chapter 02, Education & Skills: degree, certifications and tools, kept compact. */
 export default function EducationSection() {
   return (
     <section id="education" className="chapter">
