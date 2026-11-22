@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import ChapterRail from "./components/ChapterRail";
 
 import { GITHUB, LINKEDIN } from "./components/links";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "./site";
+import { LOCATION, SITE_DESCRIPTION, SITE_NAME, SITE_TITLE, SITE_URL } from "./site";
 import "./globals.css";
 
 const geistMono = Geist_Mono({
@@ -62,6 +62,11 @@ const person = {
   description: SITE_DESCRIPTION,
   sameAs: [GITHUB, LINKEDIN],
   alumniOf: { "@type": "CollegeOrUniversity", name: "Polytechnic University of the Philippines – Biñan Campus" },
+  homeLocation: {
+    "@type": "Place",
+    name: LOCATION,
+    address: { "@type": "PostalAddress", addressLocality: "Biñan", addressRegion: "Laguna", addressCountry: "PH" },
+  },
   knowsAbout: ["Backend development", "Cloud computing", "AWS", "Azure", "PostgreSQL", "Docker", "QA automation", "AI engineering", "LLM prompting", "AI agents"],
 };
 

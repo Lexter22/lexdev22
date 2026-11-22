@@ -1,4 +1,5 @@
-import { ArrowUpRight, FileText, Mail } from "lucide-react";
+import { ArrowUpRight, FileText, Mail, MapPin } from "lucide-react";
+import { LOCATION } from "../site";
 import Reveal from "./Reveal";
 import { chapter } from "./chapters";
 import { EMAIL, GITHUB, GithubIcon as Github, LINKEDIN, LinkedinIcon as Linkedin, RESUME } from "./links";
@@ -46,6 +47,10 @@ export default function ContactSection() {
           <p className="mt-4 max-w-[44ch] text-base leading-relaxed text-[var(--color-muted)]">
             Internships, open-source work, or a side project: reach out any way you like and tell me what you&apos;re
             building.
+          </p>
+          <p className="mt-6 inline-flex items-center gap-2 text-[13px] text-[var(--color-muted-light)]">
+            <MapPin size={14} aria-hidden="true" className="text-[var(--sky)]" />
+            Based in {LOCATION} · Philippine Time (UTC+8)
           </p>
         </Reveal>
 
