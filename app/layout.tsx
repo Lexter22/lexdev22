@@ -20,9 +20,9 @@ const pixelFont = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "John Lexter B. Reyes | AWS Student Builder Group Lead",
+  title: "John Lexter B. Reyes | Software Engineer",
   description:
-    "John Lexter B. Reyes, AWS Student Builder Group Lead and cloud engineer focused on practical systems, clean delivery, and infrastructure that feels simple to run.",
+    "John Lexter B. Reyes builds backend services, cloud deployments and automated tests, and leads the AWS Student Builder Group at PUP Biñan.",
 };
 
 export const viewport: Viewport = {

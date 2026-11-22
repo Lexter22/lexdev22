@@ -1,28 +1,28 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useScroll } from "motion/react";
+import { motion, useScroll } from "motion/react";
 import { Menu, X } from "lucide-react";
+import { chapter, chapters } from "./chapters";
+import { useClamped } from "./scroll";
+import { useActiveChapter } from "./useActiveChapter";
 
-const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#projects", label: "Projects" },
-  { href: "#experience", label: "Experience" },
-  { href: "#events", label: "Events" },
-  { href: "#articles", label: "Articles" },
-  { href: "#contact", label: "Contact" },
-];
+const NAV_LINKS = chapters
+  .filter((c) => c.id !== "top")
+  .map((c) => ({ href: `#${c.id}`, label: c.nav, n: c.n }));
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [active, setActive] = useState("");
+  const active = useActiveChapter();
   const mobileNavRef = useRef<HTMLElement>(null);
   const homeLinkRef = useRef<HTMLAnchorElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const restoreMenuFocusRef = useRef(true);
 
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+  const progress = useClamped(scrollYProgress);
+  const current = chapter(active);
 
   useEffect(() => {
     return scrollY.on("change", (latest) => {
@@ -94,19 +94,6 @@ export default function Header() {
     };
   }, [open]);
 
-  useEffect(() => {
-    const sections = document.querySelectorAll("section[id]");
-    const obs = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) { setActive(e.target.id); break; }
-        }
-      },
-      { threshold: 0.3, rootMargin: "-20% 0px -40% 0px" },
-    );
-    sections.forEach((s) => obs.observe(s));
-    return () => obs.disconnect();
-  }, []);
 
   const closeMenu = (restoreFocus = true) => {
     restoreMenuFocusRef.current = restoreFocus;
@@ -155,6 +142,18 @@ export default function Header() {
             Lex
           </span>
         </a>
+
+        {/* Compact chapter indicator where the side rail is hidden */}
+        <p
+          aria-hidden="true"
+          className={`mr-auto ml-3 text-[11px] font-semibold uppercase tracking-[0.16em] transition-opacity duration-300 md:hidden ${
+            active === "top" ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <span className="text-[var(--accent)]">{current.n}</span>
+          <span className="text-[var(--color-muted-light)]"> / </span>
+          <span className="text-[var(--color-text)]">{current.label}</span>
+        </p>
 
         <div className="flex items-center gap-4 md:gap-6">
           <nav
@@ -223,6 +222,12 @@ export default function Header() {
         </div>
         </div>
       </div>
+      {/* Overall reading progress */}
+      <motion.span
+        aria-hidden="true"
+        className="absolute bottom-[-1px] left-0 h-px w-full origin-left bg-[var(--accent)]"
+        style={{ scaleX: progress }}
+      />
     </header>
   );
 }

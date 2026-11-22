@@ -6,48 +6,44 @@ import { ArrowUpRight } from "lucide-react";
 import { useReduced } from "./scroll";
 import ChapterHeading from "./ChapterHeading";
 import Reveal from "./Reveal";
+import ScrollStory from "./ScrollStory";
 
 type Photo = { src: string; alt: string; width: number; height: number };
 
-/** The big one: group photo and the facts. */
-const communityDay = {
-  title: "AWS Student Community Day",
-  edition: "South Summit 2026",
-  tagline: "Cloud × AI: Build. Grow. Lead.",
-  facts: [
-    { label: "Date", value: "Oct 7, 2026" },
-    { label: "Attendees", value: "200" },
-    { label: "Role", value: "Event Director" },
-    { label: "Venue", value: "Biñan People's Center Auditorium" },
-  ],
-  contributions: [
-    "Led an event, managing 80 volunteers and 200 attendees",
-    "Brought in the sponsors that supported the event",
-  ],
-  group: {
-    src: "/scd-south-group.webp",
-    alt: "Attendees and organizers posing together on stage in front of the South Summit 2026 screen",
-    width: 2962,
-    height: 1664,
-  },
-};
-
 /**
- * Chapter events at AWS Student Builder Group – PUP Biñan.
- * Add new events to the top of this list.
+ * Talks I've given and sessions I've run, newest first. Add new ones to the top.
+ * They play one at a time as you scroll.
  */
-const chapterEvents: { type: string; title: string; meta: string; body: string; image: Photo }[] = [
+const sessions: { kind: string; where: string; title: string; role: string; body: string; image: Photo }[] = [
   {
-    type: "Workshop",
-    title: "PROPMPT. SPEC. DEPLOY: Building your first app with Amazon Kiro",
-    meta: "Organizer",
+    kind: "Talk",
+    where: "Asia Pacific College",
+    title: "Getting hands-on with the AWS Console",
+    role: "Speaker",
+    body: "Tips for using the console well, especially cost management and finding open resources with Amazon Q.",
+    image: { src: "/public-speaking.jpeg", alt: "Lex speaking at the Asia Pacific College podium", width: 2048, height: 1150 },
+  },
+  {
+    kind: "Workshop",
+    where: "AWS Student Builder Group, UPHSL",
+    title: "Spec-driven development with Kiro",
+    role: "Speaker, mentor and judge",
+    body: "Explained spec-driven development, then mentored and judged the projects attendees built during the workshop.",
+    image: { src: "/uphsl1.jpg", alt: "Lex talking with attendees at the UPHSL Kiro workshop", width: 1366, height: 768 },
+  },
+  {
+    kind: "Workshop",
+    where: "AWS SBG PUP Biñan",
+    title: "Prompt. Spec. Deploy: Building your first app with Amazon Kiro",
+    role: "Organizer",
     body: "A lab session for chapter members. I ran the room and helped attendees work through the exercises on their own machines.",
     image: { src: "/workshop1.jpg", alt: "Lex helping attendees at a hands-on workshop", width: 2048, height: 1716 },
   },
   {
-    type: "Seminar",
+    kind: "Seminar",
+    where: "AWS SBG PUP Biñan",
     title: "Cloud 101: Introduction to AWS",
-    meta: "Organizer and main speaker · 100 participants",
+    role: "Organizer and main speaker · 100 participants",
     body: "An introduction to AWS for new members, delivered as the main speaker to a room of 100 participants.",
     image: {
       src: "/intro-to-aws.jpg",
@@ -58,29 +54,31 @@ const chapterEvents: { type: string; title: string; meta: string; body: string; 
   },
 ];
 
-const stats = [
-  { value: 300, label: "Chapter members" },
-  { value: chapterEvents.length + 1, label: "Events organized" },
-  { value: 200, label: "Community Day attendees" },
-  { value: null, text: "Zenith", label: "AWS SBG Leader badge" },
+const articles: { title: string; excerpt: string; date: string; source: string; url: string; cover: Photo }[] = [
+  {
+    title: "The AWS SCD South Experience: Built to Build, Grow, and Lead",
+    excerpt: "My leadership journey at AWS Student Community Day: South Summit 2026.",
+    date: "Oct 21, 2026",
+    source: "AWS Builder Center",
+    url: "https://builder.aws.com/comment/3L0QScWPOqVpGjSxtVK5TTJyINU",
+    cover: { src: "/scd-south-group.webp", alt: "", width: 2962, height: 1664 },
+  },
+  {
+    title: "I Couldn't Articulate Clearly, So I Built This",
+    excerpt: "How the struggle to communicate led to building Articulately.",
+    date: "Jul 10, 2026 · 6 min read",
+    source: "AWS Builder Center",
+    url: "https://builder.aws.com/content/3D741qzraId1EC9xYFet80pZPGk/i-couldnt-articulate-clearly-so-i-built-this",
+    cover: { src: "/articles/articulately.webp", alt: "", width: 1000, height: 563 },
+  },
 ];
 
-/** Issued by AWS Community. Descriptions follow the badge pages on Credly. */
-const badges = [
-  {
-    src: "/aws-sbg-zenith-badge.png",
-    name: "AWS SBG Zenith",
-    alt: "AWS Student Builder Group Zenith badge",
-    how: "Earned by Student Builder Group Leaders after hosting a Student Community Day and nominating a successor.",
-    href: "https://www.credly.com/org/aws-community/badge/aws-sbg-zenith-badge",
-  },
-  {
-    src: "/aws-sbg-surge-badge.png",
-    name: "AWS SBG Surge",
-    alt: "AWS Student Builder Group Surge badge",
-    how: "Earned by Student Builder Group Leaders after hosting their third event.",
-    href: "https://www.credly.com/org/aws-community/badge/aws-sbg-surge-badge",
-  },
+/** Chapter events organized: the two chapter sessions plus Community Day. */
+const EVENTS_ORGANIZED = sessions.filter((s) => s.where === "AWS SBG PUP Biñan").length + 1;
+
+const stats: { value: number; label: string }[] = [
+  { value: 300, label: "Chapter members" },
+  { value: EVENTS_ORGANIZED, label: "Events organized" },
 ];
 
 function CountUp({ to }: { to: number }) {
@@ -102,149 +100,101 @@ function CountUp({ to }: { to: number }) {
   );
 }
 
-/** Small label with a hairline running to the edge. Separates the block groups. */
-function GroupLabel({ children, note }: { children: React.ReactNode; note?: string }) {
+/** Chapter 04, Share: talks, workshops and writing. */
+export default function CommunitySection() {
   return (
-    <div className="mb-8 flex items-center gap-4">
-      <h3 className="chapter-eyebrow !mb-0 shrink-0">{children}</h3>
-      <span aria-hidden="true" className="h-px flex-1 bg-[var(--color-border)]" />
-      {note && <p className="hidden shrink-0 text-[12px] text-[var(--color-muted-light)] sm:block">{note}</p>}
-    </div>
-  );
-}
-
-export default function EventsSection() {
-  return (
-    <section id="events" className="chapter tone-pink">
+    <section id="community" className="chapter">
       <div className="container-site">
         <ChapterHeading
-          index="04"
-          path="events"
-          title="Events"
-          intro="AWS Student Community Day, which I directed, and the workshops I run as founder of AWS Student Builder Group – PUP Biñan."
+          id="community"
+          title="Community & speaking"
+          intro="I founded AWS Student Builder Group – PUP Biñan. I run its workshops and give talks on AWS and developer tooling at other schools."
         />
 
-        {/* Numbers: no boxes, just figures separated by hairlines */}
-        <dl className="grid grid-cols-2 gap-x-6 gap-y-8 border-y border-[var(--color-border)] py-8 lg:grid-cols-4">
+        <dl className="grid grid-cols-2 border-y border-[var(--color-border)] py-8">
           {stats.map((s, i) => (
             <Reveal
               key={s.label}
               delay={i * 0.06}
               y={12}
-              className="lg:border-l lg:border-[var(--color-border)] lg:pl-6 lg:first:border-l-0 lg:first:pl-0"
+              className={`flex flex-col ${i > 0 ? "border-l border-[var(--color-border)] pl-6" : ""}`}
             >
-              <dd className="font-[family-name:var(--font-pixel)] text-[clamp(1.25rem,3vw,1.75rem)] text-[var(--accent)]">
-                {s.value !== null ? <CountUp to={s.value} /> : s.text}
+              <dt className="label order-2 mt-3">{s.label}</dt>
+              <dd className="order-1 font-[family-name:var(--font-pixel)] text-[clamp(1.5rem,3.4vw,2.25rem)] leading-none text-[var(--accent)]">
+                <CountUp to={s.value} />
               </dd>
-              <dt className="mt-3 text-[11px] uppercase tracking-wider text-[var(--color-muted)]">{s.label}</dt>
             </Reveal>
           ))}
         </dl>
 
-        {/* AWS Student Community Day */}
-        <article className="mt-16 md:mt-24" aria-labelledby="community-day-title">
-          <Reveal>
-            <p className="chapter-eyebrow">Community Day</p>
-            <h3
-              id="community-day-title"
-              className="text-display text-[clamp(1.75rem,4.5vw,3rem)] leading-[1.05]"
-            >
-              {communityDay.title}
-            </h3>
-            <p className="text-display mt-1 text-[clamp(1.75rem,4.5vw,3rem)] leading-[1.05] text-[var(--accent)]">
-              {communityDay.edition}
-            </p>
-            <p className="mt-6 text-base text-[var(--color-muted)]">{communityDay.tagline}</p>
-          </Reveal>
-
-          <Reveal delay={0.08} className="mt-10 grid items-start gap-10 lg:grid-cols-12 lg:gap-14">
-            <img
-              src={communityDay.group.src}
-              alt={communityDay.group.alt}
-              width={communityDay.group.width}
-              height={communityDay.group.height}
-              loading="lazy"
-              className="aspect-[16/10] w-full rounded-[6px] object-cover lg:col-span-7"
-            />
-            <div className="lg:col-span-5">
-              <dl className="grid grid-cols-2 gap-x-6 gap-y-6 border-t border-[var(--color-border)] pt-6">
-                {communityDay.facts.map((f) => (
-                  <div key={f.label} className={f.label === "Venue" ? "col-span-2" : ""}>
-                    <dt className="text-[11px] uppercase tracking-wider text-[var(--color-muted-light)]">{f.label}</dt>
-                    <dd className="mt-2 text-base font-semibold text-[var(--color-text)]">{f.value}</dd>
-                  </div>
-                ))}
-              </dl>
-
-              <div className="mt-10 border-t border-[var(--color-border)] pt-6">
-                <p className="text-[11px] uppercase tracking-wider text-[var(--color-muted-light)]">What I did</p>
-                <ul className="mt-3 space-y-3 text-base text-[var(--color-text)]">
-                  {communityDay.contributions.map((c) => (
-                    <li key={c}>{c}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Reveal>
-        </article>
-
-        {/* Chapter events: one row each, image beside text */}
-        <div className="mt-20 md:mt-28">
-          <GroupLabel note="AWS SBG PUP Biñan">Chapter events</GroupLabel>
-          <ul>
-            {chapterEvents.map((e) => (
-              <li
-                key={e.title}
-                className="grid items-center gap-6 border-t border-[var(--color-border)] py-8 first:border-t-0 first:pt-0 md:grid-cols-12 md:gap-10 md:py-10"
-              >
-                <img
-                  src={e.image.src}
-                  alt={e.image.alt}
-                  width={e.image.width}
-                  height={e.image.height}
-                  loading="lazy"
-                  className="aspect-[16/10] w-full rounded-[6px] object-cover md:col-span-5"
-                />
-                <Reveal className="md:col-span-7">
-                  <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--tone)]">{e.type}</p>
-                  <h4 className="text-display text-lg md:text-xl">{e.title}</h4>
-                  <p className="mt-2 text-[13px] text-[var(--color-muted-light)]">{e.meta}</p>
-                  <p className="mt-4 max-w-[52ch] text-sm leading-relaxed text-[var(--color-muted)]">{e.body}</p>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
+        <div className="mt-6">
+          <ScrollStory
+            items={sessions}
+            getKey={(s) => s.title}
+            noun="Talk"
+            thumb={(s) => s.image.src}
+            name={(s) => s.title}
+            visual={(s) => (
+              <img
+                src={s.image.src}
+                alt={s.image.alt}
+                width={s.image.width}
+                height={s.image.height}
+                loading="lazy"
+                className="aspect-[16/10] w-full rounded-[8px] border border-[var(--color-border)] object-cover"
+              />
+            )}
+            step={(s) => (
+              <>
+                <p className="label">
+                  <span className="text-[var(--color-text)]">{s.kind}</span>&nbsp;&nbsp;{s.where}
+                </p>
+                <h3 className="text-display mt-2 text-xl md:text-3xl">{s.title}</h3>
+                <p className="mt-2 text-[13px] text-[var(--color-muted-light)]">{s.role}</p>
+                <p className="mt-2 max-w-[46ch] text-sm leading-relaxed text-[var(--color-muted)] md:mt-4 md:text-[15px]">{s.body}</p>
+              </>
+            )}
+          />
         </div>
 
-        {/* Recognition */}
-        <div className="mt-20 md:mt-28">
-          <GroupLabel>AWS Community badges</GroupLabel>
-          <ul className="grid gap-10 md:grid-cols-2 md:gap-16">
-            {badges.map((b, i) => (
-              <li key={b.name}>
-                <Reveal delay={i * 0.06} y={12} className="flex items-start gap-5">
-                  <img
-                    src={b.src}
-                    alt={b.alt}
-                    width={88}
-                    height={88}
-                    loading="lazy"
-                    className="h-[72px] w-[72px] shrink-0 rounded-[4px] sm:h-[88px] sm:w-[88px]"
-                  />
-                  <div className="min-w-0">
-                    <h4 className="text-display text-base">{b.name}</h4>
-                    <p className="mt-2 max-w-[44ch] text-sm leading-relaxed text-[var(--color-muted)]">{b.how}</p>
-                    <a
-                      href={b.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="mt-1 inline-flex min-h-11 items-center gap-1 text-[13px] font-bold text-[var(--accent)] underline-offset-4 hover:underline"
-                    >
-                      View on Credly
-                      <ArrowUpRight size={14} aria-hidden="true" />
+        <div className="mt-10">
+          <h3 className="label mb-4">Writing</h3>
+          <ul className="grid gap-6 md:grid-cols-2">
+            {articles.map((a, i) => (
+              <li key={a.url}>
+                <Reveal y={16} delay={i * 0.06} className="h-full">
+                  <a
+                    href={a.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="panel panel-hover group flex h-full flex-col overflow-hidden"
+                  >
+                    <span className="block overflow-hidden border-b border-[var(--color-border)]">
+                      <img
+                        src={a.cover.src}
+                        alt={a.cover.alt}
+                        width={a.cover.width}
+                        height={a.cover.height}
+                        loading="lazy"
+                        className="aspect-[16/9] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      />
+                    </span>
+                    <span className="flex flex-1 flex-col p-5 sm:p-6">
+                      <span className="label">{a.date}</span>
+                      <span className="mt-3 block text-lg font-bold leading-snug text-[var(--color-text)] group-hover:text-[var(--accent)]">
+                        {a.title}
+                      </span>
+                      <span className="mt-2 block text-sm leading-relaxed text-[var(--color-muted)]">{a.excerpt}</span>
+                      <span className="mt-auto flex items-center justify-between pt-5 text-[12px]">
+                        <span className="text-[var(--color-muted-light)]">{a.source}</span>
+                        <span className="flex items-center gap-1 font-semibold text-[var(--accent)]">
+                          Read
+                          <ArrowUpRight size={14} aria-hidden="true" />
+                        </span>
+                      </span>
                       <span className="sr-only">(opens in a new tab)</span>
-                    </a>
-                  </div>
+                    </span>
+                  </a>
                 </Reveal>
               </li>
             ))}

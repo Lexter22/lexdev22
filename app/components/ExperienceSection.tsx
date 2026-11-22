@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll } from "motion/react";
+import { Plus } from "lucide-react";
 import ChapterHeading from "./ChapterHeading";
 import Reveal from "./Reveal";
 import { useClamped, useReduced } from "./scroll";
@@ -12,6 +13,7 @@ const roles = [
     role: "Junior Software Engineer",
     year: "Dec 2025 – Apr 2026",
     location: "Mandaluyong City",
+    summary: "Azure deployments and C# / ASP.NET Core backend features across 3 applications.",
     bullets: [
       "Contributed to 3 applications, provisioning cloud resources, deploying and monitoring services on Azure App Service, and supporting release pipelines through Azure DevOps.",
       "Developed backend features using C# and ASP.NET Core; assisted with Azure SQL Database schema design and query optimization.",
@@ -23,6 +25,7 @@ const roles = [
     role: "Backend Developer",
     year: "Nov 2025 – Mar 2026",
     location: "Remote",
+    summary: "Backend architecture and Supabase schema for a startup directory serving an 18,000+ member community.",
     bullets: [
       "Designed the Business Requirements Document (BRD) and translated requirements into the website's backend architecture and Supabase database schema, designed to organize 360+ startup profiles and 500+ podcast episodes.",
       "Developed the API functions powering the startup directory, supporting an organization with 18,000+ community members.",
@@ -33,6 +36,7 @@ const roles = [
     role: "Backend Developer",
     year: "Oct 2025 – Jan 2026",
     location: "Remote",
+    summary: "A React and FastAPI recruitment dashboard for 200+ applicants across 7 departments.",
     bullets: [
       "Built a React and FastAPI recruitment dashboard; automated Supabase ingestion for 200+ applicants across 7 departments, with REST API filtering and Recharts analytics.",
     ],
@@ -46,13 +50,12 @@ export default function ExperienceSection() {
   const railScale = useClamped(scrollYProgress);
 
   return (
-    <section id="experience" className="chapter tone-green">
+    <section id="experience" className="chapter">
       <div className="container-site">
         <ChapterHeading
-          index="03"
-          path="experience"
+          id="experience"
           title="Experience"
-          intro="Three teams in one year: enterprise apps on Azure, a startup directory, and a recruitment dashboard."
+          intro="Three overlapping roles between October 2025 and April 2026: enterprise apps on Azure, a startup directory, and a recruitment dashboard."
         />
 
         <ol ref={list} className="relative">
@@ -65,7 +68,7 @@ export default function ExperienceSection() {
           />
 
           {roles.map((job) => (
-            <li key={job.company} className="relative pb-10 pl-8 last:pb-0 md:grid md:grid-cols-[11rem_1fr] md:pl-0">
+            <li key={job.company} className="relative pb-8 pl-8 last:pb-0 md:grid md:grid-cols-[11rem_1fr] md:pl-0">
               {/* Marker fills in once the rail reaches it */}
               <span
                 aria-hidden="true"
@@ -86,11 +89,18 @@ export default function ExperienceSection() {
               <Reveal delay={0.08} className="md:pl-10">
                 <p className="chapter-eyebrow mb-1">{job.company}</p>
                 <h3 className="text-display mb-3 text-lg text-[var(--color-text)] md:text-xl">{job.role}</h3>
-                <ul className="max-w-[72ch] list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-[var(--color-muted)] marker:text-[var(--tone)]">
-                  {job.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
-                  ))}
-                </ul>
+                <p className="max-w-[64ch] text-sm leading-relaxed text-[var(--color-muted)]">{job.summary}</p>
+                <details className="group mt-2">
+                  <summary className="inline-flex min-h-11 cursor-pointer list-none items-center gap-2 text-[12px] font-semibold text-[var(--accent)] [&::-webkit-details-marker]:hidden">
+                    Responsibilities &amp; scope
+                    <Plus size={14} aria-hidden="true" className="transition-transform group-open:rotate-45" />
+                  </summary>
+                  <ul className="mt-2 max-w-[72ch] list-disc space-y-2 pl-5 text-sm leading-relaxed text-[var(--color-muted)] marker:text-[var(--accent)]">
+                    {job.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                </details>
               </Reveal>
             </li>
           ))}
