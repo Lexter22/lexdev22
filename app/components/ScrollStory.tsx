@@ -17,30 +17,41 @@ type Props<T> = {
   name: (item: T) => string;
 };
 
-/** Scroll distance per step, in svh. Smaller on mobile so tapping through doesn't exhaust the thumb. */
-const DEFAULT_STEP = 55;
-const MOBILE_STEP = 25;
-
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
  * Scroll-driven story, the same on every screen size. The stage sticks below the header
  * and each stretch of normal vertical scrolling brings in the next item. Plain CSS sticky;
  * the page is never hijacked or snapped.
+ * On mobile (<768px) it renders as a simple vertical stack so you see more content at once
+ * instead of one giant sticky step per screen.
  */
 export default function ScrollStory<T>({ items, getKey, visual, step, noun, thumb, name }: Props<T>) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const n = items.length;
-  const [stepPx, setStepPx] = useState(() =>
-    typeof window !== "undefined" && window.innerWidth < 768 ? MOBILE_STEP : DEFAULT_STEP
-  );
+  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
 
   useEffect(() => {
-    const onResize = () => setStepPx(window.innerWidth < 768 ? MOBILE_STEP : DEFAULT_STEP);
+    const onResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  if (isMobile) {
+    return (
+      <div className="space-y-6">
+        {items.map((item, i) => (
+          <div key={getKey(item)} className="grid gap-4 lg:grid-cols-12 lg:gap-14">
+            <div className="lg:order-2 lg:col-span-7">{visual(item, i)}</div>
+            <div className="lg:order-1 lg:col-span-5">{step(item, i)}</div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const [stepPx, setStepPx] = useState(55);
 
   useEffect(() => {
     let frame = 0;
@@ -77,7 +88,7 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
 
   return (
     <div ref={ref} className="relative" style={{ height: `calc(100svh + ${(n - 1) * stepPx}svh)` }}>
-      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] max-h-[44svh] lg:max-h-[60svh] flex-col justify-center py-3 lg:py-4">
+      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] max-h-[60svh] flex-col justify-center py-4">
         <div className="grid">
           {items.map((item, i) => {
             const on = i === active;
