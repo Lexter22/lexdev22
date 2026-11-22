@@ -155,27 +155,6 @@ export default function Header() {
           <span className="text-[var(--color-text)]">{current.label}</span>
         </p>
 
-        {/* Mobile chapter chips: jump between chapters without opening the menu */}
-        <nav
-          className="md:hidden overflow-x-auto border-b border-[var(--color-border)] bg-[var(--bg)]/95"
-        >
-          <div className="flex gap-1.5 px-4 py-2">
-            {chapters.map((c) => (
-              <a
-                key={c.id}
-                href={`#${c.id}`}
-                className={`shrink-0 rounded-full border px-3 py-1 text-[10px] font-semibold ${
-                  active === c.id
-                    ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--on-accent)]"
-                    : "border-[var(--color-border-strong)] text-[var(--color-muted)] hover:text-[var(--color-text)]"
-                }`}
-              >
-                {c.n}
-              </a>
-            ))}
-          </div>
-        </nav>
-
         <div className="flex items-center gap-4 md:gap-6">
           <nav
             className="hidden md:flex md:items-center md:gap-1"
