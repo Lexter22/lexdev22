@@ -227,10 +227,12 @@ function ProjectDialog({ project, onClose }: { project: Project; onClose: () => 
     const previous = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
       document.removeEventListener("keydown", onKey);
       previous?.focus();
     };
@@ -238,7 +240,7 @@ function ProjectDialog({ project, onClose }: { project: Project; onClose: () => 
 
   return (
     <motion.div
-      className="fixed inset-0 z-[70] flex items-end justify-center bg-[#0b131b]/85 sm:items-center sm:p-6"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-[#0b131b]/85 p-6"
       onClick={onClose}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -248,7 +250,7 @@ function ProjectDialog({ project, onClose }: { project: Project; onClose: () => 
         role="dialog"
         aria-modal="true"
         aria-labelledby="project-dialog-title"
-        className="panel relative max-h-[92svh] w-full max-w-2xl overflow-y-auto rounded-b-none p-5 pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:rounded-b-[8px] sm:p-8"
+        className="panel relative max-h-[92svh] w-full max-w-2xl overflow-y-auto rounded-[8px] p-6 pb-[max(1.25rem,env(safe-area-inset-bottom))]"
         onClick={(e) => e.stopPropagation()}
         initial={reduce ? false : { y: 32, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
