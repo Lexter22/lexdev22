@@ -22,6 +22,7 @@ const skillGroups = [
     items: ["Python", "C#", "ASP.NET Core", "FastAPI", "Laravel", "Supabase", "PostgreSQL", "SQL"],
   },
   { label: "Frontend Development", items: ["React", "TypeScript", "Livewire", "Flutter"] },
+  { label: "AI & Machine Learning", items: ["Grok AI", "LLM prompting", "AI agents"] },
   { label: "Software Engineering & Quality", items: ["Playwright", "Selenium", "Load testing", "Automation"] },
   { label: "Tools & DevOps", items: ["Git", "GitHub", "GitHub Actions", "CI/CD", "Azure DevOps", "Observability"] },
 ];

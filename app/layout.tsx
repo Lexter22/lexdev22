@@ -52,7 +52,7 @@ const person = {
   description: SITE_DESCRIPTION,
   sameAs: [GITHUB, LINKEDIN],
   alumniOf: { "@type": "CollegeOrUniversity", name: "Polytechnic University of the Philippines – Biñan Campus" },
-  knowsAbout: ["Backend development", "Cloud computing", "AWS", "Azure", "PostgreSQL", "Docker", "QA automation"],
+  knowsAbout: ["Backend development", "Cloud computing", "AWS", "Azure", "PostgreSQL", "Docker", "QA automation", "AI engineering", "LLM prompting", "AI agents"],
 };
 
 export const viewport: Viewport = {

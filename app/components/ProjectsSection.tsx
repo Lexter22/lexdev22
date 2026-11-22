@@ -14,6 +14,23 @@ import { useReduced } from "./scroll";
  */
 const projects = [
   {
+    title: "InterVueAI",
+    year: "2026",
+    categories: ["AI", "Hackathon"],
+    short: "AI interview MVP built in 24 hours; Top 10 out of 23 teams at AWS Cloud Club Philippines Innovation Cup.",
+    stats: [
+      { label: "Placement", value: "Top 10" },
+      { label: "Teams", value: "23" },
+      { label: "Build time", value: "24 hrs" },
+    ],
+    tags: ["Supabase", "Agora", "Grok AI"],
+    live: null,
+    image: "/projects/intervueai.jpg",
+    imageAlt: "InterVueAI home page: Build your AI HR Interviewer with Agora real-time voice, with an AI interview call preview and an application form",
+    details:
+      "Built an AI interview MVP in 24 hours using Supabase, Agora, and Grok AI to automate simulated interviews and candidate feedback. Placed in the Top 10 out of 23 teams at the AWS Cloud Club Philippines Innovation Cup, held in collaboration with Agora.",
+  },
+  {
     title: "IntelliSched",
     year: "2026",
     categories: ["Web", "Backend & Cloud", "QA & Testing"],
@@ -87,23 +104,6 @@ const projects = [
     details:
       "Built with React, TypeScript, Supabase, and AWS Lambda. Processed 300+ registrations with multi-step forms, document uploads, and digital ID issuance. Implemented an email pipeline using Supabase Edge Functions, AWS Lambda, and Gmail SMTP with queued retries and a scheduled GitHub Actions worker; sent 100+ emails with a 99%+ send success rate. Replaced Google Forms and manual acceptance emails with a single approval workflow that sends acceptance emails and generates membership IDs; enforced access controls through JWT authentication and PostgreSQL Row-Level Security.",
   },
-  {
-    title: "InterVueAI",
-    year: "2026",
-    categories: ["AI", "Hackathon"],
-    short: "AI interview MVP built in 24 hours; Top 10 out of 23 teams at AWS Cloud Club Philippines Innovation Cup.",
-    stats: [
-      { label: "Placement", value: "Top 10" },
-      { label: "Teams", value: "23" },
-      { label: "Build time", value: "24 hrs" },
-    ],
-    tags: ["Supabase", "Agora", "Grok AI"],
-    live: null,
-    image: null,
-    imageAlt: "",
-    details:
-      "Built an AI interview MVP in 24 hours using Supabase, Agora, and Grok AI to automate simulated interviews and candidate feedback. Placed in the Top 10 out of 23 teams at the AWS Cloud Club Philippines Innovation Cup, held in collaboration with Agora.",
-  },
 ];
 
 type Project = (typeof projects)[number];
@@ -173,7 +173,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
           </button>
         </h3>
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[var(--color-muted)]">{project.short}</p>
-        <div className="mt-auto flex items-center justify-between gap-3 pt-4 text-[12px] font-semibold">
+        <div className="mt-auto flex min-h-11 items-center justify-between gap-3 pt-4 text-[12px] font-semibold">
           <span className="inline-flex items-center gap-1 text-[var(--color-muted-light)] group-hover:text-[var(--color-text)]">
             How I built it
             <ChevronRight size={14} aria-hidden="true" />

@@ -18,7 +18,7 @@ export default function Hero() {
             </p>
             <p className="mt-4 text-sm font-semibold sm:text-base">
               <span className="text-[var(--color-text)]">Software Engineer</span>
-              <span className="text-[var(--color-muted-light)]"> · Backend · Cloud · QA Automation</span>
+              <span className="text-[var(--color-muted-light)]"> · Backend · Cloud · AI · QA Automation</span>
             </p>
             <p className="mt-3 max-w-[56ch] leading-relaxed text-[var(--color-muted)]">
               I build backend services and the cloud they run on: APIs, PostgreSQL, Docker deploys and CI pipelines, plus
