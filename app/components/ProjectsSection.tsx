@@ -2,33 +2,51 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUpRight, ChevronRight, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight, ChevronRight, X } from "lucide-react";
 import ChapterHeading from "./ChapterHeading";
+import ScrollGallery from "./ScrollGallery";
 import { useReduced } from "./scroll";
 
 /**
  * Projects, newest or most important first.
  * - `categories` drive the filter chips; a new category shows up as a chip automatically.
  * - Projects with an `image` get a screenshot card; the rest go in the compact list.
- * Tapping a project opens its full write-up.
+ * They sit in a swipeable row; tapping a project opens its case study.
  */
 const projects = [
   {
-    title: "InterVueAI",
+    title: "AWS SCD South Website",
     year: "2026",
-    categories: ["AI", "Hackathon"],
-    short: "AI interview MVP built in 24 hours; Top 10 out of 23 teams at AWS Cloud Club Philippines Innovation Cup.",
+    categories: ["Web", "QA & Testing"],
+    short: "Official website of AWS Student Community Day: South Summit 2026, where I did QA.",
     stats: [
-      { label: "Placement", value: "Top 10" },
-      { label: "Teams", value: "23" },
-      { label: "Build time", value: "24 hrs" },
+      { label: "Role", value: "QA" },
+      { label: "Attendees", value: "200" },
+      { label: "Event date", value: "Oct 7" },
     ],
-    tags: ["Supabase", "Agora", "Grok AI"],
-    live: null,
-    image: "/projects/intervueai.jpg",
-    imageAlt: "InterVueAI home page: Build your AI HR Interviewer with Agora real-time voice, with an AI interview call preview and an application form",
+    tags: ["QA", "Event website"],
+    live: "https://aws.scd-south.cloud/",
+    image: "/projects/scd-south.jpg",
+    imageAlt: "The South Summit 2026 website, opening its SouthFest story section",
     details:
-      "Built an AI interview MVP in 24 hours using Supabase, Agora, and Grok AI to automate simulated interviews and candidate feedback. Placed in the Top 10 out of 23 teams at the AWS Cloud Club Philippines Innovation Cup, held in collaboration with Agora.",
+      "Did quality assurance on the official website for AWS Student Community Day: South Summit 2026, the Cloud × AI student summit held on October 7, 2026 in Biñan, Laguna. The summit drew 200 attendees, and I also served as its Event Director.",
+  },
+  {
+    title: "Articulately",
+    year: "2026",
+    categories: ["Mobile"],
+    short: "Flutter and Supabase articulation-practice app with gamified tongue twisters, flashcards, and exercises.",
+    stats: [
+      { label: "Article views", value: "400" },
+      { label: "Platform", value: "Flutter" },
+      { label: "Backend", value: "Supabase" },
+    ],
+    tags: ["Flutter", "Supabase"],
+    live: "https://articulately-5c15b.web.app/",
+    image: "/projects/articulately.jpg",
+    imageAlt: "Articulately home screen with Easy, Medium, Hard and Random difficulty buttons",
+    details:
+      "Built and deployed a Flutter and Supabase articulation-practice application with gamified tongue twisters, flashcards, and exercises. Published an AWS Builder Center article that received 400 views.",
   },
   {
     title: "IntelliSched",
@@ -54,38 +72,21 @@ const projects = [
     ],
   },
   {
-    title: "Articulately",
+    title: "InterVueAI",
     year: "2026",
-    categories: ["Mobile"],
-    short: "Flutter and Supabase articulation-practice app with gamified tongue twisters, flashcards, and exercises.",
+    categories: ["AI", "Hackathon"],
+    short: "AI interview MVP built in 24 hours; Top 10 out of 23 teams at AWS Cloud Club Philippines Innovation Cup.",
     stats: [
-      { label: "Article views", value: "400" },
-      { label: "Platform", value: "Flutter" },
-      { label: "Backend", value: "Supabase" },
+      { label: "Placement", value: "Top 10" },
+      { label: "Teams", value: "23" },
+      { label: "Build time", value: "24 hrs" },
     ],
-    tags: ["Flutter", "Supabase"],
-    live: "https://articulately-5c15b.web.app/",
-    image: "/projects/articulately.jpg",
-    imageAlt: "Articulately home screen with Easy, Medium, Hard and Random difficulty buttons",
+    tags: ["Supabase", "Agora", "Grok AI"],
+    live: null,
+    image: "/projects/intervueai.jpg",
+    imageAlt: "InterVueAI home page: Build your AI HR Interviewer with Agora real-time voice, with an AI interview call preview and an application form",
     details:
-      "Built and deployed a Flutter and Supabase articulation-practice application with gamified tongue twisters, flashcards, and exercises. Published an AWS Builder Center article that received 400 views.",
-  },
-  {
-    title: "AWS SCD South Website",
-    year: "2026",
-    categories: ["Web", "QA & Testing"],
-    short: "Official website of AWS Student Community Day: South Summit 2026, where I did QA.",
-    stats: [
-      { label: "Role", value: "QA" },
-      { label: "Attendees", value: "200" },
-      { label: "Event date", value: "Oct 7" },
-    ],
-    tags: ["QA", "Event website"],
-    live: "https://aws.scd-south.cloud/",
-    image: "/projects/scd-south.jpg",
-    imageAlt: "The South Summit 2026 website, opening its SouthFest story section",
-    details:
-      "Did quality assurance on the official website for AWS Student Community Day: South Summit 2026, the Cloud × AI student summit held on October 7, 2026 in Biñan, Laguna. The summit drew 200 attendees, and I also served as its Event Director.",
+      "Built an AI interview MVP in 24 hours using Supabase, Agora, and Grok AI to automate simulated interviews and candidate feedback. Placed in the Top 10 out of 23 teams at the AWS Cloud Club Philippines Innovation Cup, held in collaboration with Agora.",
   },
   {
     title: "MemberFlow",
@@ -175,7 +176,7 @@ function ProjectCard({ project, onOpen }: { project: Project; onOpen: () => void
         <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[var(--color-muted)]">{project.short}</p>
         <div className="mt-auto flex min-h-11 items-center justify-between gap-3 pt-4 text-[12px] font-semibold">
           <span className="inline-flex items-center gap-1 text-[var(--color-muted-light)] group-hover:text-[var(--color-text)]">
-            How I built it
+            See more
             <ChevronRight size={14} aria-hidden="true" />
           </span>
           {project.live && (
@@ -313,6 +314,112 @@ function ProjectDialog({ project, onClose }: { project: Project; onClose: () => 
   );
 }
 
+/** Horizontal swipe row: native scrolling with snap points, plus previous/next buttons.
+ * The parent keys it by filter, so changing the filter starts again at the first card. */
+function ProjectCarousel({ items, onOpen }: { items: Project[]; onOpen: (p: Project) => void }) {
+  const track = useRef<HTMLUListElement>(null);
+  const [index, setIndex] = useState(0);
+  const reduce = useReduced();
+  const n = items.length;
+
+
+  const cards = () => [...(track.current?.querySelectorAll<HTMLElement>(":scope > [data-card]") ?? [])];
+
+  const onScroll = () => {
+    const el = track.current;
+    if (!el) return;
+    const left = el.scrollLeft + parseFloat(getComputedStyle(el).paddingLeft);
+    const list = cards();
+    const i = list.findIndex((c) => c.offsetLeft + c.offsetWidth / 2 > left);
+    setIndex(Math.max(0, i));
+  };
+
+  const goTo = (i: number) => {
+    const el = track.current;
+    const card = cards()[i];
+    if (!el || !card) return;
+    el.scrollTo({ left: card.offsetLeft - parseFloat(getComputedStyle(el).paddingLeft), behavior: reduce ? "auto" : "smooth" });
+  };
+
+  const pad = (v: number) => String(v).padStart(2, "0");
+  const atEnd = index >= n - 1;
+
+  return (
+    <div>
+      <ul
+        ref={track}
+        onScroll={onScroll}
+        aria-label="Projects, swipe or use the arrows for more"
+        className="relative -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-4 px-4 pb-2 [scrollbar-width:none] md:-mx-6 md:scroll-px-6 md:px-6 lg:gap-5 [&::-webkit-scrollbar]:hidden"
+      >
+        {items.map((p) => (
+          <li key={p.title} data-card className="w-[84%] shrink-0 snap-start sm:w-[58%] lg:w-[40%]">
+            <ProjectCard project={p} onOpen={() => onOpen(p)} />
+          </li>
+        ))}
+        {/* Room after the last card, so every card (the last one too) can reach the left edge */}
+        <li aria-hidden="true" className="w-[calc(16%-2rem)] shrink-0 sm:w-[calc(42%-2rem)] lg:w-[calc(60%-2.5rem)]" />
+      </ul>
+
+      {n > 1 && (
+        <div className="mt-5 flex items-center justify-between gap-4">
+          {/* One pill per project; the current one is longer and blue. Tap to jump. */}
+          <div className="flex items-center gap-3">
+            <ol className="flex items-center">
+              {items.map((p, i) => {
+                const on = i === index;
+                return (
+                  <li key={p.title}>
+                    <button
+                      type="button"
+                      onClick={() => goTo(i)}
+                      aria-label={`Show project ${i + 1} of ${n}: ${p.title}`}
+                      aria-current={on ? "true" : undefined}
+                      className="group flex h-11 min-w-6 items-center justify-center px-1"
+                    >
+                      <span
+                        className={`block h-1.5 rounded-full transition-all duration-300 ${
+                          on ? "w-6 bg-[var(--accent)]" : "w-1.5 bg-[var(--color-border-strong)] group-hover:bg-[var(--sky)]"
+                        }`}
+                      />
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+            <p className="text-[12px] font-semibold tabular-nums" aria-live="polite">
+              <span className="text-[var(--color-text)]">{pad(index + 1)}</span>
+              <span className="text-[var(--color-muted-light)]"> / {pad(n)}</span>
+              <span className="sr-only"> projects</span>
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => goTo(index - 1)}
+              disabled={index === 0}
+              aria-label="Previous project"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-strong)] text-[var(--color-text)] hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:pointer-events-none disabled:opacity-35"
+            >
+              <ArrowLeft size={16} aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              onClick={() => goTo(index + 1)}
+              disabled={atEnd}
+              aria-label="Next project"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-border-strong)] text-[var(--color-text)] hover:border-[var(--accent)] hover:text-[var(--accent)] disabled:pointer-events-none disabled:opacity-35"
+            >
+              <ArrowRight size={16} aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /** Chapter 01, Build. */
 export default function ProjectsSection() {
   const [filter, setFilter] = useState(ALL);
@@ -325,59 +432,58 @@ export default function ProjectsSection() {
   const withoutImage = shown.filter((p) => !p.image);
   const chips: [string, number][] = [[ALL, projects.length], ...categories];
 
+  // Filter chips. Scroll sideways on small screens rather than wrapping into rows.
+  const filters = (
+          <div
+            role="group"
+            aria-label="Filter projects by type"
+            className="-mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0 [&::-webkit-scrollbar]:hidden"
+          >
+            {chips.map(([c, n]) => {
+              const on = c === filter;
+              return (
+                <button
+                    key={c}
+                    type="button"
+                    onClick={() => setFilter(c)}
+                    aria-pressed={on}
+                    className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[12px] font-semibold ${
+                      on
+                        ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--on-accent)]"
+                        : "border-[var(--color-border-strong)] text-[var(--color-muted)] hover:border-[var(--color-text)] hover:text-[var(--color-text)]"
+                    }`}
+                >
+                    {c}
+                    <span className={`tabular-nums ${on ? "opacity-70" : "text-[var(--color-muted-light)]"}`}>{n}</span>
+                </button>
+              );
+            })}
+          </div>
+  );
+
   return (
     <section id="projects" className="chapter">
       <div className="container-site">
-        <ChapterHeading id="projects" title="Selected projects" intro="Tap a project for how I built it." />
+        <ChapterHeading id="projects" title="Selected projects" intro="Swipe through my work and open any project for the case study." />
 
-        {/* Filter. Scrolls sideways on small screens rather than wrapping into rows. */}
-        <div
-          role="group"
-          aria-label="Filter projects by type"
-          className="-mx-4 mb-6 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] md:mx-0 md:flex-wrap md:px-0 [&::-webkit-scrollbar]:hidden"
-        >
-          {chips.map(([c, n]) => {
-            const on = c === filter;
-            return (
-              <button
-                key={c}
-                type="button"
-                onClick={() => setFilter(c)}
-                aria-pressed={on}
-                className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-4 text-[12px] font-semibold ${
-                  on
-                    ? "border-[var(--accent)] bg-[var(--accent)] text-[var(--on-accent)]"
-                    : "border-[var(--color-border-strong)] text-[var(--color-muted)] hover:border-[var(--color-text)] hover:text-[var(--color-text)]"
-                }`}
-              >
-                {c}
-                <span className={`tabular-nums ${on ? "opacity-70" : "text-[var(--color-muted-light)]"}`}>{n}</span>
-              </button>
-            );
-          })}
-        </div>
         <p className="sr-only" aria-live="polite">
           Showing {shown.length} {shown.length === 1 ? "project" : "projects"}
         </p>
 
-        {withImage.length > 0 && (
-          <motion.ul layout={!reduce} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <AnimatePresence initial={false} mode="popLayout">
-              {withImage.map((p) => (
-                <motion.li
-                  key={p.title}
-                  layout={!reduce}
-                  initial={reduce ? false : { opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.25 }}
-                >
-                  <ProjectCard project={p} onOpen={() => setOpen(p)} />
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </motion.ul>
+        {/* Scroll-driven row; a plain swipe row when the visitor prefers reduced motion */}
+        {withImage.length > 0 && !reduce && (
+          <ScrollGallery
+            key={filter}
+            items={withImage}
+            noun="project"
+            getKey={(p) => p.title}
+            getName={(p) => p.title}
+            before={filters}
+            render={(p) => <ProjectCard project={p} onOpen={() => setOpen(p)} />}
+          />
         )}
+        {(reduce || withImage.length === 0) && filters}
+        {withImage.length > 0 && reduce && <ProjectCarousel key={filter} items={withImage} onOpen={setOpen} />}
 
         {withoutImage.length > 0 && (
           <ul className={`divide-y divide-[var(--color-border)] border-y border-[var(--color-border)] ${withImage.length ? "mt-6" : ""}`}>

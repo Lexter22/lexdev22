@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 type Props<T> = {
   items: T[];
@@ -19,37 +19,20 @@ type Props<T> = {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Scroll distance per step, in svh. */
-const STEP = 55;
+/** Scroll distance per step: shorter on phones so the next item comes up quickly. */
+const STEP = "[--step:38svh] md:[--step:55svh]";
 
-const MOBILE = "(max-width: 767px)";
-const subscribe = (cb: () => void) => {
-  const mq = window.matchMedia(MOBILE);
-  mq.addEventListener("change", cb);
-  return () => mq.removeEventListener("change", cb);
-};
-
-/** Hydration-safe: the server renders the desktop version, phones switch right after load. */
-function useIsMobile() {
-  return useSyncExternalStore(
-    subscribe,
-    () => window.matchMedia(MOBILE).matches,
-    () => false,
-  );
-}
 
 /**
  * Scroll-driven story, the same on every screen size. The stage sticks below the header
  * and each stretch of normal vertical scrolling brings in the next item. Plain CSS sticky;
  * the page is never hijacked or snapped.
- * On mobile (<768px) it renders as a simple vertical stack so you see more content at once
- * instead of one giant sticky step per screen.
+ * Steps are shorter on phones (38svh of scroll) than on larger screens (55svh).
  */
 export default function ScrollStory<T>({ items, getKey, visual, step, noun, thumb, name }: Props<T>) {
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const n = items.length;
-  const isMobile = useIsMobile();
 
   useEffect(() => {
     let frame = 0;
@@ -75,18 +58,6 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
     };
   }, [n]);
 
-  if (isMobile) {
-    return (
-      <div className="space-y-6">
-        {items.map((item, i) => (
-          <div key={getKey(item)} className="grid gap-4 lg:grid-cols-12 lg:gap-14">
-            <div className="lg:order-2 lg:col-span-7">{visual(item, i)}</div>
-            <div className="lg:order-1 lg:col-span-5">{step(item, i)}</div>
-          </div>
-        ))}
-      </div>
-    );
-  }
 
   /** Scroll the page to the middle of step i. */
   const goTo = (i: number) => {
@@ -97,54 +68,65 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
     window.scrollTo({ top: top + (travel * (i + 0.5)) / n });
   };
 
-  return (
-    <div ref={ref} className="relative" style={{ height: `calc(100svh + ${(n - 1) * STEP}svh)` }}>
-      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] max-h-[60svh] flex-col justify-center py-4">
-        <div className="grid">
-          {items.map((item, i) => {
-            const on = i === active;
-            return (
-              <div
-                key={getKey(item)}
-                inert={!on}
-                aria-hidden={!on}
-                className={`grid items-center gap-5 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [grid-area:1/1] lg:grid-cols-12 lg:gap-14 ${
-                  on ? "translate-y-0 opacity-100" : i < active ? "-translate-y-3 opacity-0" : "translate-y-3 opacity-0"
+  const fade = (i: number) =>
+    `transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [grid-area:1/1] ${
+      i === active ? "translate-y-0 opacity-100" : i < active ? "-translate-y-3 opacity-0" : "translate-y-3 opacity-0"
+    }`;
+
+  /** Thumbnail per item, the current one lit. Tap to jump. */
+  const index = (
+    <div className="mt-6 flex items-center gap-3">
+      <ol className="flex gap-2">
+        {items.map((item, i) => {
+          const on = i === active;
+          return (
+            <li key={getKey(item)}>
+              <button
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`${noun} ${i + 1} of ${n}: ${name(item)}`}
+                aria-current={on ? "step" : undefined}
+                className={`relative block h-11 w-14 overflow-hidden rounded-[6px] border-2 transition-[border-color,opacity] duration-300 ${
+                  on ? "border-[var(--accent)] opacity-100" : "border-transparent opacity-45 hover:opacity-80"
                 }`}
               >
-                <div className="lg:order-2 lg:col-span-7">{visual(item, i)}</div>
-                <div className="lg:order-1 lg:col-span-5">{step(item, i)}</div>
-              </div>
-            );
-          })}
-        </div>
+                <img src={thumb(item)} alt="" loading="lazy" className="h-full w-full object-cover" />
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+      <p className="text-[11px] font-semibold tabular-nums" aria-hidden="true">
+        <span className="text-[var(--accent)]">{pad(active + 1)}</span>
+        <span className="text-[var(--color-muted-light)]"> / {pad(n)}</span>
+      </p>
+    </div>
+  );
 
-        {/* Step index: a thumbnail per item, the current one lit. Tap to jump. */}
-        <div className="mt-5 flex items-center gap-3 lg:mt-8 lg:w-5/12 lg:pr-7">
-          <ol className="flex gap-2">
-            {items.map((item, i) => {
-              const on = i === active;
-              return (
-                <li key={getKey(item)}>
-                  <button
-                    type="button"
-                    onClick={() => goTo(i)}
-                    aria-label={`${noun} ${i + 1} of ${n}: ${name(item)}`}
-                    aria-current={on ? "step" : undefined}
-                    className={`relative block h-11 w-11 overflow-hidden rounded-[6px] border-2 transition-[border-color,opacity] duration-300 sm:w-14 ${
-                      on ? "border-[var(--accent)] opacity-100" : "border-transparent opacity-45 hover:opacity-80"
-                    }`}
-                  >
-                    <img src={thumb(item)} alt="" loading="lazy" className="h-full w-full object-cover" />
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-          <p className="min-w-0 text-[11px] font-semibold tabular-nums" aria-hidden="true">
-            <span className="text-[var(--accent)]">{pad(active + 1)}</span>
-            <span className="text-[var(--color-muted-light)]"> / {pad(n)}</span>
-          </p>
+  return (
+    <div ref={ref} className={`relative ${STEP}`} style={{ height: `calc(100svh + ${n - 1} * var(--step))` }}>
+      {/* Pinned area: exactly one screen below the header, content centred inside it */}
+      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] items-center py-6">
+        <div className="grid w-full items-center gap-6 lg:grid-cols-12 lg:gap-14">
+          {/* Picture: right on desktop, on top on tablets */}
+          <div className="grid lg:order-2 lg:col-span-7">
+            {items.map((item, i) => (
+              <div key={getKey(item)} inert={i !== active} aria-hidden={i !== active} className={fade(i)}>
+                {visual(item, i)}
+              </div>
+            ))}
+          </div>
+          {/* Words, with the thumbnail index directly underneath */}
+          <div className="lg:order-1 lg:col-span-5">
+            <div className="grid">
+              {items.map((item, i) => (
+                <div key={getKey(item)} inert={i !== active} aria-hidden={i !== active} className={fade(i)}>
+                  {step(item, i)}
+                </div>
+              ))}
+            </div>
+            {index}
+          </div>
         </div>
       </div>
     </div>

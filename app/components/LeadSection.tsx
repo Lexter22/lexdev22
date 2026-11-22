@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import ChapterHeading from "./ChapterHeading";
 import Reveal from "./Reveal";
+import ScrollImage from "./ScrollImage";
 
 /** Chapter 03, Lead: AWS Student Community Day South Summit 2026. Each fact appears once. */
 const event = {
@@ -35,16 +36,14 @@ export default function LeadSection() {
       <div className="container-site">
         <ChapterHeading id="lead" title={event.title} intro={event.meta} />
 
-        <Reveal y={16}>
-          <img
-            src={event.photo.src}
-            alt={event.photo.alt}
-            width={event.photo.width}
-            height={event.photo.height}
-            loading="lazy"
-            className="aspect-[16/10] w-full rounded-[8px] border border-[var(--color-border)] object-cover sm:aspect-[21/9]"
-          />
-        </Reveal>
+        {/* Scroll-driven: the frame opens and the photo settles as it comes into view */}
+        <ScrollImage
+          src={event.photo.src}
+          alt={event.photo.alt}
+          width={event.photo.width}
+          height={event.photo.height}
+          className="aspect-[16/10] w-full rounded-[8px] border border-[var(--color-border)] sm:aspect-[21/9]"
+        />
 
         <Reveal y={12} className="mt-6 grid gap-6 lg:grid-cols-12 lg:items-center lg:gap-10">
           <div className="flex items-center gap-6 lg:col-span-5">

@@ -1,20 +1,12 @@
 "use client";
 
-import { motion, type Variants } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll } from "motion/react";
 import { chapter } from "./chapters";
-import { useReduced } from "./scroll";
+import { useLerp, useReduced } from "./scroll";
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
-const container: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
-};
-
-const fade: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease } },
-};
+/** Final position. Set explicitly: the server HTML starts faded, and dropping the style would leave it faded. */
+const REST = { y: 0, opacity: 1 };
 
 type Props = {
   /** Chapter id from chapters.ts; supplies the number and story label. */
@@ -24,30 +16,44 @@ type Props = {
   className?: string;
 };
 
-/** Chapter number and story label, then the title and an optional intro, as one left-aligned unit. */
+/**
+ * Chapter number and story label, then the title and an optional intro, as one left-aligned unit.
+ * Scroll-driven: as the heading travels from the bottom of the screen to about 55% up, the rule
+ * beside the chapter number draws, the title rises into place and the intro follows. Scrolling
+ * back up reverses it. With reduced motion everything is simply shown.
+ */
 export default function ChapterHeading({ id, title, intro, className = "" }: Props) {
   const reduce = useReduced();
   const c = chapter(id);
-  // Reduced motion: show immediately. (The server render starts hidden, so it must be set explicitly.)
-  const anim = reduce
-    ? { initial: false as const, animate: "show" as const, transition: { duration: 0 } }
-    : { initial: "hidden" as const, whileInView: "show" as const, viewport: { once: true, amount: 0.5 } };
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "start 55%"] });
+
+  // Each line moves over its own slice of the same scroll, so they arrive one after another.
+  const rule = useLerp(scrollYProgress, [0.1, 0.7], [0, 1]);
+  const titleY = useLerp(scrollYProgress, [0, 0.8], [40, 0]);
+  const titleO = useLerp(scrollYProgress, [0, 0.6], [0.15, 1]);
+  const introY = useLerp(scrollYProgress, [0.25, 1], [24, 0]);
+  const introO = useLerp(scrollYProgress, [0.25, 1], [0.15, 1]);
 
   return (
-    <motion.div className={`chapter-head ${className}`} variants={container} {...anim}>
-      <motion.p className="chapter-eyebrow" variants={fade}>
+    <div ref={ref} className={`chapter-head ${className}`}>
+      <p className="chapter-eyebrow">
         <span>{c.n}</span>
-        <span aria-hidden="true" className="chapter-eyebrow-rule" />
+        <motion.span
+          aria-hidden="true"
+          className="chapter-eyebrow-rule origin-left"
+          style={reduce ? { scaleX: 1 } : { scaleX: rule }}
+        />
         {c.label}
-      </motion.p>
-      <motion.h2 className="chapter-title" variants={fade}>
+      </p>
+      <motion.h2 className="chapter-title" style={reduce ? REST : { y: titleY, opacity: titleO }}>
         {title}
       </motion.h2>
       {intro && (
-        <motion.p className="chapter-intro" variants={fade}>
+        <motion.p className="chapter-intro" style={reduce ? REST : { y: introY, opacity: introO }}>
           {intro}
         </motion.p>
       )}
-    </motion.div>
+    </div>
   );
 }
