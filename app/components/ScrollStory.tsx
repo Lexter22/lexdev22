@@ -19,7 +19,7 @@ type Props<T> = {
 
 /** Scroll distance per step, in svh. Smaller on mobile so tapping through doesn't exhaust the thumb. */
 const DEFAULT_STEP = 55;
-const MOBILE_STEP = 30;
+const MOBILE_STEP = 25;
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -77,7 +77,7 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
 
   return (
     <div ref={ref} className="relative" style={{ height: `calc(100svh + ${(n - 1) * stepPx}svh)` }}>
-      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] max-h-[60svh] flex-col justify-center py-4">
+      <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] max-h-[44svh] lg:max-h-[60svh] flex-col justify-center py-3 lg:py-4">
         <div className="grid">
           {items.map((item, i) => {
             const on = i === active;
