@@ -23,6 +23,7 @@ const pixelFont = Press_Start_2P({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   authors: [{ name: SITE_NAME, url: SITE_URL }],
@@ -39,6 +40,15 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
   // Google Search Console ownership check (renders <meta name="google-site-verification"> in <head>)
   verification: { google: "I_5kyN8DoEwmndUHCIj7zF9eheE6nWLs6enOiZxRnCE" },
+};
+
+/** Structured data: the site's name. Google uses this for the name shown above the result (instead of "Vercel"). */
+const website = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: SITE_NAME,
+  alternateName: ["Lexter Reyes", "LexDev22"],
+  url: `${SITE_URL}/`,
 };
 
 /** Structured data: who this site is about. Only facts already shown on the page. */
@@ -77,7 +87,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(person).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([website, person]).replace(/</g, "\\u003c") }}
         />
         <a
           href="#main"
