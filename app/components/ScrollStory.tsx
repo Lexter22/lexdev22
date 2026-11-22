@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 
 type Props<T> = {
   items: T[];
@@ -19,6 +19,25 @@ type Props<T> = {
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
+/** Scroll distance per step, in svh. */
+const STEP = 55;
+
+const MOBILE = "(max-width: 767px)";
+const subscribe = (cb: () => void) => {
+  const mq = window.matchMedia(MOBILE);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+
+/** Hydration-safe: the server renders the desktop version, phones switch right after load. */
+function useIsMobile() {
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(MOBILE).matches,
+    () => false,
+  );
+}
+
 /**
  * Scroll-driven story, the same on every screen size. The stage sticks below the header
  * and each stretch of normal vertical scrolling brings in the next item. Plain CSS sticky;
@@ -30,28 +49,7 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
   const ref = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const n = items.length;
-  const [isMobile, setIsMobile] = useState(() => typeof window !== "undefined" && window.innerWidth < 768);
-
-  useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
-  if (isMobile) {
-    return (
-      <div className="space-y-6">
-        {items.map((item, i) => (
-          <div key={getKey(item)} className="grid gap-4 lg:grid-cols-12 lg:gap-14">
-            <div className="lg:order-2 lg:col-span-7">{visual(item, i)}</div>
-            <div className="lg:order-1 lg:col-span-5">{step(item, i)}</div>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  const [stepPx, setStepPx] = useState(55);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     let frame = 0;
@@ -77,6 +75,19 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
     };
   }, [n]);
 
+  if (isMobile) {
+    return (
+      <div className="space-y-6">
+        {items.map((item, i) => (
+          <div key={getKey(item)} className="grid gap-4 lg:grid-cols-12 lg:gap-14">
+            <div className="lg:order-2 lg:col-span-7">{visual(item, i)}</div>
+            <div className="lg:order-1 lg:col-span-5">{step(item, i)}</div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   /** Scroll the page to the middle of step i. */
   const goTo = (i: number) => {
     const el = ref.current;
@@ -87,7 +98,7 @@ export default function ScrollStory<T>({ items, getKey, visual, step, noun, thum
   };
 
   return (
-    <div ref={ref} className="relative" style={{ height: `calc(100svh + ${(n - 1) * stepPx}svh)` }}>
+    <div ref={ref} className="relative" style={{ height: `calc(100svh + ${(n - 1) * STEP}svh)` }}>
       <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] max-h-[60svh] flex-col justify-center py-4">
         <div className="grid">
           {items.map((item, i) => {
