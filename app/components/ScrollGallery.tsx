@@ -18,11 +18,17 @@ type Props<T> = {
 /** Height of the fixed header; the pinned area starts below it. */
 const HEADER = 56;
 
+/**
+ * Page scroll per pixel the row slides. Below 1 the row moves faster than you scroll,
+ * so the pinned stretch is shorter: 0.45 means about half the scrolling it used to take.
+ */
+const SPEED = 0.45;
+
 const pad = (v: number) => String(v).padStart(2, "0");
 
 /**
  * Scroll-driven horizontal gallery. The area pins below the header and scrolling down
- * slides the row sideways, one pixel of scroll per pixel of travel. Swiping sideways on the
+ * slides the row sideways (SPEED px of scroll per px of travel). Swiping sideways on the
  * row (touch or trackpad) drives the same page scroll, so both gestures stay in sync.
  * Native scrolling throughout: nothing snaps or locks the page.
  */
@@ -105,13 +111,13 @@ export default function ScrollGallery<T>({ items, getKey, getName, render, befor
       }
       if (!horizontal) return;
       e.preventDefault();
-      window.scrollBy(0, lastX - t.clientX);
+      window.scrollBy(0, (lastX - t.clientX) * SPEED);
       lastX = t.clientX;
     };
     const onWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
       e.preventDefault();
-      window.scrollBy(0, e.deltaX);
+      window.scrollBy(0, e.deltaX * SPEED);
     };
     el.addEventListener("touchstart", onStart, { passive: true });
     el.addEventListener("touchmove", onMove, { passive: false });
@@ -138,7 +144,7 @@ export default function ScrollGallery<T>({ items, getKey, getName, render, befor
   );
 
   return (
-    <div ref={outer} className="relative" style={{ height: `calc(100svh - ${HEADER}px + ${travel}px)` }}>
+    <div ref={outer} className="relative" style={{ height: `calc(100svh - ${HEADER}px + ${Math.round(travel * SPEED)}px)` }}>
       <div className="sticky top-14 flex h-[calc(100svh-3.5rem)] flex-col justify-center py-4">
         {before}
         {/* Phones: the row runs to the screen edges. Desktop: clipped to the content column. */}

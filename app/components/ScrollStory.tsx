@@ -20,14 +20,14 @@ type Props<T> = {
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /** Scroll distance per step: shorter on phones so the next item comes up quickly. */
-const STEP = "[--step:38svh] md:[--step:55svh]";
+const STEP = "[--step:26svh] md:[--step:34svh]";
 
 
 /**
  * Scroll-driven story, the same on every screen size. The stage sticks below the header
  * and each stretch of normal vertical scrolling brings in the next item. Plain CSS sticky;
  * the page is never hijacked or snapped.
- * Steps are shorter on phones (38svh of scroll) than on larger screens (55svh).
+ * Steps are shorter on phones (26svh of scroll) than on larger screens (34svh).
  */
 export default function ScrollStory<T>({ items, getKey, visual, step, noun, thumb, name }: Props<T>) {
   const ref = useRef<HTMLDivElement>(null);
