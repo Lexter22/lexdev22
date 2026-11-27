@@ -21,4 +21,4 @@ export function LinkedinIcon({ size = 18, className }: IconProps) {
 export const EMAIL = "johnlexterreyesss@gmail.com";
 export const GITHUB = "https://github.com/Lexter22";
 export const LINKEDIN = "https://www.linkedin.com/in/lexter-reyes/";
-export const RESUME = "https://drive.google.com/file/d/1B27S9agr8AhDGpNNJOpm4H3fPH6J0tPn/view?usp=sharing";
+export const RESUME = "https://docs.google.com/document/d/1Hsc09LKPmh6SInA8VItxXts6mh2sX8yTq3R6a_bpLWI/edit?usp=sharing";
